@@ -1,0 +1,260 @@
+@use 'mixins' as *;
+
+:host {
+  display: block;
+}
+
+// The original is an Elementor boxed container: 90px (40px ≤ 1024px) above and below around a row of two columns
+// (33.33 % sidebar / 66.67 % text) that is 20px wider than the text area of the global `.container`. Every column has
+// 10px padding of its own, the sidebar 35px on the right, so the text starts at the container's content edge
+// (x = 80 on a 1440px screen, 20px from the edge on tablets and phones).
+.policy {
+  padding-block: 90px;
+
+  @include tablet {
+    padding-block: 40px;
+  }
+}
+
+.policy-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  margin-inline: -10px; // the columns' own 10px padding brings the text back to the container's content edge
+
+  @include tablet {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 10px;
+  }
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Sidebar: table of contents + help card, sticky below the site header on desktop, stacked above the text otherwise
+// ---------------------------------------------------------------------------------------------------------------------
+.policy-sidebar {
+  min-width: 0;
+  padding: 10px 35px 10px 10px;
+
+  @include tablet {
+    padding: 10px;
+  }
+}
+
+.policy-sticky {
+  position: sticky;
+  top: calc(var(--header-height, 0px) + 20px);
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+
+  @include tablet {
+    position: static;
+  }
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Text. Spacing rhythm of the original (desktop / tablet / mobile):
+//   between blocks of the text            60 / 40 / 30      .policy-main
+//   between the parts of a section        40 / 30 / 20      .policy-section
+//   heading + its first paragraph         15 / 10 / 10      .policy-title  (heading + plain lines: 20)
+//   inside a part                         20 / 15 / 15      .policy-group
+// ---------------------------------------------------------------------------------------------------------------------
+.policy-main {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  min-width: 0;
+  padding: 10px;
+
+  @include tablet {
+    gap: 40px;
+  }
+  @include mobile {
+    gap: 30px;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  // links: dark in a paragraph ("Livora"), text colour in a list, accent on hover; highlighted links are bold.
+  // (Each rule names its context: the emulated view encapsulation adds an attribute to every compound selector, so a
+  // plain `a:hover` would lose against `p a`.)
+  a {
+    transition: color 0.4s ease-in-out;
+  }
+
+  p a {
+    color: var(--color-primary);
+  }
+
+  li a {
+    color: var(--color-text);
+  }
+
+  p a.is-highlight,
+  li a.is-highlight {
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  p a:hover,
+  p a:focus-visible,
+  li a:hover,
+  li a:focus-visible {
+    color: var(--color-accent);
+  }
+}
+
+.policy-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  @include tablet {
+    gap: 15px;
+  }
+  @include mobile {
+    margin-bottom: 10px;
+  }
+}
+
+.policy-date {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2em;
+  letter-spacing: 0;
+
+  @include mobile {
+    font-size: 18px;
+  }
+}
+
+.policy-section {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+
+  @include tablet {
+    gap: 30px;
+  }
+  @include mobile {
+    gap: 20px;
+  }
+}
+
+.policy-title {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  @include tablet {
+    gap: 10px;
+  }
+
+  &.has-lines {
+    gap: 20px;
+  }
+}
+
+.policy-heading {
+  margin: 0;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.4em;
+  letter-spacing: var(--letter-spacing-heading);
+
+  @include tablet {
+    font-size: 30px;
+  }
+  @include mobile {
+    font-size: 24px;
+  }
+}
+
+.policy-group {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  @include tablet {
+    gap: 15px;
+  }
+
+  // "For any queries, contact us at:" and the e-mail line below it sit 5px closer than the other neighbours
+  > p + .policy-list:not(.has-bullets) {
+    margin-top: -5px;
+  }
+
+  // the first sub-headings get a little more air on phones ("a." and "b." in the privacy policy)
+  @include mobile {
+    &.has-sub:not(:last-child) {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.policy-sub {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2em;
+  letter-spacing: 0;
+
+  @include tablet {
+    font-size: 20px;
+  }
+  @include mobile {
+    font-size: 18px;
+  }
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Lists: 15px / 21px lines, 10px between the items, bulleted (5px dot) or plain lines
+// ---------------------------------------------------------------------------------------------------------------------
+.policy-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 15px;
+  line-height: 1.4em;
+
+  li {
+    position: relative;
+  }
+
+  li + li {
+    margin-top: 10px;
+  }
+
+  // dot (6.3px) + 5px icon padding + 5px text padding = the text starts 16.3px from the left edge, as in the original
+  &.has-bullets li {
+    padding-left: 16.3px;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 9px;
+      left: 0;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--color-primary);
+
+      @include tablet {
+        top: 8px;
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Inline fragments. Highlighted phrases are darker; labels ("E-mail:") are bold (link colours: see .policy-main).
+// ---------------------------------------------------------------------------------------------------------------------
+.hl {
+  color: var(--color-primary);
+
+  &.is-label {
+    font-weight: 700;
+  }
+}

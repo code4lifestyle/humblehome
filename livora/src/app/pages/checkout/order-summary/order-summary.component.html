@@ -1,0 +1,75 @@
+<table class="order-table">
+  <thead>
+    <tr>
+      <th scope="col">Product</th>
+      <th scope="col" class="amount">Subtotal</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (line of lines(); track line.key) {
+      <tr>
+        <td>
+          <div class="product">
+            @if (showImages() && line.image) {
+              <img
+                class="thumb"
+                [src]="thumb(line.image)"
+                alt=""
+                width="56"
+                height="56"
+                loading="lazy"
+              />
+            }
+            <div class="info">
+              @if (linkProducts()) {
+                <a class="name" [routerLink]="['/product', line.slug]">{{ line.name }}</a>
+              } @else {
+                <span class="name">{{ line.name }}</span>
+              }
+              <strong class="qty"
+                ><span aria-hidden="true">&times;</span><span class="sr-only">Quantity:</span>
+                {{ line.quantity }}</strong
+              >
+              @if (line.variation) {
+                <span class="variation">{{ line.variation }}</span>
+              }
+            </div>
+          </div>
+        </td>
+        <td class="amount">{{ line.lineTotal | currency:'AED':'symbol':'1.0-0' }}</td>
+      </tr>
+    }
+  </tbody>
+  <tfoot>
+    <tr>
+      <th scope="row">Subtotal</th>
+      <td class="amount">{{ subtotal() | currency:'AED':'symbol':'1.0-0' }}</td>
+    </tr>
+    @if (discount() > 0) {
+      <tr class="discount">
+        <th scope="row">Coupon{{ couponCode() ? ': ' + couponCode() : '' }}</th>
+        <td class="amount">-{{ discount() | currency:'AED':'symbol':'1.0-0' }}</td>
+      </tr>
+    }
+    <tr>
+      <th scope="row">Shipping</th>
+      <td class="amount">
+        @if (shipping() > 0) {
+          Flat rate: {{ shipping() | currency:'AED':'symbol':'1.0-0' }}
+        } @else {
+          Free shipping
+        }
+      </td>
+    </tr>
+    @if (paymentTitle()) {
+      <tr>
+        <th scope="row">Payment method</th>
+        <td class="amount">{{ paymentTitle() }}</td>
+      </tr>
+    }
+    <tr class="total">
+      <th scope="row">Total</th>
+      <td class="amount">{{ total() | currency:'AED':'symbol':'1.0-0' }}</td>
+    </tr>
+  </tfoot>
+</table>

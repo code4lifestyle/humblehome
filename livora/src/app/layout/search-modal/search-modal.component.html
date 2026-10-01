@@ -1,0 +1,35 @@
+<div
+  #dialog
+  class="search-modal"
+  [class.is-open]="layout.searchOpen()"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Search products"
+  [attr.inert]="layout.searchOpen() ? null : ''"
+  (click)="onBackdropClick($event)"
+>
+  <button
+    type="button"
+    class="search-modal__close"
+    aria-label="Close search"
+    (click)="layout.closeSearch()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+
+  <form class="search-modal__form" role="search" novalidate (submit)="submit($event, field.value)">
+    <input
+      #field
+      class="search-modal__field"
+      type="search"
+      name="search"
+      autocomplete="off"
+      enterkeyhint="search"
+      [placeholder]="placeholder"
+      [attr.aria-label]="placeholder"
+    />
+    <button type="submit" class="search-modal__submit" aria-label="Search">
+      <app-svg-icon name="search" />
+    </button>
+  </form>
+</div>

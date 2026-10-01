@@ -1,0 +1,56 @@
+<div
+  #dialog
+  class="lightbox"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Product images"
+  (keydown)="onKeydown($event)"
+  (click)="close()"
+>
+  <div class="lightbox__bar" (click)="$event.stopPropagation()">
+    <p class="lightbox__counter" aria-live="polite">{{ index() + 1 }} / {{ count() }}</p>
+    <button
+      type="button"
+      class="lightbox__btn"
+      data-autofocus
+      aria-label="Close (Esc)"
+      (click)="close()"
+    >
+      <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+    </button>
+  </div>
+
+  @if (count() > 1) {
+    <button
+      type="button"
+      class="lightbox__btn lightbox__nav lightbox__nav--prev"
+      aria-label="Previous image"
+      (click)="step(-1); $event.stopPropagation()"
+    >
+      <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+    </button>
+    <button
+      type="button"
+      class="lightbox__btn lightbox__nav lightbox__nav--next"
+      aria-label="Next image"
+      (click)="step(1); $event.stopPropagation()"
+    >
+      <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+    </button>
+  }
+
+  <figure
+    class="lightbox__stage"
+    (pointerdown)="onPointerDown($event)"
+    (pointerup)="onPointerUp($event)"
+  >
+    <img
+      class="lightbox__img"
+      [src]="src()"
+      [alt]="imageAlt()"
+      width="1200"
+      height="1200"
+      (click)="$event.stopPropagation()"
+    />
+  </figure>
+</div>

@@ -1,0 +1,341 @@
+@use 'mixins' as *;
+
+// Ported from the ShopEngine "product filters" widget of the original shop page (Elementor element f92a38b):
+// 280px column, facets 30px apart, hairline divider + 30px padding under every facet but the last, 16px/700 titles,
+// 20px circle "checkboxes" with 15px labels, 20px-pitch star rows, accent "Reset" pill.
+$check-mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' d='M3.5 8.5l3 3 6-6.5'/%3E%3C/svg%3E");
+
+:host {
+  display: grid;
+  gap: 30px;
+}
+
+.facet:not(:last-child) {
+  padding-bottom: 30px;
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.facet-title {
+  margin: 0;
+  padding-bottom: 20px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 19px;
+  letter-spacing: normal;
+  color: var(--color-primary);
+}
+
+// ---------------------------------------------------------------------------------------------------- price range
+// Two overlaid native range inputs (keyboard + touch friendly) drawn like the original's asRange slider: hairline track,
+// dark selected segment, 5 × 17px dark bar handles. Each handle gets a transparent 8px border (--hit) so the touch target is
+// bigger than the bar; the inputs are widened by the same amount so the visible bars still reach both ends of the track.
+.range {
+  --bar: 5px;
+  --hit: 8px;
+
+  position: relative;
+  height: 17px;
+  margin-bottom: 15px;
+}
+
+.range-track,
+.range-fill {
+  position: absolute;
+  top: 7px;
+  height: 3px;
+  pointer-events: none;
+}
+
+.range-track {
+  right: 0;
+  left: 0;
+  background: var(--color-divider);
+}
+
+.range-fill {
+  left: calc(var(--bar) / 2 + var(--low, 0) * (100% - var(--bar)));
+  right: calc(var(--bar) / 2 + (1 - var(--high, 1)) * (100% - var(--bar)));
+  background: var(--color-primary);
+}
+
+.range-input {
+  position: absolute;
+  top: 0;
+  left: calc(var(--hit) * -1);
+  width: calc(100% + var(--hit) * 2);
+  height: 17px;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  outline: none;
+  pointer-events: none; // only the handles take the pointer, so the two inputs do not block each other
+  appearance: none;
+  -webkit-appearance: none;
+
+  &::-webkit-slider-runnable-track {
+    height: 17px;
+    border: 0;
+    background: transparent;
+  }
+  &::-moz-range-track {
+    height: 17px;
+    border: 0;
+    background: transparent;
+  }
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    box-sizing: content-box;
+    width: 5px;
+    height: 17px;
+    margin-top: -8px; // centre the 33px-high hit area on the 17px track
+    border: 8px solid transparent;
+    border-radius: 0;
+    background: var(--color-primary);
+    background-clip: padding-box;
+    cursor: grab;
+    pointer-events: auto;
+    transition: background-color 0.3s ease-in-out;
+  }
+  &::-moz-range-thumb {
+    box-sizing: content-box;
+    width: 5px;
+    height: 17px;
+    border: 8px solid transparent;
+    border-radius: 0;
+    background: var(--color-primary);
+    background-clip: padding-box;
+    cursor: grab;
+    pointer-events: auto;
+    transition: background-color 0.3s ease-in-out;
+  }
+
+  &:active::-webkit-slider-thumb {
+    cursor: grabbing;
+  }
+  &:active::-moz-range-thumb {
+    cursor: grabbing;
+  }
+  &:hover::-webkit-slider-thumb,
+  &:focus-visible::-webkit-slider-thumb {
+    background: var(--color-accent);
+    background-clip: padding-box;
+  }
+  &:hover::-moz-range-thumb,
+  &:focus-visible::-moz-range-thumb {
+    background: var(--color-accent);
+    background-clip: padding-box;
+  }
+}
+
+.range-min {
+  z-index: 2;
+}
+.range-max {
+  z-index: 3;
+}
+.low-on-top .range-min {
+  z-index: 4;
+}
+
+.price-fields {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.price-field {
+  position: relative;
+  display: block;
+  flex: 1 1 0;
+  min-width: 0;
+  margin: 0;
+
+  .form-control {
+    padding-left: 42px;
+    padding-right: 8px;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      margin: 0;
+      -webkit-appearance: none;
+    }
+  }
+}
+
+.price-currency {
+  position: absolute;
+  top: 50%;
+  left: 8px;
+  z-index: 1;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: var(--color-text);
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+.price-dash {
+  flex: none;
+  color: var(--color-text);
+}
+
+.price-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.price-result {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.3em;
+  color: var(--color-primary);
+}
+
+.price-reset {
+  padding: 6px 15px 7px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.3em;
+  color: var(--color-white);
+  text-transform: capitalize;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+
+  &:hover {
+    background: var(--color-primary);
+  }
+}
+
+// -------------------------------------------------------------------------------------- rating / categories / brands
+.rating-list,
+.option-list {
+  display: grid;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rating-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 13px;
+  line-height: 1;
+  color: var(--color-text);
+  text-align: left;
+  cursor: pointer;
+}
+
+// the circle in front of every row (rating buttons, checkboxes and the locked-list links share it)
+.mark,
+.box,
+.option input {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin: 0 10px 0 0;
+  border: 1px solid var(--color-divider);
+  border-radius: 50%;
+  background: transparent center / 10px no-repeat;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  transition:
+    border-color 0.3s ease-in-out,
+    background-color 0.3s ease-in-out;
+}
+
+.rating-row:hover .mark,
+.option:hover input,
+.option:hover .box {
+  border-color: var(--color-accent);
+}
+
+.rating-row.is-active .mark,
+.option input:checked,
+.option.is-checked .box {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent);
+  background-image: $check-mark;
+}
+
+.stars {
+  display: inline-flex;
+  align-items: center;
+
+  i {
+    width: 16px;
+    margin: 0 2px;
+    font-size: 16px;
+    text-align: center;
+    color: color-mix(in srgb, var(--color-primary) 9%, transparent);
+    transition: color 0.3s ease-in-out;
+
+    &.on {
+      color: var(--color-accent);
+    }
+  }
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  min-height: 20px;
+  font-size: 15px;
+  line-height: 1.3em;
+  color: var(--color-text);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+
+  &:hover,
+  &.is-checked {
+    color: var(--color-primary);
+  }
+}
+
+// "& up" after the stars: the rating filter is a minimum
+.up {
+  margin-left: 6px;
+  font-size: 13px;
+  line-height: 1;
+  color: var(--color-text);
+  opacity: 0.85;
+}
+
+.name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.count {
+  margin-left: auto;
+  padding-left: 10px;
+  font-size: 13px;
+  line-height: 1;
+  color: var(--color-text);
+  opacity: 0.85;
+}
+
+// tablet / mobile: the original tightens the rows to a 30px pitch
+@include tablet {
+  .rating-list,
+  .option-list {
+    gap: 10px;
+  }
+}

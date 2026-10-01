@@ -1,0 +1,182 @@
+@use 'mixins' as *;
+
+:host {
+  display: block;
+}
+
+.checkout {
+  padding: 90px 0;
+
+  @include tablet {
+    padding: 40px 0 50px;
+  }
+}
+
+.checkout-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 50px;
+
+  @include tablet {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
+}
+
+.block-title {
+  margin: 0 0 25px;
+  font-size: 30px;
+  line-height: 1.3em;
+
+  @include mobile {
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+}
+
+.block-title--sub {
+  margin-top: 10px;
+  font-size: 24px;
+
+  @include mobile {
+    font-size: 20px;
+  }
+}
+
+// ---- billing / shipping -------------------------------------------------------------------------------------------------
+.checkout-grid {
+  .address-2 {
+    margin-top: 12px;
+  }
+}
+
+.ship-toggle {
+  align-items: center;
+  margin: 5px 0 25px;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+
+  @include mobile {
+    font-size: 17px;
+  }
+}
+
+.ship-fields {
+  margin-bottom: 5px;
+}
+
+.notes textarea {
+  min-height: 120px;
+}
+
+// ---- order box -------------------------------------------------------------------------------------------------------------
+.checkout-order {
+  padding: 35px 30px 30px;
+  border-radius: var(--radius-md);
+  background: var(--color-secondary);
+
+  @include desktop {
+    position: sticky;
+    top: calc(var(--header-height, 0px) + 20px);
+  }
+  @include mobile {
+    padding: 25px 20px;
+  }
+
+  .block-title {
+    margin-bottom: 20px;
+    font-size: 26px;
+  }
+}
+
+.payment {
+  min-width: 0;
+  margin: 22px 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.payment-list {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--color-divider);
+  list-style: none;
+}
+
+.payment-item {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.payment-label {
+  align-items: center;
+  margin: 0;
+  font-weight: 700;
+}
+
+.payment-desc {
+  margin: 12px 0 0;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--color-white);
+  font-size: 14px;
+  line-height: 1.6;
+
+  @include mobile {
+    padding: 12px 14px;
+  }
+}
+
+.privacy {
+  margin: 22px 0 18px;
+  font-size: 14px;
+  line-height: 1.6;
+
+  a {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+
+    &:hover {
+      color: var(--color-accent);
+    }
+  }
+}
+
+.terms {
+  margin-bottom: 22px;
+
+  .form-check {
+    margin-bottom: 0;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  a {
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+
+    &:hover {
+      color: var(--color-accent);
+    }
+  }
+
+  .required {
+    margin-left: 2px;
+    text-decoration: none;
+    color: var(--color-danger);
+  }
+}
+
+.place-order {
+  font-size: 17px;
+}
+
+.checkout-order .form-message {
+  margin-top: 16px;
+  border-radius: var(--radius-sm);
+  padding: 10px 16px;
+}

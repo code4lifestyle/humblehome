@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="210" viewBox="0 0 480 210" fill="none" role="img" aria-label="Humble Home Furniture and Curtains">
+  <g fill="#161616">
+    <rect x="156" y="4" width="2.6" height="78"/>
+    <rect x="221.4" y="4" width="2.6" height="78"/>
+    <rect x="156" y="41.7" width="68" height="2.6"/>
+    <rect x="258" y="4" width="2.6" height="78"/>
+    <rect x="323.4" y="4" width="2.6" height="78"/>
+    <rect x="258" y="41.7" width="68" height="2.6"/>
+    <g font-family="Avenir Next, Avenir, Futura, Century Gothic, sans-serif" font-weight="500" font-size="20" letter-spacing="4.2" text-anchor="middle">
+      <text x="237.9" y="128">HUMBLE HOME</text>
+      <text x="237.9" y="158">FURNITURE &amp; CURTAINS</text>
+    </g>
+  </g>
+</svg>

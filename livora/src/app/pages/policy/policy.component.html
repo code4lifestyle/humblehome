@@ -1,0 +1,102 @@
+@if (view(); as view) {
+  <main class="page policy-page">
+    <app-page-header [title]="view.policy.title" [crumbs]="view.crumbs" />
+
+    <section class="policy">
+      <div class="container">
+        <div class="policy-layout">
+          <div class="policy-sidebar">
+            <div class="policy-sticky">
+              <app-toc-card [items]="view.toc" />
+              <app-help-card />
+            </div>
+          </div>
+
+          <article class="policy-main">
+            <header class="policy-intro">
+              @if (view.policy.effectiveDate) {
+                <h3 class="policy-date">Effective Date: {{ view.policy.effectiveDate }}</h3>
+              }
+              @for (runs of view.introduction; track $index) {
+                <p>
+                  <ng-container
+                    [ngTemplateOutlet]="runsTpl"
+                    [ngTemplateOutletContext]="{ $implicit: runs }"
+                  />
+                </p>
+              }
+            </header>
+
+            @for (section of view.sections; track section.id) {
+              <section class="policy-section">
+                <div class="policy-title" [class.has-lines]="section.lead?.type === 'list'">
+                  <h3 class="policy-heading" [id]="section.id">{{ section.heading }}</h3>
+                  @if (section.lead; as lead) {
+                    <ng-container
+                      [ngTemplateOutlet]="itemTpl"
+                      [ngTemplateOutletContext]="{ $implicit: lead }"
+                    />
+                  }
+                </div>
+
+                @for (group of section.groups; track $index) {
+                  <div class="policy-group" [class.has-sub]="group.sub">
+                    @if (group.sub) {
+                      <h4 class="policy-sub">{{ group.sub }}</h4>
+                    }
+                    @for (item of group.items; track $index) {
+                      <ng-container
+                        [ngTemplateOutlet]="itemTpl"
+                        [ngTemplateOutletContext]="{ $implicit: item }"
+                      />
+                    }
+                  </div>
+                }
+              </section>
+            }
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+}
+
+<!-- a paragraph or a list (bulleted, or plain lines) -->
+<ng-template #itemTpl let-item>
+  @if (item.type === 'paragraph') {
+    <p>
+      <ng-container
+        [ngTemplateOutlet]="runsTpl"
+        [ngTemplateOutletContext]="{ $implicit: item.runs }"
+      />
+    </p>
+  } @else {
+    <ul class="policy-list" [class.has-bullets]="item.bullets">
+      @for (runs of item.items; track $index) {
+        <li>
+          <ng-container
+            [ngTemplateOutlet]="runsTpl"
+            [ngTemplateOutletContext]="{ $implicit: runs }"
+          />
+        </li>
+      }
+    </ul>
+  }
+</ng-template>
+
+<!-- inline fragments: plain text, highlighted text, links (app route / mailto: / tel:). No whitespace is added around them. -->
+<ng-template #runsTpl let-runs>
+  @for (run of runs; track $index) {
+    @if (run.href) {
+      @if (run.href.startsWith('/')) {
+        <a [routerLink]="run.href" [class.is-highlight]="run.highlight">{{ run.text }}</a>
+      } @else {
+        <a [href]="run.href" [class.is-highlight]="run.highlight">{{ run.text }}</a>
+      }
+    } @else if (run.highlight) {
+      <span class="hl" [class.is-label]="run.text.trim().endsWith(':')">{{ run.text }}</span>
+    } @else {
+      <ng-container>{{ run.text }}</ng-container>
+    }
+  }
+</ng-template>

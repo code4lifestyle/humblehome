@@ -1,0 +1,185 @@
+@use 'mixins' as *;
+
+// "Happy Customer" – original: Elementor container 6e550fa (home) / 3693f26 (about); cream background,
+// armchair image left, heading + ElementsKit testimonial slider (style 5, no card, transparent) right.
+
+:host {
+  display: block;
+}
+
+.testimonials {
+  padding-block: 90px;
+  background: var(--color-secondary);
+
+  @include tablet {
+    padding-block: 40px;
+  }
+}
+
+.testimonials__row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: center;
+
+  @include tablet {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+}
+
+.testimonials__media {
+  padding: 10px 35px 10px 0;
+
+  @include tablet {
+    padding: 10px 0;
+    text-align: center;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+
+    @include tablet {
+      max-width: 605px;
+      margin-inline: auto;
+    }
+  }
+}
+
+.testimonials__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
+  min-width: 0;
+  padding: 10px 0 10px 10px;
+
+  @include tablet {
+    gap: 10px;
+    padding-left: 0;
+  }
+}
+
+.testimonials__slider {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  margin-top: 25px;
+
+  @include tablet {
+    margin-top: 20px;
+  }
+}
+
+// ── One testimonial ─────────────────────────────────────────────────────────────────────────────────────────────────
+.tcard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 0;
+}
+
+.tcard__stars {
+  align-self: flex-start;
+  margin-bottom: 30px;
+
+  @include tablet {
+    margin-bottom: 20px;
+  }
+  @include mobile {
+    margin-bottom: 15px;
+  }
+}
+
+.tcard__quote {
+  flex: 1 1 auto;
+  margin: 0;
+
+  p {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.6em;
+    color: var(--color-text);
+  }
+}
+
+.tcard__author {
+  display: flex;
+  align-items: center;
+  margin-top: 60px;
+  padding-top: 50px;
+  border-top: 1px solid var(--color-divider);
+
+  @include tablet {
+    margin-top: 30px;
+  }
+  @include menu-collapse {
+    padding-top: 30px;
+  }
+  @include mobile {
+    margin-top: 20px;
+    padding-top: 20px;
+  }
+}
+
+.tcard__avatar {
+  flex: 0 0 auto;
+  width: 60px;
+  height: 60px;
+  margin-right: 15px;
+  object-fit: cover;
+  border-radius: 50%;
+
+  @include mobile {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+.tcard__who {
+  display: block;
+  min-width: 0;
+}
+
+.tcard__name {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2em;
+  color: var(--color-primary);
+}
+
+.tcard__role {
+  display: block;
+  font-size: 15px;
+  line-height: 1.33em;
+  color: var(--color-text);
+}
+
+// Big faint quotation mark in the bottom-right corner
+.tcard__mark {
+  position: absolute;
+  right: 0;
+  bottom: -10px;
+  width: 80px;
+  height: 80px;
+  color: var(--color-accent);
+  pointer-events: none;
+
+  @include menu-collapse {
+    bottom: 0;
+  }
+  @include tablet {
+    width: 60px;
+    height: 60px;
+  }
+  @include mobile {
+    width: 50px;
+    height: 50px;
+  }
+}

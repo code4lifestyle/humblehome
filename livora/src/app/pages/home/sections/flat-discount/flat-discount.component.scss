@@ -1,0 +1,81 @@
+@use 'mixins' as *;
+
+// Original: Elementor container 09fc6c9 – dark band, 90px (40px tablet) padding, two 50 % columns centred vertically.
+:host {
+  display: block;
+}
+
+.discount {
+  padding-block: 90px;
+  background: var(--color-primary);
+
+  @include tablet {
+    padding-block: 40px;
+  }
+}
+
+// The original row is the Elementor inner box: 10px wider than our content box on each side (parent padding 10px vs. our 20px
+// gutter). Every column adds its own 10px padding: text column 630px, image column 620px at 1440px (on tablet both are full
+// width, 10px apart).
+.discount__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-inline: -10px;
+
+  @include tablet {
+    flex-direction: column;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    gap: 10px;
+  }
+}
+
+.discount__content {
+  flex: 0 0 50%;
+  min-width: 0;
+  padding: 10px;
+
+  @include tablet {
+    flex: none;
+  }
+}
+
+// countdown + button: 65px margin + 15px container gap below the paragraph (20 + 10px on tablet)
+.discount__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 60px;
+  margin-top: 80px;
+
+  @include tablet {
+    gap: 30px;
+    margin-top: 30px;
+  }
+}
+
+// ── photo, cut into a five-tile mosaic by the theme's SVG mask ──────────────────────────────────────────────────────
+.discount__media {
+  flex: 0 0 50%;
+  min-width: 0;
+  padding: 10px 10px 10px 20px;
+
+  @include tablet {
+    flex: none;
+    align-self: center;
+    width: 100%;
+    max-width: 625px;
+    padding: 10px;
+  }
+}
+
+.discount__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 0.962;
+  object-fit: cover;
+  -webkit-mask: url('/assets/images/discount-image-mask.svg') center / contain no-repeat;
+  mask: url('/assets/images/discount-image-mask.svg') center / contain no-repeat;
+}

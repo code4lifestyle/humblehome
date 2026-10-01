@@ -1,0 +1,48 @@
+<section class="trending">
+  <div class="container">
+    <div class="trending__head">
+      <app-section-title eyebrow="Trending Now" title="Trending Space Inspirations" />
+    </div>
+
+    <div class="trending__grid">
+      @for (card of cards; track card.title) {
+        <article class="trend-card">
+          <a class="trend-card__image" [routerLink]="card.link" tabindex="-1" aria-hidden="true">
+            <img [src]="card.image" [alt]="card.title" width="360" height="181" loading="lazy" />
+          </a>
+          <div class="trend-card__content">
+            <h3 class="trend-card__title">
+              <a [routerLink]="card.link">{{ card.title }}</a>
+            </h3>
+            <p class="trend-card__text">
+              {{ card.text }} <strong>{{ card.strong }}</strong>
+            </p>
+          </div>
+        </article>
+      }
+
+      @for (offer of offers; track offer.title) {
+        <article class="offer" [class]="'offer--' + offer.tone">
+          <div class="offer__info">
+            <div class="offer__top">
+              <p class="offer__badge">{{ offer.badge }}</p>
+              <div class="offer__name">
+                <h3 class="offer__title">
+                  <a [routerLink]="offer.link">{{ offer.title }}</a>
+                </h3>
+                <p class="offer__text">{{ offer.text }}</p>
+              </div>
+            </div>
+            <div class="offer__from">
+              <p class="offer__label">Starting from</p>
+              <p class="offer__price">{{ offer.price }}</p>
+            </div>
+          </div>
+          <div class="offer__media">
+            <img [src]="offer.image" alt="" width="279" height="226" loading="lazy" />
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</section>

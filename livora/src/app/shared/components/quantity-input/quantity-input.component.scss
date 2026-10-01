@@ -1,0 +1,80 @@
+:host {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+// Pill group: [ − | 1 | + ] – 119 × 50 like the original product page control
+.qty {
+  display: inline-flex;
+  align-items: stretch;
+  height: 50px;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  overflow: hidden;
+  transition: var(--transition-fast);
+
+  &:focus-within {
+    border-color: var(--color-accent);
+  }
+}
+
+.qty-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 36px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-primary);
+  transition: var(--transition-fast);
+
+  &:hover:not(:disabled) {
+    background: var(--color-primary);
+    color: var(--color-white);
+  }
+
+  &:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  // the focus ring must not be clipped by the pill's overflow
+  &:focus-visible {
+    outline-offset: -3px;
+    border-radius: var(--radius-pill);
+  }
+}
+
+.qty-input {
+  flex: none;
+  width: 45px;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--color-primary);
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  appearance: textfield;
+  -moz-appearance: textfield;
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    margin: 0;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}

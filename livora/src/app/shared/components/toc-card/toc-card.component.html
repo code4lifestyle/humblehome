@@ -1,0 +1,35 @@
+<nav
+  class="toc-card"
+  [class.toc-card--arrows]="arrows()"
+  [attr.aria-label]="title() || 'Table of contents'"
+>
+  @if (title()) {
+    <h2 class="toc-card__title">{{ title() }}</h2>
+  }
+
+  <ul class="toc-card__list">
+    @for (item of items(); track item.fragment) {
+      <li>
+        <a
+          routerLink="."
+          [fragment]="item.fragment"
+          queryParamsHandling="preserve"
+          (click)="onLinkClick(item.fragment)"
+        >
+          <span class="toc-card__text">{{ item.label }}</span>
+          @if (arrows()) {
+            <svg
+              class="toc-card__icon"
+              [attr.viewBox]="arrow.viewBox"
+              fill="currentColor"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path [attr.d]="arrow.d" />
+            </svg>
+          }
+        </a>
+      </li>
+    }
+  </ul>
+</nav>

@@ -1,0 +1,34 @@
+<aside class="help-card" aria-label="Help and contact">
+  <h2 class="help-card__title">Need some help or want to chat</h2>
+
+  <ul class="help-card__list">
+    <li>
+      <a href="tel:+123456789">
+        <svg
+          class="help-card__icon"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path fill-rule="evenodd" [attr.d]="icons.whatsapp" />
+        </svg>
+        <span>+00 (123) 4567</span>
+      </a>
+    </li>
+    <li>
+      <a href="mailto:info@example.com">
+        <svg
+          class="help-card__icon"
+          [attr.viewBox]="icons.mail.viewBox"
+          fill="currentColor"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path [attr.d]="icons.mail.d" />
+        </svg>
+        <span>info@example.com</span>
+      </a>
+    </li>
+  </ul>
+</aside>

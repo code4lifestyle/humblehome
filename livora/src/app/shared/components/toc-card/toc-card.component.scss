@@ -1,0 +1,93 @@
+@use 'mixins' as *;
+
+// Original: Elementor icon-list widgets – FAQ page f0cef67 (`.service-category-list`, with arrows) and policy pages 6219bee.
+// Entries are separated by a 1px divider; the space above/below the divider is `--toc-gap` (FAQ 20px, policy 15px).
+:host {
+  display: block;
+  --toc-gap: 15px;
+  --toc-line: 1.6em;
+}
+
+.toc-card {
+  padding: 30px;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-md);
+
+  @include tablet {
+    padding: 20px;
+  }
+}
+
+.toc-card--arrows {
+  --toc-gap: 20px;
+  --toc-line: 1.5em;
+
+  @include tablet {
+    --toc-gap: 15px;
+  }
+}
+
+.toc-card__title {
+  margin: 0 0 20px;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.4em;
+  letter-spacing: 0;
+  color: var(--color-primary);
+}
+
+.toc-card__list li {
+  position: relative;
+
+  &:not(:last-child) {
+    padding-bottom: var(--toc-gap);
+
+    // the divider under every entry but the last one
+    &::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      border-top: 1px solid var(--color-divider);
+    }
+  }
+  &:not(:first-child) {
+    margin-top: var(--toc-gap);
+  }
+
+  a {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: var(--toc-line);
+    color: var(--color-text);
+    transition: color 0.4s ease-in-out;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--color-accent);
+    }
+  }
+}
+
+.toc-card__text {
+  padding-right: 10px;
+}
+
+.toc-card__icon {
+  position: relative;
+  top: 3px;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  color: var(--color-primary);
+  transition: transform 0.4s ease-in-out;
+}
+
+li:hover .toc-card__icon,
+a:focus-visible .toc-card__icon {
+  transform: rotate(45deg);
+}

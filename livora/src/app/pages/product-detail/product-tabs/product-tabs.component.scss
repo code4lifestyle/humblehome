@@ -1,0 +1,160 @@
+@use 'mixins' as *;
+
+// Original: ShopEngine "product tabs". 18px/700 labels 30px apart above a hairline, active label in the accent colour with
+// a 2px accent underline; panel text 15px/24px. 16px labels on tablets; on phones the labels share the row equally.
+:host {
+  display: block;
+}
+
+.tabs__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 30px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid var(--color-divider);
+
+  @include tablet {
+    padding-bottom: 20px;
+  }
+  @include mobile {
+    flex-wrap: nowrap;
+    gap: 15px;
+  }
+}
+
+.tab {
+  position: relative;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 20px;
+  text-align: left;
+  color: var(--color-primary);
+  cursor: pointer;
+  transition: var(--transition-fast);
+
+  @include tablet {
+    font-size: 16px;
+  }
+  @include mobile {
+    flex: 1 1 0;
+    min-width: 0;
+    font-size: 14px;
+    line-height: 16px;
+    text-align: center;
+  }
+
+  &:hover,
+  &[aria-selected='true'] {
+    color: var(--color-accent);
+  }
+
+  // underline sits on the hairline below the tab row
+  &::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: -26px;
+    left: 0;
+    height: 2px;
+    background: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease-in-out;
+
+    @include tablet {
+      bottom: -21px;
+    }
+  }
+  &[aria-selected='true']::after {
+    transform: scaleX(1);
+  }
+
+  &:focus-visible {
+    outline-offset: 6px;
+  }
+}
+
+// ---------------------------------------------------------------- panels
+.panel {
+  padding-top: 30px;
+  color: var(--color-text);
+
+  &[hidden] {
+    display: none;
+  }
+  @include tablet {
+    padding-top: 20px;
+  }
+  &:focus-visible {
+    outline-offset: 4px;
+  }
+
+  p {
+    margin: 0 0 20px;
+    font-size: 15px;
+    line-height: 24px;
+
+    @include tablet {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.panel__list {
+  padding-left: 20px;
+  list-style: disc;
+
+  li {
+    margin: 0 0 12px;
+    line-height: 21px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// ---------------------------------------------------------------- additional information
+.attributes {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--color-divider);
+  border-radius: 2px;
+
+  th,
+  td {
+    padding: 20px 30px;
+    font-size: 15px;
+    text-align: left;
+    vertical-align: middle;
+
+    @include mobile {
+      padding: 15px 10px;
+      font-size: 14px;
+    }
+  }
+
+  th {
+    width: 50%;
+    border-right: 1px solid var(--color-divider);
+    font-weight: 600;
+    line-height: 15px;
+    text-transform: capitalize;
+    color: var(--color-primary);
+
+    @include tablet {
+      width: 40%;
+    }
+  }
+
+  td p {
+    margin: 0;
+    font-size: inherit;
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--color-primary);
+  }
+}

@@ -1,0 +1,152 @@
+@use 'mixins' as *;
+
+// Original: Elementor container a250c70 (90px top / 60px bottom padding, 40px gap): a big photo post on the left and two
+// small posts on the right, 30px between the columns. ≤ 1024px the columns stack and the two small posts sit side by side.
+:host {
+  display: block;
+}
+
+.news {
+  padding: 100px 0 60px; // 90px section padding + the 10px of the nested containers on top
+
+  @include tablet {
+    padding-block: 50px;
+  }
+  @include mobile {
+    padding-bottom: 20px;
+  }
+}
+
+.news__head {
+  max-width: 770px;
+  margin: 0 auto 60px; // 40px gap + 2 × 10px nested padding
+
+  @include tablet {
+    max-width: none;
+    margin-bottom: 30px;
+  }
+}
+
+// The original's small posts carry a 30px bottom margin (desktop and phones), also the last one, and the columns keep their own
+// height: the big photo post stays 470px high while the two small ones may make the row taller.
+.news__grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 30px;
+  padding-bottom: 10px;
+
+  @include tablet {
+    padding-bottom: 0;
+  }
+  @include mobile {
+    padding-bottom: 30px;
+  }
+}
+
+.news__featured,
+.news__list {
+  flex: 0 0 calc(50% - 15px);
+  min-width: 0;
+
+  @include tablet {
+    flex-basis: 100%;
+  }
+}
+
+.news__list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding-bottom: 30px;
+
+  @include tablet {
+    flex-direction: row;
+    padding-bottom: 0;
+
+    > * {
+      flex: 1 1 0;
+    }
+  }
+  @include mobile {
+    flex-direction: column;
+  }
+}
+
+// highlight card: 470px on desktop (the shared card's own minimum), 435px tablet / 352px phone like the original
+.news__featured ::ng-deep .post.is-highlight {
+  @include tablet {
+    min-height: 435px;
+  }
+  @include mobile {
+    min-height: 352px;
+  }
+}
+
+// Side-by-side small cards (≥ 992px): the original's photo is a third of the card (33% − 10px = 183px at full width, smaller in
+// between) and the text block has 20px padding on every side (image → text = gap + padding = 40px). The shared card uses a fixed
+// 183px photo and only pads the text on the right.
+@media (min-width: 992px) {
+  .news__list ::ng-deep .post.is-row {
+    .media {
+      flex: none;
+      width: calc(33% - 10px);
+    }
+
+    .body {
+      flex: 1 1 0;
+      min-width: 0;
+      padding: 20px;
+    }
+  }
+}
+
+// Original look of the small cards up to 991px (tablet and phone): the image sits on top of the text instead of beside it, with
+// a 1 : 0.598 photo and 15px / 5px padding. The shared card only stacks below 768px (and with other proportions), so the
+// original layout is restored here.
+@media (max-width: 991px) {
+  .news__list ::ng-deep .post.is-row {
+    flex-direction: column;
+    gap: 20px;
+    padding: 15px;
+
+    .media {
+      width: 100%;
+      aspect-ratio: 1 / 0.598;
+    }
+
+    .body {
+      padding: 5px;
+    }
+  }
+}
+
+// Text metrics of the original home cards: the date + category line is 14px (the shared card uses 15px) and, on phones, the
+// gaps between date line, title and "Read More" are 15px instead of 20px.
+.news__grid ::ng-deep .post .meta {
+  font-size: 14px;
+}
+.news__grid .news__list ::ng-deep .post.is-row .meta {
+  line-height: 1.2;
+}
+@include mobile {
+  .news__grid .news__list ::ng-deep .post.is-row {
+    .meta {
+      margin-bottom: 15px;
+    }
+    .title {
+      padding-bottom: 15px;
+    }
+    .title + .more {
+      margin-top: 15px;
+    }
+  }
+  .news__grid .news__featured ::ng-deep .post.is-highlight {
+    .meta {
+      margin-bottom: 15px;
+    }
+    .title {
+      padding-bottom: 15px;
+    }
+  }
+}

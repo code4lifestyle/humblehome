@@ -1,0 +1,318 @@
+@use 'mixins' as *;
+
+// Original: Elementor post 15023 – form card 6bfc301 (62 %), info card a98f364 (38 %), social strip 2adf159, map section f0fb42d.
+// Every Elementor child container is padded 10px, which is included in the vertical distances below.
+:host {
+  display: block;
+}
+
+// page sections keep 20px of side padding on tablet/mobile (boxed container 10px + child container 10px)
+.container {
+  @include tablet {
+    padding-inline: 20px;
+  }
+}
+
+// ── Form + info cards ──────────────────────────────────────────────────────────────────────────────────────────────────
+.contact {
+  padding: 100px 0 50px; // 90 / 40 section padding + 10px container padding
+
+  @include tablet {
+    padding: 50px 0 25px;
+  }
+}
+
+.contact__layout {
+  display: grid;
+  grid-template-columns: calc(62% - 15px) calc(38% - 15px);
+  align-items: start;
+  gap: 30px;
+
+  @include tablet {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.contact-form-card {
+  min-width: 0;
+  padding: 50px;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-md);
+
+  @include tablet {
+    padding: 30px;
+  }
+  @include mobile {
+    padding: 20px;
+  }
+}
+
+.consult-note {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 0 16px;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  background: var(--color-secondary);
+  color: var(--color-primary);
+  font-size: 15px;
+  line-height: 1.5;
+  scroll-margin-top: 96px;
+}
+
+.consult-note__img {
+  flex: none;
+  width: 96px;
+  height: 96px;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+  background: var(--color-white);
+}
+
+.consult-note__text {
+  margin: 0;
+}
+
+.contact-form-card__title {
+  margin: 0;
+}
+
+.contact-form-card__text {
+  margin: 15px 0 0;
+
+  @include tablet {
+    margin-top: 10px;
+  }
+}
+
+// 15px container gap (10px on tablet) + the form widget's own 25px (20px) top margin
+.contact-form {
+  margin-top: 40px;
+
+  @include tablet {
+    margin-top: 30px;
+  }
+
+  // Bootstrap-style gutter of the original (30px between the two columns instead of the global 24px) and fixed heights
+  .form-grid {
+    column-gap: 30px;
+  }
+  .form-control-lg {
+    height: 56px;
+
+    @include tablet {
+      height: 46px;
+    }
+  }
+  textarea.form-control {
+    height: 136px;
+
+    @include tablet {
+      height: 126px;
+      padding: 12px 15px;
+    }
+  }
+}
+
+.contact-form__actions {
+  margin-top: 20px;
+
+  @include tablet {
+    margin-top: 10px;
+  }
+}
+
+// ── Contact info card ──────────────────────────────────────────────────────────────────────────────────────────────────
+.contact-info {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-md);
+}
+
+.contact-info__body {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 40px 50px;
+
+  @include tablet {
+    gap: 30px;
+    padding: 30px;
+  }
+  @include mobile {
+    padding: 20px;
+  }
+}
+
+.contact-info__title {
+  margin: 0;
+}
+
+.contact-info__list {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+
+  @include tablet {
+    gap: 15px;
+  }
+}
+
+.info-item__box {
+  display: flex;
+  align-items: flex-start;
+  padding-bottom: 25px;
+  border-bottom: 1px solid var(--color-divider);
+
+  @include tablet {
+    padding-bottom: 15px;
+  }
+}
+
+// the last entry has neither padding nor divider
+.info-item:last-child .info-item__box {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.info-item__icon {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  margin-right: 15px;
+  color: var(--color-primary);
+  object-fit: contain;
+}
+
+.info-item__text {
+  min-width: 0;
+}
+
+.info-item__title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2em;
+  color: var(--color-primary);
+}
+
+.info-item__value {
+  margin: 10px 0 0;
+  line-height: 1.6em;
+  color: var(--color-text);
+  transition: color 0.4s ease-in-out;
+}
+
+// phone and e-mail entries are links: the value turns accent on hover
+.info-item__box--link:hover .info-item__value,
+.info-item__box--link:focus-visible .info-item__value {
+  color: var(--color-accent);
+}
+
+// accent strip "Our Social:" + round outlined icons
+.contact-info__social {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 20px;
+  padding: 12px 50px;
+  background: var(--color-accent);
+
+  @include tablet {
+    gap: 10px;
+    padding: 12px 30px;
+  }
+  @include mobile {
+    padding: 12px 20px;
+  }
+}
+
+.contact-info__social-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2em;
+  color: var(--color-white);
+}
+
+.social-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16.4px; // 12px item margin (7px on tablet) + the 4.4px inline whitespace of the original
+
+  @include tablet {
+    gap: 11.4px;
+  }
+
+  a {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--color-dark-divider);
+    border-radius: 50%;
+    font-size: 18px;
+    color: var(--color-white);
+    transition: var(--transition-fast);
+
+    &:hover,
+    &:focus-visible {
+      background: var(--color-white);
+      color: var(--color-primary);
+    }
+
+    @include mobile {
+      width: 36px;
+      height: 36px;
+      font-size: 16px;
+    }
+  }
+}
+
+// ── Store location ─────────────────────────────────────────────────────────────────────────────────────────────────────
+.store {
+  padding: 50px 0 100px; // section 40 / 90 + 10px container padding
+
+  @include tablet {
+    padding: 25px 0 50px;
+  }
+}
+
+.store__title {
+  max-width: 770px;
+  margin-inline: auto;
+}
+
+.store__map {
+  margin-top: 60px;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+
+  @include tablet {
+    margin-top: 30px;
+  }
+}
+
+// grey map that turns colourful on hover (original: saturate(0%) → 100 %, 0.6s)
+.store__frame {
+  display: block;
+  width: 100%;
+  height: 600px;
+  border: 0;
+  filter: saturate(0);
+  transition: filter 0.6s ease-in-out;
+
+  .store__map:hover &,
+  .store__map:focus-within & {
+    filter: saturate(1);
+  }
+
+  @include tablet {
+    height: 450px;
+  }
+  @include mobile {
+    height: 350px;
+  }
+}

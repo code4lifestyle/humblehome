@@ -1,0 +1,488 @@
+@use 'mixins' as *;
+@use '../blog-list/blog-card-original' as *;
+
+:host {
+  display: block;
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Banner – the shared `app-page-header` has no slot for the date / category line of a post, so the same banner
+// (background photo, 60 % dark overlay, 64 / 50 / 36px title) is built here. Original: `.page-header` + `.post-single-meta`.
+// ---------------------------------------------------------------------------------------------------------------------
+.post-banner {
+  position: relative;
+  padding: 150px 0; // the 20px side inset comes from the global `.container`
+  overflow: hidden;
+  text-align: center;
+  background: var(--color-primary) url('/assets/images/page-header-bg-image.jpg') center / cover
+    no-repeat;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--color-primary);
+    opacity: 0.6;
+  }
+
+  @include tablet {
+    padding: 90px 0;
+  }
+}
+
+.banner-box {
+  position: relative; // above the overlay
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  h1 {
+    margin: 0;
+    font-size: 64px;
+    font-weight: 900;
+    line-height: 1.2em;
+    letter-spacing: var(--letter-spacing-heading);
+    color: var(--color-white);
+    overflow-wrap: anywhere;
+
+    @include tablet {
+      font-size: 50px;
+    }
+    @include mobile {
+      font-size: 36px;
+    }
+  }
+}
+
+.post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 4px 19px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    font-size: 17px;
+    line-height: normal;
+    color: var(--color-white);
+
+    @include mobile {
+      font-size: 15px;
+    }
+  }
+
+  i {
+    margin-right: 8px;
+    font-size: 18px;
+    color: var(--color-white);
+
+    @include mobile {
+      font-size: 16px;
+    }
+  }
+
+  a {
+    color: inherit;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--color-accent);
+    }
+  }
+}
+
+// "Uncategorized, News" – the separator lives in CSS so it stays out of the link text
+.post-categories a + a::before {
+  content: ', ';
+  color: var(--color-white);
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Article – original `.page-single-post`: Bootstrap container (1300px, 15px gutters), 100px above / below (50px ≤ 991px),
+// content column 1100px wide and centred.
+// ---------------------------------------------------------------------------------------------------------------------
+.post-container {
+  width: 100%;
+  max-width: 1300px;
+  margin-inline: auto;
+  padding-inline: 15px;
+}
+
+.post-section {
+  display: block;
+  padding-block: 100px;
+
+  @include menu-collapse {
+    padding-block: 50px;
+  }
+
+  // previous / next + related posts follow: they bring their own spacing
+  &.has-more {
+    padding-bottom: 80px;
+
+    @include menu-collapse {
+      padding-bottom: 40px;
+    }
+  }
+}
+
+// Featured image with the theme's "shiny glass" hover sweep (`.at-blog-shiny-glass-effect`): a translucent white band
+// opens diagonally across the photo and fades out.
+.post-image {
+  position: relative;
+  margin: 0 0 30px;
+  overflow: hidden;
+  border-radius: 20px;
+
+  @include menu-collapse {
+    margin-bottom: 20px;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    width: 200%;
+    height: 0;
+    background: rgb(255 255 255 / 30%);
+    transform: translate(-50%, -50%) rotate(-45deg);
+    pointer-events: none;
+  }
+
+  &:hover::after {
+    height: 250%;
+    background: transparent;
+    transition: all 600ms linear;
+  }
+}
+
+.post-content {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+// Original `.post-entry` (WordPress block content)
+.post-entry {
+  margin-bottom: 30px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid var(--color-divider);
+
+  &::after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+
+  p {
+    margin: 0 0 20px;
+
+    @include menu-collapse {
+      margin-bottom: 15px;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  h2 {
+    margin: 1em 0 0.7em;
+    font-size: 36px;
+    line-height: 1.4em;
+    letter-spacing: var(--letter-spacing-heading);
+    color: var(--color-primary);
+
+    @include mobile {
+      font-size: 24px;
+    }
+  }
+
+  ul {
+    margin: 20px 0;
+    padding-left: 20px;
+    list-style: disc;
+  }
+
+  li {
+    margin-bottom: 10px;
+    font-size: 17px;
+    line-height: 1.5em;
+    color: var(--color-text);
+
+    @include menu-collapse {
+      font-size: 15px;
+    }
+  }
+
+  // the theme's pull quote: cream box, gold quotation-mark icon top left
+  blockquote {
+    margin: 0 0 20px;
+    padding: 30px 30px 30px 90px;
+    border-radius: 20px;
+    background: var(--color-secondary) url('/assets/icons/icon-blockquote.svg') no-repeat 30px
+      30px / 45px;
+
+    @include menu-collapse {
+      padding: 20px 20px 20px 70px;
+      background-position: 20px 20px;
+      background-size: 40px;
+      margin-bottom: 15px;
+    }
+    @include mobile {
+      padding: 65px 20px 20px;
+    }
+
+    p {
+      margin: 0 0 20px;
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.5em;
+      color: var(--color-primary);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      @include menu-collapse {
+        font-size: 16px;
+      }
+      @include mobile {
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Tags + share links
+// ---------------------------------------------------------------------------------------------------------------------
+.post-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  @include menu-collapse {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+  }
+}
+
+.post-tags {
+  @include menu-collapse {
+    margin-bottom: 20px;
+
+    &:empty {
+      display: none;
+    }
+  }
+}
+
+.tag-links {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 15px;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-primary);
+
+  @include mobile {
+    gap: 10px;
+    font-size: 16px;
+  }
+
+  a {
+    display: inline-block;
+    padding: 12px 20px;
+    border-radius: var(--radius-pill);
+    background: var(--color-accent);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1em;
+    text-transform: capitalize;
+    color: var(--color-white);
+    transition: var(--transition-base);
+
+    @include menu-collapse {
+      padding: 12px 15px;
+    }
+
+    &:hover,
+    &:focus-visible {
+      background: var(--color-primary);
+    }
+  }
+}
+
+.post-share {
+  display: flex;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--color-divider);
+    border-radius: 50%;
+    color: var(--color-primary);
+    transition: var(--transition-base);
+
+    &:hover,
+    &:focus-visible {
+      border-color: var(--color-accent);
+      background: var(--color-accent);
+      color: var(--color-white);
+    }
+  }
+
+  i {
+    font-size: 18px;
+  }
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Previous / next post (extra – not in the original, styled like the theme's cream cards)
+// ---------------------------------------------------------------------------------------------------------------------
+.post-nav {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 30px;
+  margin-top: 50px;
+
+  @include mobile {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    margin-top: 40px;
+  }
+}
+
+.post-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-width: 0;
+  padding: 25px 30px;
+  border-radius: var(--radius-md);
+  background: var(--color-secondary);
+  transition: var(--transition-base);
+
+  @include mobile {
+    padding: 20px;
+  }
+
+  &.is-next {
+    grid-column: 2;
+    justify-content: space-between;
+    text-align: right;
+
+    @include mobile {
+      grid-column: auto;
+    }
+  }
+
+  &:hover,
+  &:focus-visible {
+    .post-nav-arrow {
+      background: var(--color-primary);
+    }
+    .post-nav-title {
+      color: var(--color-accent);
+    }
+  }
+}
+
+.post-nav-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.post-nav-label {
+  font-size: 14px;
+  line-height: 1.4em;
+  color: var(--color-text);
+}
+
+.post-nav-title {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5em;
+  color: var(--color-primary);
+  overflow-wrap: anywhere;
+  transition: var(--transition-base);
+}
+
+.post-nav-arrow {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  font-size: 14px;
+  color: var(--color-white);
+  transition: var(--transition-base);
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Related posts (extra)
+// ---------------------------------------------------------------------------------------------------------------------
+.related {
+  padding-bottom: 100px;
+
+  @include menu-collapse {
+    padding-bottom: 50px;
+  }
+}
+
+.related-inner {
+  padding-top: 80px;
+  border-top: 1px solid var(--color-divider);
+
+  @include menu-collapse {
+    padding-top: 40px;
+  }
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 30px;
+  margin-top: 60px;
+
+  @include down(1199px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  @include tablet {
+    margin-top: 30px;
+  }
+  @include mobile {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  @include original-card-look;
+}

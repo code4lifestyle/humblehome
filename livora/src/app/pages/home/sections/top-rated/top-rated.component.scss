@@ -1,0 +1,154 @@
+@use 'mixins' as *;
+
+// Original: Elementor container d5f779d (40px top / 90px bottom padding), 40px between the three rows.
+:host {
+  display: block;
+}
+
+.top-rated {
+  padding: 40px 0 90px;
+
+  @include tablet {
+    padding: 15px 0 40px;
+  }
+}
+
+// ── heading row: title left, intro paragraph right (vertically centred) ─────────────────────────────────────────────
+.top-rated__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding-block: 10px;
+
+  @include tablet {
+    gap: 10px;
+  }
+}
+
+.top-rated__title {
+  flex: 0 0 50%;
+  min-width: 0;
+
+  @include tablet {
+    flex-basis: 100%;
+  }
+}
+
+.top-rated__text {
+  flex: 0 0 50%;
+  min-width: 0;
+  margin: 0;
+  padding-left: 30px;
+  color: var(--color-text);
+
+  @include tablet {
+    flex-basis: 100%;
+    padding-left: 0;
+  }
+}
+
+// ── products: 4 / 2 / 2 columns ─────────────────────────────────────────────────────────────────────────────────────
+.top-rated__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 30px 20px;
+  margin-top: 40px;
+  padding-block: 10px;
+
+  @include tablet {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 10px;
+  }
+  @include mobile {
+    gap: 20px 10px;
+  }
+}
+
+// The original list gives every photo a fixed height – 302px, 312px up to 991px, 167px up to 767px (it stretches the picture,
+// the card crops it instead).
+.top-rated__grid ::ng-deep .thumb {
+  height: 302px;
+  aspect-ratio: auto;
+
+  @media (max-width: 991px) {
+    height: 312px;
+  }
+  @media (max-width: 767px) {
+    height: 167px;
+  }
+}
+
+// tablet: the original's image → title distance is 15px (the card keeps 20px)
+.top-rated__grid ::ng-deep .card.is-home .title {
+  @include tablet {
+    padding-top: 14px;
+  }
+}
+
+// variable products carry no percent tag in the original
+.top-rated__grid ::ng-deep .no-tag .badge-percent {
+  display: none;
+}
+
+// ── "Let's make something great work together" ──────────────────────────────────────────────────────────────────────
+.top-rated__cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 40px 0 0;
+  padding-block: 10px;
+  color: var(--color-primary);
+  text-align: center;
+
+  @include tablet {
+    margin-top: 10px;
+  }
+}
+
+// phones: the text takes the full row, so the avatars sit above it (Elementor stacks the widgets there)
+.top-rated__cta-text {
+  @include mobile {
+    flex: 0 0 100%;
+  }
+}
+
+.cta-avatars {
+  display: inline-flex;
+  align-items: center;
+}
+
+.cta-avatars__photo {
+  width: 30px;
+  height: 30px;
+  box-sizing: content-box;
+  border: 1px solid var(--color-secondary);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.cta-avatars__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin-left: -10px;
+  border: 1px solid var(--color-white);
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-size: 16px;
+}
+
+.cta-link {
+  color: var(--color-accent);
+  text-decoration: underline;
+  transition-duration: 0.3s;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--color-primary);
+  }
+}

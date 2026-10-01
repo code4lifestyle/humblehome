@@ -1,0 +1,148 @@
+@use 'mixins' as *;
+
+:host {
+  display: block;
+
+  // the collapsed (off-canvas) menu takes over on tablet / mobile
+  @include tablet {
+    display: none;
+  }
+}
+
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// Original: every <li> has margin-right 40px (incl. the last one → the row sits 20px left of centre)
+.menu-item {
+  position: relative;
+  margin: 0 40px 0 0;
+
+  &.has-mega {
+    position: static; // the mega panel spans the whole bar
+  }
+}
+
+.menu-link {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 8px 0 20px;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2em;
+  text-transform: none;
+  color: var(--color-primary);
+  cursor: pointer;
+  transition: color 0.4s ease;
+
+  &:hover,
+  &:focus-visible,
+  &.is-active,
+  &.is-current {
+    color: var(--color-accent);
+  }
+}
+.menu-item.is-open > .menu-link,
+.menu-item.is-active > .menu-link {
+  color: var(--color-accent);
+}
+
+.chevron {
+  margin: 2px 0 0 8px;
+  font-size: 14px;
+  transition: transform 0.3s ease-in-out;
+}
+.menu-item.is-open > .menu-link .chevron {
+  transform: rotate(180deg);
+}
+
+// ---- dropdown (accent panel, 12px bottom radius) -------------------------------------------------------------------
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 2;
+  min-width: 255px;
+  margin: 0;
+  padding: 5px 0;
+  list-style: none;
+  border-radius: 0 0 12px 12px;
+  background: var(--color-accent);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-10px);
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease,
+    visibility 0s linear 0.4s;
+
+  a {
+    display: block;
+    padding: 8px 20px;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.2em;
+    color: var(--color-white);
+
+    &:hover,
+    &:focus-visible,
+    &.is-active {
+      color: var(--color-primary);
+    }
+  }
+}
+
+// ---- full-width mega panel --------------------------------------------------------------------------------------------
+.mega-panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 2;
+  width: 100%;
+  padding: 60px 0;
+  background: var(--color-white);
+  box-shadow: 0 14px 30px -12px rgb(0 0 0 / 14%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-10px);
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease,
+    visibility 0s linear 0.4s;
+}
+
+.menu-item.is-open > .dropdown,
+.menu-item.is-open > .mega-panel {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: none;
+  transition-delay: 0s;
+}
+
+// ---- compact variant (sticky bar): links fill the bar height ---------------------------------------------------------
+:host(.is-compact) {
+  .menu {
+    flex-wrap: nowrap;
+  }
+  .menu-item:last-child {
+    margin-right: 0;
+  }
+  .menu-item {
+    display: flex;
+  }
+  .menu-link {
+    padding-block: calc((var(--sticky-bar-height, 76px) - 18px) / 2);
+  }
+}

@@ -1,0 +1,222 @@
+<main class="page">
+  <app-page-header title="Contact Us" [crumbs]="crumbs" />
+
+  <section class="contact">
+    <div class="container">
+      <div class="contact__layout">
+        <!-- ── Question form ─────────────────────────────────────────────────────────────────────────────────────── -->
+        <div class="contact-form-card" id="consultation">
+          @if (consultation(); as item) {
+            <div class="consult-note">
+              @if (item.image) {
+                <img
+                  class="consult-note__img"
+                  [src]="item.image"
+                  [alt]="item.name"
+                  width="96"
+                  height="96"
+                />
+              }
+              <p class="consult-note__text">
+                Free consultation for <strong>{{ item.name }}</strong>
+                @if (item.choice) {
+                  <span> · {{ item.choice }}</span>
+                }
+              </p>
+            </div>
+          }
+          <h2 class="contact-form-card__title">
+            {{ consultation() ? 'Book a Free Consultation' : 'Do You Have Any Questions?' }}
+          </h2>
+          <p class="contact-form-card__text">
+            Your comfort matters – reach out to us for any furniture related question or assistance.
+          </p>
+
+          <form class="contact-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="sr-only" for="contact-first-name">First name</label>
+                <input
+                  id="contact-first-name"
+                  class="form-control form-control-lg"
+                  type="text"
+                  formControlName="firstName"
+                  placeholder="Enter First Name *"
+                  autocomplete="given-name"
+                  maxlength="100"
+                  required
+                  [attr.aria-invalid]="error('firstName') ? 'true' : null"
+                  [attr.aria-describedby]="error('firstName') ? 'contact-first-name-error' : null"
+                />
+                @if (error('firstName'); as message) {
+                  <p class="form-error" id="contact-first-name-error">{{ message }}</p>
+                }
+              </div>
+
+              <div class="form-group">
+                <label class="sr-only" for="contact-last-name">Last name</label>
+                <input
+                  id="contact-last-name"
+                  class="form-control form-control-lg"
+                  type="text"
+                  formControlName="lastName"
+                  placeholder="Enter Last Name *"
+                  autocomplete="family-name"
+                  maxlength="100"
+                  required
+                  [attr.aria-invalid]="error('lastName') ? 'true' : null"
+                  [attr.aria-describedby]="error('lastName') ? 'contact-last-name-error' : null"
+                />
+                @if (error('lastName'); as message) {
+                  <p class="form-error" id="contact-last-name-error">{{ message }}</p>
+                }
+              </div>
+
+              <div class="form-group">
+                <label class="sr-only" for="contact-email">Email address</label>
+                <input
+                  id="contact-email"
+                  class="form-control form-control-lg"
+                  type="email"
+                  inputmode="email"
+                  formControlName="email"
+                  placeholder="Enter Email Address *"
+                  autocomplete="email"
+                  maxlength="254"
+                  required
+                  [attr.aria-invalid]="error('email') ? 'true' : null"
+                  [attr.aria-describedby]="error('email') ? 'contact-email-error' : null"
+                />
+                @if (error('email'); as message) {
+                  <p class="form-error" id="contact-email-error">{{ message }}</p>
+                }
+              </div>
+
+              <div class="form-group">
+                <label class="sr-only" for="contact-phone">Phone number</label>
+                <input
+                  id="contact-phone"
+                  class="form-control form-control-lg"
+                  type="tel"
+                  inputmode="tel"
+                  formControlName="phone"
+                  placeholder="Enter Phone Number *"
+                  autocomplete="tel"
+                  maxlength="30"
+                  required
+                  [attr.aria-invalid]="error('phone') ? 'true' : null"
+                  [attr.aria-describedby]="error('phone') ? 'contact-phone-error' : null"
+                />
+                @if (error('phone'); as message) {
+                  <p class="form-error" id="contact-phone-error">{{ message }}</p>
+                }
+              </div>
+
+              <div class="form-group form-col-full">
+                <label class="sr-only" for="contact-message">Message</label>
+                <textarea
+                  id="contact-message"
+                  class="form-control"
+                  formControlName="message"
+                  placeholder="Any Additional Message..."
+                  rows="4"
+                  maxlength="2000"
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="contact-form__actions">
+              <button type="submit" class="btn-default btn-plain">Send Message</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- ── Contact info card ─────────────────────────────────────────────────────────────────────────────────── -->
+        <section class="contact-info" aria-labelledby="contact-info-title">
+          <div class="contact-info__body">
+            <h2 id="contact-info-title" class="contact-info__title">Contact Info</h2>
+
+            <ul class="contact-info__list">
+              @for (item of infoItems; track item.title) {
+                <li class="info-item">
+                  @if (item.href) {
+                    <a class="info-item__box info-item__box--link" [href]="item.href">
+                      <ng-container
+                        [ngTemplateOutlet]="itemContent"
+                        [ngTemplateOutletContext]="{ $implicit: item }"
+                      />
+                    </a>
+                  } @else {
+                    <div class="info-item__box">
+                      <ng-container
+                        [ngTemplateOutlet]="itemContent"
+                        [ngTemplateOutletContext]="{ $implicit: item }"
+                      />
+                    </div>
+                  }
+                </li>
+              }
+            </ul>
+          </div>
+
+          <div class="contact-info__social">
+            <h3 class="contact-info__social-title">Our Social:</h3>
+            <ul class="social-list">
+              @for (link of social; track link.name) {
+                <li>
+                  <a
+                    [href]="link.url"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    [attr.aria-label]="link.label"
+                  >
+                    <i [class]="link.icon" aria-hidden="true"></i>
+                  </a>
+                </li>
+              }
+            </ul>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Store location ───────────────────────────────────────────────────────────────────────────────────────── -->
+  <section class="store">
+    <div class="container">
+      <div class="store__title">
+        <app-section-title eyebrow="Store Location" title="Visit Our Furniture Store Today" />
+      </div>
+
+      <div class="store__map">
+        <iframe
+          class="store__frame"
+          [src]="mapUrl"
+          title="Map showing our furniture store location in New York"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </section>
+</main>
+
+<ng-template #itemContent let-item>
+  <svg
+    class="info-item__icon"
+    [attr.viewBox]="item.icon.viewBox"
+    [attr.fill-rule]="item.icon.fillRule ?? 'nonzero'"
+    fill="currentColor"
+    aria-hidden="true"
+    focusable="false"
+  >
+    @for (d of item.icon.paths; track $index) {
+      <path [attr.d]="d" />
+    }
+  </svg>
+  <div class="info-item__text">
+    <h3 class="info-item__title">{{ item.title }}</h3>
+    <p class="info-item__value">{{ item.text }}</p>
+  </div>
+</ng-template>

@@ -1,0 +1,349 @@
+@switch (view()) {
+  @case ('form') {
+    <app-page-header title="Checkout" [crumbs]="crumbs" />
+
+    <section class="checkout">
+      <div class="container">
+        <form class="checkout-form" [formGroup]="form" (ngSubmit)="placeOrder()" novalidate>
+          <div class="checkout-layout">
+            <!-- ============================================ billing / shipping ============================================ -->
+            <div class="checkout-details">
+              <h2 class="block-title">Billing details</h2>
+              <ng-container
+                [ngTemplateOutlet]="addressFields"
+                [ngTemplateOutletContext]="{ $implicit: 'billing' }"
+              />
+
+              <label class="form-check ship-toggle">
+                <input
+                  type="checkbox"
+                  name="ship_to_different_address"
+                  [checked]="shipDifferent()"
+                  (change)="toggleShipping($event)"
+                />
+                <span>Ship to a different address?</span>
+              </label>
+
+              @if (shipDifferent()) {
+                <div class="ship-fields">
+                  <h2 class="block-title block-title--sub">Shipping details</h2>
+                  <ng-container
+                    [ngTemplateOutlet]="addressFields"
+                    [ngTemplateOutletContext]="{ $implicit: 'shipping' }"
+                  />
+                </div>
+              }
+
+              <div class="form-group notes">
+                <label class="form-label" for="order-notes">Order notes (optional)</label>
+                <textarea
+                  id="order-notes"
+                  class="form-control"
+                  formControlName="notes"
+                  rows="4"
+                  placeholder="Notes about your order, e.g. special notes for delivery."
+                ></textarea>
+              </div>
+            </div>
+
+            <!-- ================================================ your order ================================================ -->
+            <aside class="checkout-order" aria-labelledby="order-title">
+              <h2 id="order-title" class="block-title">Your order</h2>
+
+              <app-order-summary
+                [lines]="lines()"
+                [subtotal]="cart.subtotal()"
+                [discount]="cart.discount()"
+                [couponCode]="cart.coupon()?.code"
+                [shipping]="cart.shipping()"
+                [total]="cart.total()"
+              />
+
+              <fieldset class="payment">
+                <legend class="sr-only">Payment method</legend>
+                <ul class="payment-list">
+                  @for (method of paymentMethods; track method.id) {
+                    <li class="payment-item">
+                      <label class="form-check payment-label">
+                        <input
+                          type="radio"
+                          name="payment"
+                          formControlName="payment"
+                          [value]="method.id"
+                        />
+                        <span>{{ method.title }}</span>
+                      </label>
+                      @if (payment() === method.id) {
+                        <p class="payment-desc">{{ method.description }}</p>
+                      }
+                    </li>
+                  }
+                </ul>
+              </fieldset>
+
+              <p class="privacy">
+                Your personal data will be used to process your order, support your experience
+                throughout this website, and for other purposes described in our
+                <a [routerLink]="['/policy', 'privacy-policy']" target="_blank" rel="noopener"
+                  >privacy policy</a
+                >.
+              </p>
+
+              <div class="terms">
+                <label class="form-check">
+                  <input
+                    id="terms"
+                    type="checkbox"
+                    formControlName="terms"
+                    [attr.aria-describedby]="error('terms', '') ? 'terms-error' : null"
+                    aria-required="true"
+                    [attr.aria-invalid]="error('terms', '') ? 'true' : null"
+                  />
+                  <span>
+                    I have read and agree to the website
+                    <a [routerLink]="['/policy', 'terms-conditions']" target="_blank" rel="noopener"
+                      >terms and conditions</a
+                    >
+                    <abbr class="required" title="required">*</abbr>
+                  </span>
+                </label>
+                @if (error('terms', ''); as msg) {
+                  <p id="terms-error" class="form-error">{{ msg }}</p>
+                }
+              </div>
+
+              <button type="submit" class="btn-default btn-plain btn-block place-order">
+                Place order
+              </button>
+
+              @if (submitted() && form.invalid) {
+                <p class="form-message" role="alert">
+                  Please review the highlighted fields and try again.
+                </p>
+              }
+            </aside>
+          </div>
+
+          <!-- One set of address fields for billing AND shipping (billing also asks for phone + email) -->
+          <ng-template #addressFields let-kind>
+            <div class="form-grid checkout-grid" [formGroupName]="kind">
+              <div class="form-group">
+                <label class="form-label form-label--required" [for]="kind + '-first-name'"
+                  >First name</label
+                >
+                <input
+                  [id]="kind + '-first-name'"
+                  class="form-control"
+                  type="text"
+                  formControlName="firstName"
+                  [attr.autocomplete]="kind + ' given-name'"
+                  aria-required="true"
+                  [attr.aria-invalid]="error(kind + '.firstName', 'First name') ? 'true' : null"
+                  [attr.aria-describedby]="
+                    error(kind + '.firstName', 'First name') ? kind + '-first-name-error' : null
+                  "
+                />
+                @if (error(kind + '.firstName', 'First name'); as msg) {
+                  <p class="form-error" [id]="kind + '-first-name-error'">{{ msg }}</p>
+                }
+              </div>
+
+              <div class="form-group">
+                <label class="form-label form-label--required" [for]="kind + '-last-name'"
+                  >Last name</label
+                >
+                <input
+                  [id]="kind + '-last-name'"
+                  class="form-control"
+                  type="text"
+                  formControlName="lastName"
+                  [attr.autocomplete]="kind + ' family-name'"
+                  aria-required="true"
+                  [attr.aria-invalid]="error(kind + '.lastName', 'Last name') ? 'true' : null"
+                  [attr.aria-describedby]="
+                    error(kind + '.lastName', 'Last name') ? kind + '-last-name-error' : null
+                  "
+                />
+                @if (error(kind + '.lastName', 'Last name'); as msg) {
+                  <p class="form-error" [id]="kind + '-last-name-error'">{{ msg }}</p>
+                }
+              </div>
+
+              <div class="form-group form-col-full">
+                <label class="form-label" [for]="kind + '-company'">Company name (optional)</label>
+                <input
+                  [id]="kind + '-company'"
+                  class="form-control"
+                  type="text"
+                  formControlName="company"
+                  [attr.autocomplete]="kind + ' organization'"
+                />
+              </div>
+
+              <div class="form-group form-col-full">
+                <label class="form-label form-label--required" [for]="kind + '-country'"
+                  >Country / Region</label
+                >
+                <select
+                  [id]="kind + '-country'"
+                  class="form-control"
+                  formControlName="country"
+                  [attr.autocomplete]="kind + ' country'"
+                  aria-required="true"
+                  [attr.aria-invalid]="error(kind + '.country', 'Country / Region') ? 'true' : null"
+                >
+                  @for (country of countries; track country.code) {
+                    <option [value]="country.code">{{ country.name }}</option>
+                  }
+                </select>
+              </div>
+
+              <div class="form-group form-col-full">
+                <label class="form-label form-label--required" [for]="kind + '-address-1'"
+                  >Street address</label
+                >
+                <input
+                  [id]="kind + '-address-1'"
+                  class="form-control"
+                  type="text"
+                  formControlName="address1"
+                  placeholder="House number and street name"
+                  [attr.autocomplete]="kind + ' address-line1'"
+                  aria-required="true"
+                  [attr.aria-invalid]="error(kind + '.address1', 'Street address') ? 'true' : null"
+                  [attr.aria-describedby]="
+                    error(kind + '.address1', 'Street address') ? kind + '-address-1-error' : null
+                  "
+                />
+                @if (error(kind + '.address1', 'Street address'); as msg) {
+                  <p class="form-error" [id]="kind + '-address-1-error'">{{ msg }}</p>
+                }
+                <input
+                  [id]="kind + '-address-2'"
+                  class="form-control address-2"
+                  type="text"
+                  formControlName="address2"
+                  placeholder="Apartment, suite, unit, etc. (optional)"
+                  aria-label="Apartment, suite, unit, etc. (optional)"
+                  [attr.autocomplete]="kind + ' address-line2'"
+                />
+              </div>
+
+              <div class="form-group form-col-full">
+                <label class="form-label form-label--required" [for]="kind + '-city'"
+                  >Town / City</label
+                >
+                <input
+                  [id]="kind + '-city'"
+                  class="form-control"
+                  type="text"
+                  formControlName="city"
+                  [attr.autocomplete]="kind + ' address-level2'"
+                  aria-required="true"
+                  [attr.aria-invalid]="error(kind + '.city', 'Town / City') ? 'true' : null"
+                  [attr.aria-describedby]="
+                    error(kind + '.city', 'Town / City') ? kind + '-city-error' : null
+                  "
+                />
+                @if (error(kind + '.city', 'Town / City'); as msg) {
+                  <p class="form-error" [id]="kind + '-city-error'">{{ msg }}</p>
+                }
+              </div>
+
+              <div class="form-group">
+                <label class="form-label form-label--required" [for]="kind + '-state'"
+                  >State / County</label
+                >
+                <input
+                  [id]="kind + '-state'"
+                  class="form-control"
+                  type="text"
+                  formControlName="state"
+                  [attr.autocomplete]="kind + ' address-level1'"
+                  aria-required="true"
+                  [attr.aria-invalid]="error(kind + '.state', 'State / County') ? 'true' : null"
+                  [attr.aria-describedby]="
+                    error(kind + '.state', 'State / County') ? kind + '-state-error' : null
+                  "
+                />
+                @if (error(kind + '.state', 'State / County'); as msg) {
+                  <p class="form-error" [id]="kind + '-state-error'">{{ msg }}</p>
+                }
+              </div>
+
+              <div class="form-group">
+                <label class="form-label form-label--required" [for]="kind + '-postcode'"
+                  >Postcode / ZIP</label
+                >
+                <input
+                  [id]="kind + '-postcode'"
+                  class="form-control"
+                  type="text"
+                  formControlName="postcode"
+                  [attr.autocomplete]="kind + ' postal-code'"
+                  aria-required="true"
+                  [attr.aria-invalid]="error(kind + '.postcode', 'Postcode / ZIP') ? 'true' : null"
+                  [attr.aria-describedby]="
+                    error(kind + '.postcode', 'Postcode / ZIP') ? kind + '-postcode-error' : null
+                  "
+                />
+                @if (error(kind + '.postcode', 'Postcode / ZIP'); as msg) {
+                  <p class="form-error" [id]="kind + '-postcode-error'">{{ msg }}</p>
+                }
+              </div>
+
+              @if (kind === 'billing') {
+                <div class="form-group">
+                  <label class="form-label form-label--required" for="billing-phone">Phone</label>
+                  <input
+                    id="billing-phone"
+                    class="form-control"
+                    type="tel"
+                    formControlName="phone"
+                    autocomplete="tel"
+                    aria-required="true"
+                    [attr.aria-invalid]="error('billing.phone', 'Phone') ? 'true' : null"
+                    [attr.aria-describedby]="
+                      error('billing.phone', 'Phone') ? 'billing-phone-error' : null
+                    "
+                  />
+                  @if (error('billing.phone', 'Phone'); as msg) {
+                    <p class="form-error" id="billing-phone-error">{{ msg }}</p>
+                  }
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label form-label--required" for="billing-email"
+                    >Email address</label
+                  >
+                  <input
+                    id="billing-email"
+                    class="form-control"
+                    type="email"
+                    formControlName="email"
+                    autocomplete="email"
+                    aria-required="true"
+                    [attr.aria-invalid]="error('billing.email', 'Email address') ? 'true' : null"
+                    [attr.aria-describedby]="
+                      error('billing.email', 'Email address') ? 'billing-email-error' : null
+                    "
+                  />
+                  @if (error('billing.email', 'Email address'); as msg) {
+                    <p class="form-error" id="billing-email-error">{{ msg }}</p>
+                  }
+                </div>
+              }
+            </div>
+          </ng-template>
+        </form>
+      </div>
+    </section>
+  }
+
+  @case ('received') {
+    <app-page-header title="Order Received" [crumbs]="receivedCrumbs" />
+    @if (order(); as placed) {
+      <app-order-received [order]="placed" />
+    }
+  }
+}

@@ -1,0 +1,78 @@
+<div class="tabs">
+  <div class="tabs__list" role="tablist" aria-label="Product information">
+    @for (tab of tabs(); track tab.id; let i = $index) {
+      <button
+        type="button"
+        role="tab"
+        class="tab"
+        [id]="'tab-' + tab.id"
+        [attr.aria-selected]="active() === tab.id"
+        [attr.aria-controls]="'panel-' + tab.id"
+        [tabindex]="active() === tab.id ? 0 : -1"
+        (click)="select(tab.id)"
+        (keydown)="onKeydown($event, i)"
+      >
+        {{ tab.label }}
+      </button>
+    }
+  </div>
+
+  <div
+    class="panel"
+    role="tabpanel"
+    id="panel-description"
+    aria-labelledby="tab-description"
+    tabindex="0"
+    [hidden]="active() !== 'description'"
+  >
+    @for (paragraph of product().description; track $index) {
+      <p>{{ paragraph }}</p>
+    }
+    @if (product().features.length) {
+      <ul class="panel__list">
+        @for (feature of product().features; track feature) {
+          <li>{{ feature }}</li>
+        }
+      </ul>
+    }
+  </div>
+
+  @if (attributes().length) {
+    <div
+      class="panel"
+      role="tabpanel"
+      id="panel-additional"
+      aria-labelledby="tab-additional"
+      tabindex="0"
+      [hidden]="active() !== 'additional'"
+    >
+      <table class="attributes">
+        <tbody>
+          @for (attribute of attributes(); track attribute.slug) {
+            <tr>
+              <th scope="row">{{ attribute.name }}</th>
+              <td>
+                <p>{{ attribute.options.join(', ') }}</p>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  <div
+    class="panel"
+    role="tabpanel"
+    id="panel-reviews"
+    aria-labelledby="tab-reviews"
+    tabindex="0"
+    [hidden]="active() !== 'reviews'"
+  >
+    <app-product-reviews
+      [productName]="product().name"
+      [reviews]="reviews()"
+      (reviewSubmitted)="addReview($event)"
+    />
+  </div>
+</div>

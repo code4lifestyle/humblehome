@@ -1,0 +1,169 @@
+@use 'mixins' as *;
+
+// Original: Elementor container b50ba1b – 90px (40px tablet) padding, column centred, 30px (10px) gap; four `.story-item`
+// tiles (410px min-height, 20px radius) that get a dark overlay and a round social icon on hover.
+:host {
+  display: block;
+}
+
+.stories {
+  padding: 100px 0 90px; // 90px section padding + the 10px of the heading container on top
+
+  @include tablet {
+    padding: 50px 0 40px;
+  }
+}
+
+.stories__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+
+  @include tablet {
+    gap: 10px;
+  }
+}
+
+.stories__head {
+  width: 100%;
+  max-width: 770px;
+  margin-bottom: 20px;
+
+  @include tablet {
+    max-width: none;
+    margin-bottom: 10px;
+  }
+}
+
+// ── tiles ───────────────────────────────────────────────────────────────────────────────────────────────────────────
+// 20 + 30px gap + 10px = the original's 60px between heading and tiles; 30 + 10px below the tiles
+.stories__grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  width: 100%;
+  padding-block: 10px;
+
+  @include tablet {
+    gap: 20px;
+  }
+}
+
+.story {
+  position: relative;
+  flex: 0 0 calc(25% - 22.5px);
+  min-width: 0;
+  min-height: 410px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--color-secondary) center / cover no-repeat;
+
+  // dark veil that grows from nothing on hover (theme: `.story-item … ::before`)
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--color-primary);
+    opacity: 0.3;
+    transform: scale(0);
+    transition: all 0.5s ease-in-out;
+  }
+
+  &:hover::before,
+  &:focus-within::before {
+    transform: scale(1);
+  }
+
+  @include tablet {
+    flex-basis: calc(50% - 10px);
+    min-height: 360px;
+  }
+  @include mobile {
+    min-height: 240px;
+  }
+}
+
+.story--1 {
+  background-image: url('./images/story-1.jpg');
+}
+.story--2 {
+  background-image: url('./images/story-2.jpg');
+}
+.story--3 {
+  background-image: url('./images/story-3.jpg');
+}
+.story--4 {
+  background-image: url('./images/story-4.jpg');
+}
+
+// round white social button, centred on the tile
+.story__icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 100px;
+  background: var(--color-white);
+  color: var(--color-accent);
+  font-size: 18px;
+  transform: translate(-50%, -50%) scale(0);
+  transition: all 0.4s ease-in-out;
+
+  &:hover {
+    background: var(--color-primary);
+    color: var(--color-white);
+  }
+}
+
+.story:hover .story__icon,
+.story:focus-within .story__icon {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+// ── "Free · Let's make something great work together. Get Free Quote." ─────────────────────────────────────────────
+.stories__quote {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 0;
+  padding-block: 10px;
+  color: var(--color-primary);
+  text-align: center;
+
+  @include mobile {
+    gap: 5px;
+  }
+}
+
+.stories__tag {
+  padding: 4px 11px;
+  border-radius: 100px;
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1em;
+
+  @include tablet {
+    padding: 4px 10px;
+  }
+}
+
+.stories__link {
+  color: var(--color-accent);
+  text-decoration: underline;
+  transition-duration: 0.3s;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--color-primary);
+  }
+}

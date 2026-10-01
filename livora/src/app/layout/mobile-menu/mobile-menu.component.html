@@ -1,0 +1,109 @@
+<div
+  #panel
+  class="mobile-menu"
+  [class.is-open]="layout.mobileMenuOpen()"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Menu"
+  [attr.inert]="layout.mobileMenuOpen() ? null : ''"
+>
+  <div class="mobile-menu__head">
+    <a routerLink="/" class="mobile-menu__logo" aria-label="Humble Home – home">
+      <img [src]="site.logoLight" alt="Humble Home" width="180" height="80" />
+    </a>
+    <button
+      #closeButton
+      type="button"
+      class="mobile-menu__close"
+      aria-label="Close menu"
+      (click)="layout.closeMobileMenu()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <nav aria-label="Mobile navigation">
+    <ul class="mobile-menu__list">
+      @for (item of items; track item.label; let i = $index) {
+        <li
+          class="item"
+          [class.is-expanded]="expanded() === i"
+          [routerLinkActive]="item.children ? 'is-active' : ''"
+        >
+          <div class="row">
+            @if (item.link) {
+              <a
+                class="link"
+                [class.is-current]="layout.isSectionActive(item)"
+                [routerLink]="item.link"
+                routerLinkActive="is-active"
+                ariaCurrentWhenActive="page"
+                [routerLinkActiveOptions]="{ exact: item.link === '/' }"
+              >
+                {{ item.label }}
+              </a>
+            } @else {
+              <button
+                type="button"
+                class="link"
+                [attr.aria-expanded]="expanded() === i"
+                (click)="toggle(i)"
+              >
+                {{ item.label }}
+              </button>
+            }
+
+            @if (item.children || item.mega) {
+              <button
+                type="button"
+                class="toggle"
+                [attr.aria-expanded]="expanded() === i"
+                [attr.aria-label]="
+                  (expanded() === i ? 'Collapse ' : 'Expand ') + item.label + ' submenu'
+                "
+                (click)="toggle(i)"
+              >
+                <app-svg-icon name="chevron-down" />
+              </button>
+            }
+          </div>
+
+          @if (item.children; as children) {
+            <div
+              class="sub"
+              [class.is-open]="expanded() === i"
+              [attr.inert]="expanded() === i ? null : ''"
+            >
+              <ul class="sub__inner sub__list">
+                @for (child of children; track child.label) {
+                  <li>
+                    <a
+                      [routerLink]="child.link"
+                      routerLinkActive="is-active"
+                      [routerLinkActiveOptions]="{ exact: true }"
+                      >{{ child.label }}</a
+                    >
+                  </li>
+                }
+              </ul>
+            </div>
+          }
+
+          @if (item.mega; as mega) {
+            <div
+              class="sub"
+              [class.is-open]="expanded() === i"
+              [attr.inert]="expanded() === i ? null : ''"
+            >
+              <div class="sub__inner">
+                <div class="mega-box">
+                  <app-mega-menu [data]="mega" />
+                </div>
+              </div>
+            </div>
+          }
+        </li>
+      }
+    </ul>
+  </nav>
+</div>

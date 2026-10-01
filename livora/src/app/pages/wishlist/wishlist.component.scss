@@ -1,0 +1,170 @@
+@use 'mixins' as *;
+
+:host {
+  display: block;
+}
+
+// ---- empty state (same recipe as the empty cart: cream section, centred column, 15px gap) --------------------------------
+.empty {
+  padding: 100px 0;
+  background: var(--color-secondary);
+
+  @include tablet {
+    padding: 50px 0;
+  }
+}
+
+.empty-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  text-align: center;
+}
+
+.empty-icon {
+  display: grid;
+  place-items: center;
+  width: 140px;
+  height: 140px;
+  margin-bottom: 15px;
+  border-radius: 50%;
+  background: var(--color-white);
+  font-size: 56px;
+  color: var(--color-accent);
+  box-shadow: var(--shadow-soft);
+
+  @include tablet {
+    width: 110px;
+    height: 110px;
+    margin-bottom: 0;
+    font-size: 44px;
+  }
+  @include mobile {
+    width: 90px;
+    height: 90px;
+    font-size: 36px;
+  }
+}
+
+.empty-title {
+  &:focus {
+    outline: none;
+  }
+}
+
+.empty-text {
+  margin: 0 0 10px;
+}
+
+// ---- list -----------------------------------------------------------------------------------------------------------------
+.wishlist {
+  padding: 90px 0;
+
+  @include tablet {
+    padding: 40px 0 50px;
+  }
+}
+
+.wishlist-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px 20px;
+  margin-bottom: 30px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.wishlist-count {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-primary);
+
+  strong {
+    font-weight: 700;
+  }
+}
+
+.wishlist-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.wishlist-grid {
+  // same breakpoints as the shop grid (the original keeps 3 columns down to 769px, 2 columns at ≤ 768px)
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 40px 15px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include down(768px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px 10px;
+  }
+}
+
+.wish-item {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+.wish-card {
+  position: relative;
+  flex: 1;
+}
+
+.wish-remove {
+  position: absolute;
+  z-index: 4;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--color-white);
+  color: var(--color-primary);
+  box-shadow: 0 2px 10px #0000001a;
+  cursor: pointer;
+  transition: var(--transition-fast);
+
+  &:hover {
+    background: var(--color-primary);
+    color: var(--color-white);
+  }
+
+  @include mobile {
+    top: 8px;
+    right: 8px;
+    width: 30px;
+    height: 30px;
+  }
+}
+
+.wish-actions {
+  padding: 0 10px;
+
+  @include mobile {
+    padding: 0;
+  }
+
+  .btn-plain {
+    font-size: 15px;
+
+    @include mobile {
+      font-size: 13px;
+      padding: 12px 10px;
+    }
+  }
+}

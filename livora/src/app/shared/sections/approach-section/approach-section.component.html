@@ -1,0 +1,39 @@
+<section class="approach">
+  <div class="container">
+    <div class="approach__head">
+      <div class="approach__title">
+        <app-section-title eyebrow="Our Approach" title="Thoughtfully Designed For Modern Living" />
+      </div>
+
+      <ul class="approach__highlights">
+        @for (highlight of highlights; track highlight) {
+          <li class="highlight">
+            <span class="highlight__dot" aria-hidden="true"></span>
+            <span class="highlight__text">{{ highlight }}</span>
+          </li>
+        }
+      </ul>
+    </div>
+
+    <div class="approach__grid">
+      @for (item of items; track item.title) {
+        <article class="approach-item">
+          <div class="approach-item__media">
+            <img [src]="item.image" [alt]="item.title" width="420" height="280" loading="lazy" />
+          </div>
+          <a
+            class="approach-item__badge"
+            routerLink="/shop"
+            [attr.aria-label]="item.badge + ' – ' + item.title"
+          >
+            {{ item.badge }}
+          </a>
+          <div class="approach-item__body">
+            <h3 class="approach-item__title">{{ item.title }}</h3>
+            <p class="approach-item__text">{{ item.text }}</p>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</section>

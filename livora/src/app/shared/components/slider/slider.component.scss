@@ -1,0 +1,129 @@
+@use 'mixins' as *;
+
+// Swiper's core / navigation / pagination CSS is loaded globally (angular.json); this adds the Livora look:
+// round accent arrows and the dot pagination of the home page category slider (12px dots, active dot = 40px pill).
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.frame {
+  position: relative;
+}
+
+.swiper {
+  overflow: hidden;
+}
+
+// projected slides belong to the consumer's template, hence ::ng-deep
+:host ::ng-deep .swiper-slide {
+  height: auto;
+}
+
+// visually hidden live region added by Swiper's a11y module
+:host ::ng-deep .swiper-notification {
+  @include visually-hidden;
+}
+
+// cross-fade needs the slides stacked and only the active one clickable
+:host ::ng-deep .swiper-fade .swiper-slide {
+  pointer-events: none;
+  transition-property: opacity;
+
+  &.swiper-slide-active {
+    pointer-events: auto;
+  }
+}
+
+// ---------------------------------------------------------------- arrows
+.arrow {
+  position: absolute;
+  z-index: 10;
+  top: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 6px 20px 0 rgb(22 22 22 / 18%);
+  color: var(--color-white);
+  font-size: 14px;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: var(--transition-fast);
+
+  &:hover {
+    background: var(--color-primary);
+  }
+
+  &.swiper-button-disabled {
+    opacity: 0.35;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  &.swiper-button-lock {
+    display: none;
+  }
+
+  @include mobile {
+    width: 36px;
+    height: 36px;
+    font-size: 12px;
+  }
+}
+
+.arrow-prev {
+  left: 10px;
+}
+
+.arrow-next {
+  right: 10px;
+}
+
+// ---------------------------------------------------------------- dots
+.dots {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 30px;
+
+  &.swiper-pagination-lock {
+    display: none;
+  }
+
+  @include mobile {
+    margin-top: 20px;
+  }
+
+  // bullets are created by Swiper (no Angular scoping attribute)
+  ::ng-deep .swiper-pagination-bullet {
+    position: relative;
+    display: block;
+    flex: none;
+    width: 12px;
+    height: 12px;
+    margin: 0;
+    border-radius: 20px;
+    background: var(--slider-dot-color, var(--color-divider));
+    opacity: 1;
+    transition: all 0.6s ease-in-out;
+  }
+
+  ::ng-deep .swiper-pagination-bullet-active {
+    width: 40px;
+    background: var(--color-accent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dots ::ng-deep .swiper-pagination-bullet {
+    transition: none;
+  }
+}

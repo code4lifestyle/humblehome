@@ -1,0 +1,55 @@
+<div class="qty" role="group" [attr.aria-label]="label()">
+  <button
+    type="button"
+    class="qty-btn qty-minus"
+    aria-label="Decrease quantity"
+    [disabled]="disabled() || value() <= min()"
+    (click)="step(-1)"
+  >
+    <svg
+      viewBox="0 0 18 18"
+      width="12"
+      height="12"
+      fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M16.749 8.20703V9.70703H1.25V8.20703H16.749Z" />
+    </svg>
+  </button>
+  <input
+    class="qty-input"
+    type="number"
+    step="1"
+    inputmode="numeric"
+    autocomplete="off"
+    [attr.min]="min()"
+    [attr.max]="max()"
+    [attr.aria-label]="label()"
+    [disabled]="disabled()"
+    [value]="value()"
+    (input)="onInput($event)"
+    (change)="commit($event)"
+    (blur)="commit($event)"
+    (keydown.enter)="commit($event)"
+  />
+  <button
+    type="button"
+    class="qty-btn qty-plus"
+    aria-label="Increase quantity"
+    [disabled]="disabled() || value() >= max()"
+    (click)="step(1)"
+  >
+    <svg
+      viewBox="0 0 18 18"
+      width="12"
+      height="12"
+      fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M8.25 1.25H9.75V16.749H8.25V1.25Z" />
+      <path d="M16.749 8.20703V9.70703H1.25V8.20703H16.749Z" />
+    </svg>
+  </button>
+</div>

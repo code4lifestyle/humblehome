@@ -1,0 +1,37 @@
+@use 'mixins' as *;
+
+.sr-only,
+.visually-hidden {
+  @include visually-hidden;
+}
+
+.text-center {
+  text-align: center;
+}
+.text-end {
+  text-align: end;
+}
+.text-accent {
+  color: var(--color-accent);
+}
+.w-100 {
+  width: 100%;
+}
+.d-none {
+  display: none !important;
+}
+.hide-mobile {
+  @include mobile {
+    display: none !important;
+  }
+}
+.hide-tablet {
+  @include tablet {
+    display: none !important;
+  }
+}
+.only-mobile {
+  @include desktop {
+    display: none !important;
+  }
+}

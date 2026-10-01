@@ -1,0 +1,94 @@
+@use 'mixins' as *;
+
+:host {
+  display: block;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  @include tablet {
+    gap: 15px;
+  }
+  @include mobile {
+    gap: 10px;
+  }
+}
+
+// icon buttons: 24px (20px on tablet / mobile), scale 1.06 on hover like the theme
+.action {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 24px;
+  line-height: 0;
+  color: var(--color-primary);
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+
+  &:hover,
+  &:focus-visible {
+    transform: scale(1.06);
+  }
+
+  @include tablet {
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+  }
+}
+
+.badge {
+  position: absolute;
+  top: -9px;
+  right: -11px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: var(--color-accent);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
+  color: var(--color-white);
+  pointer-events: none;
+}
+
+// hamburger – tablet / mobile only
+.burger {
+  display: none;
+  flex: none;
+  width: 38px;
+  height: 38px;
+  margin: 0 0 0 15px;
+  padding: 8px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--color-accent);
+  font-size: 22px;
+  line-height: 0;
+  color: var(--color-white);
+  cursor: pointer;
+  transition: background-color 0.4s ease-in;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--color-primary);
+  }
+
+  @include tablet {
+    display: inline-flex;
+  }
+  @include mobile {
+    margin-left: 5px;
+  }
+}

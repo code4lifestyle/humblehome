@@ -1,0 +1,25 @@
+<main class="page">
+  <app-page-header title="Frequently Asked Questions" [crumbs]="crumbs" />
+
+  <section class="faqs">
+    <div class="container">
+      <div class="faqs__layout">
+        <div class="faqs__side">
+          <div class="faqs__sticky">
+            <app-toc-card [items]="toc" [arrows]="true" />
+            <app-help-card />
+          </div>
+        </div>
+
+        <div class="faqs__main">
+          @for (group of groups; track group.id) {
+            <section class="faq-group">
+              <h2 class="faq-group__title" [id]="group.id">{{ group.title }}</h2>
+              <app-accordion [items]="group.items" [openIndex]="2" />
+            </section>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

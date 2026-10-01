@@ -1,0 +1,83 @@
+@use 'mixins' as *;
+
+// Original: Elementor post 14641 – section 0c8f692 (padding 90px), sidebar column 96499c4 (33.33 %, padding 10 35 10 10),
+// main column 4512206 (66.67 %, groups 60px apart), group container 76fd14f (heading → accordion 40px).
+:host {
+  display: block;
+}
+
+// page sections keep 20px of side padding on tablet/mobile (boxed container 10px + child container 10px)
+.container {
+  @include tablet {
+    padding-inline: 20px;
+  }
+}
+
+.faqs {
+  padding-block: 90px;
+
+  @include tablet {
+    padding-block: 40px;
+  }
+}
+
+// The original columns are laid out on the full 1300px box (container padding included), so extend the row into
+// the container's 10px gutter and use the same percentages (on tablet the container is padded 20px → row starts at 10px).
+.faqs__layout {
+  display: grid;
+  grid-template-columns: 33.333% 66.667%;
+  margin-inline: -10px;
+
+  @include tablet {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+}
+
+.faqs__side {
+  min-width: 0;
+  padding: 10px 35px 10px 10px;
+
+  @include tablet {
+    padding: 10px;
+  }
+}
+
+// sticky under the compact header bar (--header-height is published by the header component)
+.faqs__sticky {
+  position: sticky;
+  top: calc(var(--header-height, 0px) + 20px);
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+
+  @include tablet {
+    position: static;
+  }
+}
+
+.faqs__main {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  min-width: 0;
+  padding: 10px;
+
+  @include tablet {
+    gap: 40px;
+  }
+}
+
+.faq-group {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+
+  @include tablet {
+    gap: 30px;
+  }
+}
+
+.faq-group__title {
+  margin: 0;
+}

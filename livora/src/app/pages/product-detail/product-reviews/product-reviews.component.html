@@ -1,0 +1,200 @@
+<div class="reviews">
+  <!-- ------------------------------------------------------------ rating summary + review list -->
+  <div class="reviews__main">
+    @if (count() > 0) {
+      <section class="rating" aria-labelledby="rating-title">
+        <h3 class="reviews__title" id="rating-title">Average Rating</h3>
+
+        <div class="rating__average">
+          <span class="rating__value">{{ averageText() }}</span>
+          <app-star-rating [value]="average()" />
+          <strong class="rating__count">{{ countLabel() }}</strong>
+        </div>
+
+        <ul class="bars">
+          @for (bar of bars(); track bar.star) {
+            <li class="bar">
+              <span class="bar__label">{{ bar.star }} star</span>
+              <span class="bar__track" aria-hidden="true"
+                ><span class="bar__fill" [style.width.%]="bar.percent"></span
+              ></span>
+              <span class="bar__percent">{{ bar.percent }}%</span>
+            </li>
+          }
+        </ul>
+      </section>
+
+      <h3 class="reviews__title reviews__title--list">
+        {{ count() }} {{ count() === 1 ? 'review' : 'reviews' }} for
+        <span>{{ productName() }}</span>
+      </h3>
+
+      <ol class="comments">
+        @for (review of reviews(); track review.id) {
+          <li class="comment" [attr.data-review]="review.id">
+            @if (review.avatar) {
+              <img
+                class="avatar"
+                [src]="review.avatar"
+                alt=""
+                width="60"
+                height="60"
+                loading="lazy"
+              />
+            } @else {
+              <svg class="avatar" viewBox="0 0 60 60" aria-hidden="true" focusable="false">
+                <circle class="avatar__bg" cx="30" cy="30" r="30" />
+                <circle class="avatar__fg" cx="30" cy="24" r="10.5" />
+                <path
+                  class="avatar__fg"
+                  d="M9.5 55c1.6-9.6 9.6-16.5 20.5-16.5S48.9 45.4 50.5 55A30 30 0 0 1 9.5 55Z"
+                />
+              </svg>
+            }
+
+            <div class="comment__body">
+              <app-star-rating [value]="review.rating" />
+              <p class="comment__meta">
+                <strong class="comment__author">{{ review.author }}</strong>
+                @if (review.verified) {
+                  <em class="comment__verified">(verified owner)</em>
+                }
+                <span class="comment__dash" aria-hidden="true">&ndash;</span>
+                <time [attr.datetime]="review.date">{{ review.date | date: 'MMMM d, y' }}</time>
+              </p>
+              <p class="comment__text">{{ review.content }}</p>
+            </div>
+          </li>
+        }
+      </ol>
+    } @else {
+      <h3 class="reviews__title">Reviews</h3>
+      <p class="reviews__empty">There are no reviews yet.</p>
+    }
+  </div>
+
+  <!-- ------------------------------------------------------------ add a review -->
+  <div class="reviews__form">
+    <form
+      class="review-form"
+      [formGroup]="form"
+      (ngSubmit)="submit()"
+      aria-labelledby="reply-title"
+    >
+      <h3 class="reviews__title" id="reply-title">Add a review</h3>
+      <p class="review-form__notes">
+        Your email address will not be published. Required fields are marked
+        <span class="req" aria-hidden="true">*</span>
+      </p>
+
+      <div class="form-group">
+        <span class="form-label" id="review-rating-label"
+          >Your rating <span class="req" aria-hidden="true">*</span></span
+        >
+        <div
+          id="review-rating"
+          class="stars"
+          role="radiogroup"
+          aria-labelledby="review-rating-label"
+          aria-required="true"
+          [attr.aria-invalid]="errors().rating"
+          [attr.aria-describedby]="errors().rating ? 'review-rating-error' : null"
+          (mouseleave)="hovered.set(0)"
+        >
+          @for (star of stars; track star) {
+            <button
+              type="button"
+              role="radio"
+              class="star"
+              [class.is-on]="star <= shownStars()"
+              [attr.aria-checked]="rating() === star"
+              [attr.aria-label]="star + ' of 5 stars'"
+              [title]="starLabels[star - 1]"
+              [tabindex]="tabStop(star)"
+              (click)="setRating(star)"
+              (mouseenter)="hovered.set(star)"
+              (keydown)="onStarKey($event, star)"
+            >
+              <i
+                [class]="star <= shownStars() ? 'fa-solid fa-star' : 'fa-regular fa-star'"
+                aria-hidden="true"
+              ></i>
+            </button>
+          }
+        </div>
+        @if (errors().rating) {
+          <p class="form-error" id="review-rating-error">Please select a rating.</p>
+        }
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="review-comment"
+          >Your review <span class="req" aria-hidden="true">*</span></label
+        >
+        <textarea
+          id="review-comment"
+          class="form-control"
+          formControlName="comment"
+          rows="3"
+          required
+          [attr.aria-invalid]="errors().comment"
+          [attr.aria-describedby]="errors().comment ? 'review-comment-error' : null"
+        ></textarea>
+        @if (errors().comment) {
+          <p class="form-error" id="review-comment-error">Please write your review.</p>
+        }
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="review-author"
+          >Name <span class="req" aria-hidden="true">*</span></label
+        >
+        <input
+          id="review-author"
+          class="form-control"
+          type="text"
+          formControlName="author"
+          autocomplete="name"
+          required
+          [attr.aria-invalid]="errors().author"
+          [attr.aria-describedby]="errors().author ? 'review-author-error' : null"
+        />
+        @if (errors().author) {
+          <p class="form-error" id="review-author-error">Please enter your name.</p>
+        }
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="review-email"
+          >Email <span class="req" aria-hidden="true">*</span></label
+        >
+        <input
+          id="review-email"
+          class="form-control"
+          type="email"
+          formControlName="email"
+          autocomplete="email"
+          required
+          [attr.aria-invalid]="errors().email"
+          [attr.aria-describedby]="errors().email ? 'review-email-error' : null"
+        />
+        @if (errors().email) {
+          <p class="form-error" id="review-email-error">
+            {{
+              errors().emailFormat
+                ? 'Please enter a valid email address.'
+                : 'Please enter your email address.'
+            }}
+          </p>
+        }
+      </div>
+
+      <label class="form-check">
+        <input type="checkbox" formControlName="remember" />
+        <span>Save my name, email, and website in this browser for the next time I comment.</span>
+      </label>
+
+      <button type="submit" class="btn-default btn-plain btn-block">Submit</button>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+<section class="arrivals">
+  <div class="container">
+    <div class="arrivals__head">
+      <app-section-title
+        class="arrivals__title"
+        align="left"
+        eyebrow="New Arrivals"
+        title="Newly Arrived Furniture"
+      />
+      <p class="arrivals__text">
+        Explore newly launched furniture collections crafted to bring modern elegance, premium
+        comfort, and timeless style into your home.
+      </p>
+    </div>
+
+    <div class="arrivals__grid">
+      <article class="feature">
+        <span class="feature__badge">Up to 40% Off</span>
+        <h3 class="feature__title">Style Meets Comfort</h3>
+        <p class="feature__text">
+          Upgrade home with modern furniture design for elegance &amp; everyday living at exclusive
+          discount prices.
+        </p>
+        <a class="btn-highlighted" routerLink="/shop">Shop Now</a>
+      </article>
+
+      <div class="arrivals__tiles">
+        @for (tile of tiles; track tile.name) {
+          <article class="tile" [class]="'tile--' + tile.photo">
+            <h3 class="tile__title">
+              <a class="tile__link" routerLink="/shop">{{ tile.name }}</a>
+            </h3>
+          </article>
+        }
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,51 @@
+<section class="categories">
+  <div class="container">
+    <div class="categories__head">
+      <app-section-title eyebrow="Shop By Category" title="Explore Furniture Categories" />
+    </div>
+
+    <app-slider
+      class="categories__slider"
+      label="Furniture categories"
+      [slidesPerView]="2"
+      [spaceBetween]="20"
+      [breakpoints]="breakpoints"
+      [loop]="true"
+      [autoplay]="3000"
+      [speed]="1000"
+      (slideChange)="onSlideChange($event)"
+    >
+      @for (slide of slides(); track slide.key) {
+        <div class="swiper-slide" [attr.aria-hidden]="slide.copy ? 'true' : null">
+          <a class="tile" [routerLink]="slide.link" [attr.tabindex]="slide.copy ? -1 : null">
+            <span class="tile__image">
+              <img
+                [src]="slide.image"
+                alt=""
+                width="180"
+                height="180"
+                loading="lazy"
+                draggable="false"
+              />
+              <span class="tile__caption">{{ slide.caption }}</span>
+            </span>
+            <span class="tile__label">{{ slide.label }}</span>
+          </a>
+        </div>
+      }
+    </app-slider>
+
+    <div class="dots" role="group" aria-label="Choose a category slide">
+      @for (tile of tiles(); track tile.label; let i = $index) {
+        <button
+          type="button"
+          class="dot"
+          [class.is-active]="i === activeDot()"
+          [attr.aria-label]="'Go to slide ' + (i + 1) + ': ' + tile.label"
+          [attr.aria-current]="i === activeDot() ? 'true' : null"
+          (click)="goTo(i)"
+        ></button>
+      }
+    </div>
+  </div>
+</section>

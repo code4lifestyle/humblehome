@@ -1,0 +1,58 @@
+@use 'mixins' as *;
+
+:host {
+  display: block;
+}
+
+// Original `.error-page`: Bootstrap container (1300px, 15px gutters), 100px above and below (50px ≤ 991px)
+.error-page {
+  padding-block: 100px;
+
+  @include menu-collapse {
+    padding-block: 50px;
+  }
+}
+
+.error-container {
+  width: 100%;
+  max-width: 1300px;
+  margin-inline: auto;
+  padding-inline: 15px;
+  text-align: center;
+}
+
+// the picture is drawn at 520px wide (the file is 470px – like the original) and centred, 40px above the text
+.error-image {
+  margin-bottom: 40px;
+
+  @include menu-collapse {
+    margin-bottom: 20px;
+  }
+
+  img {
+    display: inline-block;
+    width: 100%;
+    max-width: 520px;
+    height: auto;
+  }
+}
+
+.error-content {
+  h2 {
+    margin: 0 0 15px;
+    font-size: 36px;
+    line-height: 1.4em;
+    letter-spacing: var(--letter-spacing-heading);
+
+    @include menu-collapse {
+      font-size: 30px;
+    }
+    @include mobile {
+      font-size: 24px;
+    }
+  }
+
+  p {
+    margin: 0 0 20px;
+  }
+}

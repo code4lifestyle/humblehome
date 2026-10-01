@@ -1,0 +1,24 @@
+<section class="faq-preview">
+  <div class="container">
+    <div class="faq-preview__row">
+      <div class="faq-preview__intro">
+        <div class="faq-preview__sticky">
+          <app-section-title
+            align="left"
+            eyebrow="Frequently Asked Questions"
+            title="Common Questions About Furniture Collections"
+          >
+            Find quick answers to the most common questions about our furniture collections,
+            including materials, sizes, customization, delivery.
+          </app-section-title>
+
+          <a class="btn-default faq-preview__button" routerLink="/faqs">View All FAQ's</a>
+        </div>
+      </div>
+
+      <div class="faq-preview__list">
+        <app-accordion [items]="accordionItems()" />
+      </div>
+    </div>
+  </div>
+</section>

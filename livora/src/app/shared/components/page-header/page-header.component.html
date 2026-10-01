@@ -1,0 +1,27 @@
+<section class="page-header" [style.background-image]="backgroundImage()">
+  <div class="container">
+    <div class="page-header-box">
+      <h1>{{ title() }}</h1>
+
+      @if (description()) {
+        <p class="page-header-description">{{ description() }}</p>
+      }
+
+      @if (crumbs().length) {
+        <nav class="breadcrumb-trail" aria-label="Breadcrumb">
+          <ol class="trail-items">
+            @for (crumb of crumbs(); track $index) {
+              <li [attr.aria-current]="$last ? 'page' : null">
+                @if (crumb.link && !$last) {
+                  <a [routerLink]="crumb.link">{{ crumb.label }}</a>
+                } @else {
+                  <span>{{ crumb.label }}</span>
+                }
+              </li>
+            }
+          </ol>
+        </nav>
+      }
+    </div>
+  </div>
+</section>

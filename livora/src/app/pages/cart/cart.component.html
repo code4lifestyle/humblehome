@@ -1,0 +1,213 @@
+@if (cart.isEmpty()) {
+  <!-- Empty state – the original mirror (cart/index.html): banner, cream section, image, message, button -->
+  <app-page-header title="Nothing In Here!" [crumbs]="crumbs" />
+
+  <section class="empty">
+    <div class="container">
+      <div class="empty-box">
+        <img
+          class="empty-img"
+          src="assets/images/empty-cart-img.png"
+          alt=""
+          width="438"
+          height="403"
+        />
+        <h3 class="empty-title" tabindex="-1">Your cart is empty!</h3>
+        <p class="empty-text">The page you are looking for does not exist</p>
+        <a class="btn-default" routerLink="/shop">Back To Shop</a>
+      </div>
+    </div>
+  </section>
+} @else {
+  <app-page-header title="Cart" [crumbs]="crumbs" />
+
+  <section class="cart">
+    <div class="container">
+      <div class="cart-layout">
+        <div class="cart-main">
+          <div class="cart-card">
+            <table class="cart-table" role="table">
+              <caption class="sr-only">
+                Shopping cart
+              </caption>
+              <thead role="rowgroup">
+                <tr role="row">
+                  <th scope="col" class="col-product" role="columnheader">Product</th>
+                  <th scope="col" class="col-price" role="columnheader">Price</th>
+                  <th scope="col" class="col-qty" role="columnheader">Quantity</th>
+                  <th scope="col" class="col-subtotal" role="columnheader">Subtotal</th>
+                  <th scope="col" class="col-remove" role="columnheader">
+                    <span class="sr-only">Remove</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody role="rowgroup">
+                @for (item of cart.items(); track item.key; let i = $index) {
+                  <tr class="cart-row" role="row">
+                    <td class="col-product" role="cell">
+                      <div class="cart-product">
+                        <a
+                          class="cart-thumb"
+                          [routerLink]="['/product', item.slug]"
+                          tabindex="-1"
+                          aria-hidden="true"
+                        >
+                          <img [src]="thumb(item)" alt="" width="90" height="90" loading="lazy" />
+                        </a>
+                        <div class="cart-info">
+                          <a class="cart-name" [routerLink]="['/product', item.slug]">{{
+                            item.name
+                          }}</a>
+                          @if (item.variation) {
+                            <span class="cart-variation">{{ item.variation.label }}</span>
+                          }
+                        </div>
+                      </div>
+                    </td>
+                    <td class="col-price" data-label="Price" role="cell">
+                      <p class="price">
+                        @if (item.regularPrice && item.regularPrice > item.unitPrice) {
+                          <del class="was">{{ item.regularPrice | currency:'AED':'symbol':'1.0-0' }}</del>
+                        }
+                        <ins class="now">{{ item.unitPrice | currency:'AED':'symbol':'1.0-0' }}</ins>
+                      </p>
+                    </td>
+                    <td class="col-qty" data-label="Quantity" role="cell">
+                      <app-quantity-input
+                        [value]="item.quantity"
+                        (valueChange)="setQuantity(item, $event)"
+                        [label]="'Quantity of ' + item.name"
+                      />
+                    </td>
+                    <td class="col-subtotal" data-label="Subtotal" role="cell">
+                      {{ lineTotal(item) | currency:'AED':'symbol':'1.0-0' }}
+                    </td>
+                    <td class="col-remove" role="cell">
+                      <button
+                        type="button"
+                        class="cart-remove"
+                        [attr.aria-label]="'Remove ' + item.name + ' from cart'"
+                        title="Remove"
+                        (click)="remove(item, i)"
+                      >
+                        <svg
+                          viewBox="0 0 14 14"
+                          width="12"
+                          height="12"
+                          aria-hidden="true"
+                          focusable="false"
+                        >
+                          <path
+                            d="M1.5 1.5l11 11M12.5 1.5l-11 11"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                            stroke-linecap="round"
+                          />
+                        </svg>
+                      </button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <div class="cart-actions">
+            <form class="coupon" (submit)="$event.preventDefault(); applyCoupon()" novalidate>
+              <label class="coupon-label" for="coupon_code">Coupon code</label>
+              <div class="form-inline">
+                <input
+                  id="coupon_code"
+                  class="form-control"
+                  type="text"
+                  name="coupon_code"
+                  placeholder="Enter coupon code"
+                  autocomplete="off"
+                  aria-describedby="coupon_message"
+                  [value]="couponCode()"
+                  [class.is-invalid]="couponFailed()"
+                  [attr.aria-invalid]="couponFailed() ? 'true' : null"
+                  (input)="onCouponInput($event)"
+                />
+                <button type="submit" class="btn-dark btn-plain">Apply coupon</button>
+              </div>
+              <p
+                id="coupon_message"
+                class="coupon-message"
+                role="status"
+                [class.form-error]="couponFailed()"
+                [class.form-success]="couponMessage()?.ok"
+              >
+                {{ couponMessage()?.text }}
+              </p>
+              <p class="coupon-hint">
+                Demo codes:
+                @for (code of demoCoupons; track code) {
+                  <button type="button" class="chip" (click)="useDemoCoupon(code)">
+                    {{ code }}
+                  </button>
+                }
+              </p>
+            </form>
+
+            <button type="button" class="btn-outline btn-plain clear-cart" (click)="clear()">
+              Clear cart
+            </button>
+          </div>
+        </div>
+
+        <aside class="cart-totals" aria-labelledby="cart-totals-title">
+          <h2 id="cart-totals-title" class="totals-title">Cart totals</h2>
+          <dl class="totals">
+            <div class="totals-row">
+              <dt>Subtotal</dt>
+              <dd>{{ cart.subtotal() | currency:'AED':'symbol':'1.0-0' }}</dd>
+            </div>
+            @if (cart.coupon(); as coupon) {
+              <div class="totals-row totals-discount">
+                <dt>Coupon: {{ coupon.code }}</dt>
+                <dd>
+                  <span>-{{ cart.discount() | currency:'AED':'symbol':'1.0-0' }}</span>
+                  <button type="button" class="link-btn" (click)="removeCoupon()">
+                    Remove<span class="sr-only"> coupon {{ coupon.code }}</span>
+                  </button>
+                </dd>
+              </div>
+            }
+            <div class="totals-row">
+              <dt>Shipping</dt>
+              <dd>
+                @if (cart.shipping() > 0) {
+                  Flat rate: {{ cart.shipping() | currency:'AED':'symbol':'1.0-0' }}
+                } @else {
+                  Free shipping
+                }
+              </dd>
+            </div>
+            <div class="totals-row totals-total">
+              <dt>Total</dt>
+              <dd>{{ cart.total() | currency:'AED':'symbol':'1.0-0' }}</dd>
+            </div>
+          </dl>
+
+          <a class="btn-default btn-block" routerLink="/checkout">Proceed to checkout</a>
+          <a class="continue" routerLink="/shop">Continue shopping</a>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  @if (suggestions().length) {
+    <section class="cross-sells" aria-label="You may be interested in…">
+      <div class="container">
+        <app-section-title title="You may be interested in…" align="left" />
+        <div class="products">
+          @for (product of suggestions(); track product.id) {
+            <app-product-card [product]="product" />
+          }
+        </div>
+      </div>
+    </section>
+  }
+}

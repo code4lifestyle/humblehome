@@ -1,0 +1,29 @@
+@if (view(); as view) {
+  <main class="page blog-list">
+    <app-page-header [title]="view.title" [crumbs]="view.crumbs" />
+
+    <section class="blog-archive" aria-label="Blog posts">
+      <div class="blog-container">
+        @if (result().items.length) {
+          <div class="post-grid">
+            @for (post of result().items; track post.slug) {
+              <app-blog-card [post]="post" [showMeta]="false" />
+            }
+          </div>
+
+          <app-pagination
+            [page]="result().page"
+            [pages]="result().pages"
+            (pageChange)="goTo($event)"
+          />
+        } @else {
+          <div class="empty">
+            <h2>No posts found</h2>
+            <p>There are no posts here yet. Please check back soon.</p>
+            <a class="btn-default" routerLink="/blog">View All Posts</a>
+          </div>
+        }
+      </div>
+    </section>
+  </main>
+}

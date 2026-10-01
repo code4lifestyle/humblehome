@@ -1,0 +1,218 @@
+@use 'mixins' as *;
+
+:host {
+  display: block;
+}
+
+// Original (Elementor template 9664): 40 % link lists / 60 % three tiles, 30px gaps, 20px tile radius.
+.mega {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  align-items: start;
+  text-align: left;
+
+  @include tablet {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 30px;
+  }
+  @include mobile {
+    gap: 20px;
+  }
+}
+
+// ---- link lists -----------------------------------------------------------------------------------------------------
+.mega__lists {
+  display: grid;
+  grid-template-columns: 44% 56%;
+  padding-right: 20px;
+
+  @include tablet {
+    grid-template-columns: 48% 52%;
+    padding-right: 0;
+  }
+  @include mobile {
+    grid-template-columns: 50% 50%;
+  }
+}
+.mega__list + .mega__list {
+  padding-left: 50px;
+
+  @include tablet {
+    padding-left: 30px;
+  }
+  @include mobile {
+    padding-left: 8px;
+  }
+}
+
+.mega__title {
+  margin: 0 0 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--color-divider);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2em;
+  color: var(--color-primary);
+
+  @include tablet {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    font-size: 18px;
+  }
+  @include mobile {
+    font-size: 16px;
+  }
+}
+
+.mega__list ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mega__list a {
+  display: block;
+  width: fit-content;
+  padding-bottom: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4em;
+  color: var(--color-text);
+
+  &:hover,
+  &:focus-visible,
+  &.is-active {
+    color: var(--color-accent);
+  }
+
+  @include tablet {
+    line-height: 1.3em;
+  }
+  @include mobile {
+    font-size: 14px;
+    line-height: 1.4em;
+  }
+}
+
+// ---- tiles ------------------------------------------------------------------------------------------------------------
+.mega__tiles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 30px;
+  padding-left: 30px;
+
+  @include tablet {
+    padding-left: 0;
+  }
+  @include mobile {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+}
+
+.mega__tile {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.mega__image {
+  display: block;
+  margin-bottom: 15px;
+  overflow: hidden;
+  border-radius: 20px;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: transform 0.5s ease-in-out;
+  }
+}
+.mega__tile:hover .mega__image img,
+.mega__tile:focus-visible .mega__image img {
+  transform: scale(1.06);
+}
+
+.mega__tile-title {
+  margin-bottom: 5px;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2em;
+  color: var(--color-primary);
+  transition: var(--transition-fast);
+
+  @include mobile {
+    font-size: 16px;
+  }
+}
+.mega__tile:hover .mega__tile-title,
+.mega__tile:focus-visible .mega__tile-title {
+  color: var(--color-accent);
+}
+.mega__tile-text {
+  font-size: 15px;
+  line-height: 1.6em;
+  color: var(--color-text);
+}
+
+// ---- promo tile ("BIG SALE 50% Off") --------------------------------------------------------------------------------
+.mega__promo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-self: stretch;
+  gap: 5px;
+  min-height: 200px;
+  padding: 30px;
+  overflow: hidden;
+  border-radius: 20px;
+  background: var(--color-primary) center / cover no-repeat;
+  color: var(--color-white);
+
+  // darkening gradient at the bottom (as in the original overlay)
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, #0000 50%, #00000033 100%);
+  }
+  > span {
+    position: relative;
+  }
+
+  @include tablet {
+    padding: 20px;
+  }
+  @include mobile {
+    grid-column: 1 / -1;
+    min-height: 180px;
+  }
+}
+.mega__promo-eyebrow {
+  font-size: 16px;
+  line-height: 1.2em;
+
+  @include mobile {
+    font-size: 16px;
+  }
+}
+.mega__promo-title {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.2em;
+
+  @include tablet {
+    font-size: 26px;
+  }
+}
+.mega__promo-text {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2em;
+
+  @include tablet {
+    font-size: 18px;
+  }
+}

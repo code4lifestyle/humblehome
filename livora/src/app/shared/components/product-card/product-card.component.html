@@ -1,0 +1,117 @@
+<article class="card" [class.is-list]="layout() === 'list'" [class.is-home]="badge() === 'percent'">
+  <div class="thumb">
+    <!-- decorative duplicate of the title link: keeps keyboard/screen-reader users on a single tab stop -->
+    <a class="thumb-link" [routerLink]="link()" tabindex="-1" aria-hidden="true">
+      @if (image()) {
+        <img
+          class="img"
+          [src]="image()"
+          [attr.srcset]="imageSrcset()"
+          sizes="(max-width: 767px) 50vw, (max-width: 1024px) 34vw, 420px"
+          [alt]="product().name"
+          width="300"
+          height="300"
+          loading="lazy"
+          decoding="async"
+        />
+      }
+      @if (hoverImage(); as hover) {
+        <img
+          class="img img-hover"
+          [src]="hover"
+          [attr.srcset]="hoverSrcset()"
+          sizes="(max-width: 767px) 50vw, (max-width: 1024px) 34vw, 420px"
+          alt=""
+          width="300"
+          height="300"
+          loading="lazy"
+          decoding="async"
+        />
+      }
+    </a>
+
+    @if (onSale()) {
+      @if (badge() === 'sale') {
+        <span class="badge badge-sale">Sale!</span>
+      } @else if (badge() === 'percent' && percent() > 0) {
+        <span class="badge badge-percent">-{{ percent() }}%</span>
+      }
+    }
+
+    @if (layout() === 'grid') {
+      <div class="overlay" role="group" [attr.aria-label]="'Actions for ' + product().name">
+        <ng-container [ngTemplateOutlet]="wishlistButton" />
+        <ng-container [ngTemplateOutlet]="viewButton" />
+      </div>
+    }
+  </div>
+
+  <div class="content">
+    @if (categoriesVisible() && categories().length) {
+      <ul class="cats">
+        @for (cat of categories(); track cat.slug) {
+          <li>
+            <a [routerLink]="['/product-category', cat.slug]">{{ cat.name }}</a>
+          </li>
+        }
+      </ul>
+    }
+
+    @if (brand(); as item) {
+      <a class="brand" [routerLink]="['/brand', item.slug]">{{ item.name }}</a>
+    }
+
+    <h3 class="title">
+      <a [routerLink]="link()">{{ product().name }}</a>
+    </h3>
+
+    @if (product().rating > 0) {
+      <app-star-rating
+        class="rating"
+        [value]="product().rating"
+        [count]="product().reviewCount > 0 ? product().reviewCount : null"
+      />
+    }
+
+    @if (layout() === 'list') {
+      <p class="excerpt">{{ product().excerpt }}</p>
+      <div class="row-actions">
+        <ng-container [ngTemplateOutlet]="wishlistButton" />
+        <ng-container [ngTemplateOutlet]="viewButton" />
+      </div>
+    }
+  </div>
+</article>
+
+<ng-template #wishlistButton>
+  <button
+    type="button"
+    class="icon-btn"
+    [class.is-active]="wished()"
+    [attr.aria-pressed]="wished()"
+    [title]="wished() ? 'Remove from wishlist' : 'Add to wishlist'"
+    [attr.aria-label]="
+      (wished() ? 'Remove ' : 'Add ') +
+      product().name +
+      (wished() ? ' from wishlist' : ' to wishlist')
+    "
+    (click)="toggleWishlist()"
+  >
+    @if (wished()) {
+      <i class="fa-solid fa-heart" aria-hidden="true"></i>
+    } @else {
+      <i class="ic ic-heart" aria-hidden="true"></i>
+    }
+  </button>
+</ng-template>
+
+<ng-template #viewButton>
+  <a
+    class="icon-btn"
+    [routerLink]="link()"
+    title="Quick view"
+    [attr.aria-label]="'View ' + product().name"
+  >
+    <i class="fa-regular fa-eye" aria-hidden="true"></i>
+  </a>
+</ng-template>

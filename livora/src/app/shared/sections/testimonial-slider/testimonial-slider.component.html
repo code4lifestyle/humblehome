@@ -1,0 +1,78 @@
+<section class="testimonials">
+  <div class="container">
+    <div class="testimonials__row">
+      <div class="testimonials__media">
+        <img
+          src="assets/images/testimonials-image.png"
+          alt="Tan leather armchair beside a floor lamp and a potted plant"
+          width="605"
+          height="548"
+          loading="lazy"
+        />
+      </div>
+
+      <div class="testimonials__content">
+        <app-section-title
+          align="left"
+          eyebrow="Happy Customer"
+          title="Beautiful Furniture Trusted By Modern Families"
+        />
+
+        <app-slider
+          class="testimonials__slider"
+          label="Customer testimonials"
+          [slidesPerView]="1"
+          [spaceBetween]="30"
+          [loop]="multiple()"
+          [autoplay]="multiple() ? 6000 : false"
+          [speed]="900"
+          [pagination]="multiple()"
+        >
+          @for (item of slides(); track $index) {
+            <div class="swiper-slide">
+              <figure class="tcard">
+                <app-star-rating class="tcard__stars" [value]="item.rating" size="lg" />
+
+                <blockquote class="tcard__quote">
+                  <p>{{ item.quote }}</p>
+                </blockquote>
+
+                <figcaption class="tcard__author">
+                  <img
+                    class="tcard__avatar"
+                    [src]="item.avatar"
+                    alt=""
+                    width="60"
+                    height="60"
+                    loading="lazy"
+                  />
+                  <span class="tcard__who">
+                    <strong class="tcard__name">{{ item.name }}</strong>
+                    <span class="tcard__role">{{ item.role }}</span>
+                  </span>
+                </figcaption>
+
+                <svg
+                  class="tcard__mark"
+                  viewBox="0 0 80 80"
+                  fill="currentColor"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path
+                    fill-opacity="0.1"
+                    d="M68.6733 67.636C70.746 67.4633 72.1278 65.5633 71.7824 63.6633C71.6096 62.6269 71.0915 61.7633 70.2278 61.0724C61.5915 55.3724 61.0733 48.636 62.6278 43.4542H74.546C76.446 43.4542 78.0005 41.8996 78.0005 39.9996V15.8178C78.0005 13.9178 76.446 12.3633 74.546 12.3633H46.9096C45.0096 12.3633 43.4551 13.9178 43.4551 15.8178V46.5633C43.4551 50.8815 44.8369 55.1997 47.4278 58.6542C50.5369 62.7996 56.7551 67.4633 68.6733 67.636Z"
+                  />
+                  <path
+                    fill-opacity="0.1"
+                    d="M27.2182 67.636C29.1182 67.636 30.6727 66.0815 30.6727 64.1815C30.6727 62.9724 30.1545 61.936 29.1182 61.4178C28.9455 61.2451 28.9455 61.2451 28.7727 61.0724C20.1364 55.3724 19.6182 48.636 21.1727 43.4542H33.0909C34.9909 43.4542 36.5455 41.8996 36.5455 39.9996V15.8178C36.5455 13.9178 34.9909 12.3633 33.0909 12.3633H5.45455C3.55455 12.3633 2 13.9178 2 15.8178V46.5633C2 50.8815 3.38182 55.1996 5.97273 58.6542C9.08182 62.7996 15.3 67.4633 27.2182 67.636Z"
+                  />
+                </svg>
+              </figure>
+            </div>
+          }
+        </app-slider>
+      </div>
+    </div>
+  </div>
+</section>

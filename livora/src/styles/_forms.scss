@@ -1,0 +1,338 @@
+// ---------------------------------------------------------------------------------------------------------------------
+// Livora form styling  (owner: shell agent) – contact form, login/register, checkout, review form, filters, coupon…
+//
+//   .form-group                     wrapper for label + control + message (24px bottom margin)
+//   .form-grid  /  .form-grid-3     2 (or 3) column grid of .form-group's, 1 column on mobile; .form-col-full = span all
+//   .form-label  (+ --required)     bold 15px label; --required appends " *"
+//   .form-control                   text inputs, <select>, <textarea>: 50px, 10px radius, hairline border
+//        .form-control-lg           56px (contact form)      .form-control-sm  40px (coupon, filters, qty)
+//        .form-control-soft         cream pill 38px (the shop's "Default sorting" select)
+//   .form-check                     checkbox / radio row:  <label class="form-check"><input type="checkbox"> Remember me</label>
+//   .form-control-wrap + .form-control-icon   input with an icon button inside (password eye)
+//   .form-inline                    input + button on one row (coupon code)
+//   states: .is-invalid  .is-valid  ·  messages: .form-error  .form-success  .form-hint  ·  boxes: .form-message(--success)
+// ---------------------------------------------------------------------------------------------------------------------
+@use 'mixins' as *;
+
+$select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%23161616' d='M31.58 8.5a1.5 1.5 0 0 0-2.15-.06L16 21.16 2.57 8.44a1.5 1.5 0 1 0-2.1 2.16l14.48 13.72a1.5 1.5 0 0 0 2.1 0L31.53 10.6a1.5 1.5 0 0 0 .05-2.1z'/%3E%3C/svg%3E");
+$check-mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23fff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' d='M3.5 8.5l3 3 6-6.5'/%3E%3C/svg%3E");
+$focus-ring: 0 0 0 3px color-mix(in srgb, var(--color-accent) 22%, transparent);
+
+// ---- layout ---------------------------------------------------------------------------------------------------------
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-grid,
+.form-grid-3 {
+  display: grid;
+  gap: 0 24px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  @include mobile {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.form-grid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  @include tablet {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  @include mobile {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.form-col-full {
+  grid-column: 1 / -1;
+}
+
+.form-inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 10px;
+
+  > .form-control {
+    flex: 1 1 180px;
+    width: auto;
+  }
+}
+
+// ---- label ----------------------------------------------------------------------------------------------------------
+.form-label {
+  display: block;
+  margin: 0 0 10px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-primary);
+}
+.form-label--required::after {
+  content: ' *';
+}
+
+// ---- text controls --------------------------------------------------------------------------------------------------
+.form-control {
+  display: block;
+  width: 100%;
+  min-height: 50px;
+  margin: 0;
+  padding: 14px 20px;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-sm);
+  background-color: transparent;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.35;
+  color: var(--color-text);
+  appearance: none;
+  transition:
+    border-color 0.3s ease-in-out,
+    box-shadow 0.3s ease-in-out,
+    background-color 0.3s ease-in-out;
+
+  &::placeholder {
+    color: var(--color-text);
+    opacity: 0.85;
+  }
+  &:hover:not(:disabled):not(:focus) {
+    border-color: color-mix(in srgb, var(--color-primary) 28%, transparent);
+  }
+  &:focus,
+  &:focus-visible {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: $focus-ring;
+  }
+  &:disabled,
+  &[readonly] {
+    background-color: var(--color-secondary);
+    cursor: not-allowed;
+    opacity: 0.8;
+  }
+  &[type='search']::-webkit-search-cancel-button,
+  &[type='search']::-webkit-search-decoration {
+    appearance: none;
+  }
+  &[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  @include mobile {
+    min-height: 46px;
+    padding: 12px 15px;
+  }
+}
+
+textarea.form-control {
+  min-height: 136px;
+  resize: vertical;
+  padding-block: 17px;
+
+  @include tablet {
+    min-height: 126px;
+  }
+}
+
+select.form-control {
+  padding-right: 46px;
+  background-image: $select-arrow;
+  background-repeat: no-repeat;
+  background-position: right 20px center;
+  background-size: 12px auto;
+  cursor: pointer;
+
+  &[multiple] {
+    background-image: none;
+    padding-right: 20px;
+  }
+  @include mobile {
+    padding-right: 40px;
+    background-position: right 15px center;
+  }
+}
+
+// sizes
+.form-control-lg {
+  min-height: 56px;
+  padding: 17px 20px;
+
+  @include tablet {
+    min-height: 46px;
+    padding: 12px 15px;
+  }
+}
+.form-control-sm {
+  min-height: 40px;
+  padding: 8px 15px;
+  font-size: 14px;
+}
+
+// cream pill – the shop sorting select
+.form-control-soft {
+  width: auto;
+  min-height: 38px;
+  padding: 8px 40px 8px 20px;
+  border: 0;
+  border-radius: 20px;
+  background-color: var(--color-secondary);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-primary);
+
+  &:hover:not(:disabled):not(:focus) {
+    border-color: transparent;
+  }
+  &:is(select) {
+    background-position: right 16px center;
+    background-size: 11px auto;
+  }
+}
+
+// ---- input with an icon button inside (password eye, search) -------------------------------------------------------
+.form-control-wrap {
+  position: relative;
+
+  > .form-control {
+    padding-right: 52px;
+  }
+}
+.form-control-icon {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-primary);
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: var(--transition-fast);
+
+  &:hover {
+    color: var(--color-accent);
+  }
+}
+
+// ---- checkbox / radio -----------------------------------------------------------------------------------------------
+.form-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0 0 15px;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--color-primary);
+  cursor: pointer;
+
+  input[type='checkbox'],
+  input[type='radio'] {
+    flex: 0 0 auto;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    border: 1px solid color-mix(in srgb, var(--color-primary) 35%, transparent);
+    border-radius: 5px;
+    background-color: var(--color-white);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 14px;
+    cursor: pointer;
+    appearance: none;
+    transition: var(--transition-fast);
+
+    &:hover:not(:disabled) {
+      border-color: var(--color-accent);
+    }
+    &:focus-visible {
+      outline: none;
+      border-color: var(--color-accent);
+      box-shadow: $focus-ring;
+    }
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+  input[type='checkbox']:checked {
+    border-color: var(--color-accent);
+    background-color: var(--color-accent);
+    background-image: $check-mark;
+  }
+  input[type='radio'] {
+    border-radius: 50%;
+
+    &:checked {
+      border-color: var(--color-accent);
+      background-color: var(--color-accent);
+      box-shadow: inset 0 0 0 4px var(--color-white);
+    }
+    &:checked:focus-visible {
+      box-shadow:
+        inset 0 0 0 4px var(--color-white),
+        $focus-ring;
+    }
+  }
+  > span,
+  > label {
+    cursor: pointer;
+  }
+}
+
+// ---- validation -----------------------------------------------------------------------------------------------------
+.form-control.is-invalid,
+.form-control.ng-invalid.ng-touched {
+  border-color: var(--color-danger);
+
+  &:focus {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-danger) 20%, transparent);
+  }
+}
+.form-control.is-valid {
+  border-color: var(--color-success);
+
+  &:focus {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-success) 20%, transparent);
+  }
+}
+
+.form-error,
+.form-success,
+.form-hint {
+  margin: 6px 5px 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+.form-error {
+  color: var(--color-danger);
+}
+.form-success {
+  color: var(--color-success);
+}
+.form-hint {
+  color: var(--color-text);
+  opacity: 0.85;
+}
+
+// response box under a form (Contact-Form-7 look): rounded outline, red by default
+.form-message {
+  margin: 20px 0 0;
+  padding: 6px 16px;
+  border: 1px solid var(--color-danger);
+  border-radius: 30px;
+  font-size: 14px;
+  line-height: 1.3;
+  color: var(--color-danger);
+}
+.form-message--success {
+  border-color: var(--color-success);
+  color: var(--color-success);
+}

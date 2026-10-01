@@ -1,0 +1,51 @@
+<div class="accordion" [class.is-numbered]="numbered()">
+  @for (item of items(); track $index) {
+    <div class="row" [class.is-open]="isOpen($index)">
+      <h3 class="heading">
+        <button
+          type="button"
+          class="trigger"
+          [id]="uid + '-trigger-' + $index"
+          [attr.aria-expanded]="isOpen($index)"
+          [attr.aria-controls]="uid + '-panel-' + $index"
+          (click)="toggle($index)"
+          (keydown)="onKeydown($event, $index)"
+        >
+          @if (numbered()) {
+            <span class="number" aria-hidden="true">{{ $index + 1 }}.</span>
+          }
+          <span class="question">{{ item.title }}</span>
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" focusable="false">
+              <path
+                d="M24 12C24 18.6274 18.6274 24 12 24C5.37258 24 0 18.6274 0 12C0 5.37258 5.37258 0 12 0C18.6274 0 24 5.37258 24 12Z"
+              />
+              @if (!isOpen($index)) {
+                <path
+                  d="M11.25 16.9766V7.02148C11.25 6.60727 11.5858 6.27148 12 6.27148C12.4142 6.27148 12.75 6.60727 12.75 7.02148V16.9766C12.75 17.3908 12.4142 17.7266 12 17.7266C11.5858 17.7266 11.25 17.3908 11.25 16.9766Z"
+                  fill="white"
+                />
+              }
+              <path
+                d="M16.9766 11.2188C17.3908 11.2188 17.7266 11.5545 17.7266 11.9688C17.7266 12.383 17.3908 12.7188 16.9766 12.7188H7.02148C6.60727 12.7188 6.27148 12.383 6.27148 11.9688C6.27148 11.5545 6.60727 11.2188 7.02148 11.2188H16.9766Z"
+                fill="white"
+              />
+            </svg>
+          </span>
+        </button>
+      </h3>
+      <div
+        class="panel"
+        role="region"
+        [id]="uid + '-panel-' + $index"
+        [attr.aria-labelledby]="uid + '-trigger-' + $index"
+      >
+        <div class="panel-clip">
+          <div class="body">
+            <p>{{ item.content }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

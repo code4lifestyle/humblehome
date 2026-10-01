@@ -1,0 +1,160 @@
+@if (!notFound()) {
+  <main class="shop-page">
+    <app-page-header [title]="title()" [crumbs]="crumbs()" [image]="headerImage()" />
+
+    <section class="shop">
+      <div class="container">
+        <div class="layout">
+          <!-- Sidebar on desktop, off-canvas drawer (behind the "Filter By" button) on tablet / mobile -->
+          <aside
+            id="shop-filters"
+            class="sidebar"
+            #sidebar
+            aria-labelledby="shop-filters-title"
+            [class.is-open]="drawerOpen()"
+            [attr.role]="drawerMode() ? 'dialog' : null"
+            [attr.aria-modal]="drawerMode() && drawerOpen() ? 'true' : null"
+            (keydown)="onDrawerKeydown($event)"
+          >
+            <div class="sidebar-panel">
+              <div class="sidebar-head">
+                <span class="filter-icon" aria-hidden="true"></span>
+                <h2 class="sidebar-title" id="shop-filters-title">Filter By</h2>
+                @if (hasFilters()) {
+                  <button type="button" class="clear-all" (click)="resetAll()">Clear all</button>
+                }
+                <button
+                  type="button"
+                  class="drawer-close"
+                  #drawerClose
+                  aria-label="Close filters"
+                  (click)="closeDrawer()"
+                >
+                  <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                </button>
+              </div>
+
+              <div class="sidebar-body">
+                <app-shop-filters
+                  [minPrice]="params().minPrice"
+                  [maxPrice]="params().maxPrice"
+                  [rating]="params().rating"
+                  [categories]="params().categories"
+                  [brands]="params().brands"
+                  [lockedCategory]="lockedCategory()"
+                  [lockedBrand]="lockedBrand()"
+                  (priceChange)="onPrice($event)"
+                  (ratingChange)="onRating($event)"
+                  (categoriesChange)="onCategories($event)"
+                  (brandsChange)="onBrands($event)"
+                />
+              </div>
+
+              <div class="sidebar-foot">
+                <button
+                  type="button"
+                  class="btn-default btn-plain btn-block"
+                  (click)="closeDrawer()"
+                >
+                  Show {{ view().total }} {{ view().total === 1 ? 'result' : 'results' }}
+                </button>
+              </div>
+            </div>
+          </aside>
+
+          @if (drawerOpen() && drawerMode()) {
+            <div class="backdrop" aria-hidden="true" (click)="closeDrawer()"></div>
+          }
+
+          <div class="results">
+            <div class="toolbar" #toolbar>
+              <button
+                type="button"
+                class="filter-toggle"
+                #filterToggle
+                aria-controls="shop-filters"
+                aria-haspopup="dialog"
+                [attr.aria-expanded]="drawerOpen()"
+                (click)="openDrawer()"
+              >
+                <span class="filter-icon" aria-hidden="true"></span>
+                <span>Filter By</span>
+                @if (filterCount() > 0) {
+                  <span class="filter-badge" aria-hidden="true">{{ filterCount() }}</span>
+                  <span class="sr-only">({{ filterCount() }} active)</span>
+                }
+              </button>
+
+              <p class="count" role="status" aria-live="polite">{{ resultText() }}</p>
+
+              @if (view().total > 0) {
+                <fieldset class="per-page">
+                  <legend class="sr-only">Products per page</legend>
+                  @for (option of perPageOptions; track option) {
+                    <label>
+                      <input
+                        type="radio"
+                        name="shop-per-page"
+                        [value]="option"
+                        [checked]="option === params().perPage"
+                        (change)="onPerPage(option)"
+                      />
+                      <span>{{ option }}</span>
+                    </label>
+                  }
+                </fieldset>
+
+                <div class="sort">
+                  <label class="sr-only" for="shop-orderby">Sort products</label>
+                  <select
+                    id="shop-orderby"
+                    class="form-control form-control-soft"
+                    (change)="onSort($event)"
+                  >
+                    @for (option of sortOptions; track option.value) {
+                      <option [value]="option.value" [selected]="option.value === params().orderby">
+                        {{ option.label }}
+                      </option>
+                    }
+                  </select>
+                </div>
+              }
+            </div>
+
+            @if (view().total > 0) {
+              <h2 class="sr-only">Products</h2>
+              <ul class="grid" #grid role="list">
+                @for (product of view().items; track product.id) {
+                  <li>
+                    <app-product-card [product]="product" />
+                  </li>
+                }
+              </ul>
+
+              <div class="pager">
+                <app-pagination
+                  variant="load-more"
+                  [page]="view().loadedThrough"
+                  [pages]="view().pages"
+                  (pageChange)="onLoadMore()"
+                />
+                <app-pagination
+                  [page]="view().page"
+                  [pages]="view().pages"
+                  (pageChange)="onPage($event)"
+                />
+              </div>
+            } @else {
+              <div class="empty" role="status">
+                <p class="empty-text">No products were found matching your selection.</p>
+                <button type="button" class="btn-default btn-plain" (click)="resetAll()">
+                  Reset filters
+                </button>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+}

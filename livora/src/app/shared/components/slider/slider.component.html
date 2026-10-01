@@ -1,0 +1,26 @@
+<div class="frame">
+  <div
+    class="swiper"
+    #root
+    role="region"
+    aria-roledescription="carousel"
+    [attr.aria-label]="label()"
+  >
+    <div class="swiper-wrapper" #wrapper>
+      <ng-content />
+    </div>
+  </div>
+
+  @if (navigation()) {
+    <button type="button" class="arrow arrow-prev" #prev aria-label="Previous slide">
+      <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="arrow arrow-next" #next aria-label="Next slide">
+      <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+    </button>
+  }
+</div>
+
+@if (pagination()) {
+  <div class="dots" #dots></div>
+}

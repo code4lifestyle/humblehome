@@ -1,0 +1,49 @@
+<header class="site-header">
+  <!-- static header; inert while the compact bar is showing (it is scrolled out of view by then) -->
+  <div class="static-header" [attr.inert]="stickyVisible() ? '' : null">
+    <!-- phone box · logo · icons -->
+    <div class="main-row">
+      <div class="container main-row__inner">
+        @if (site.header; as box) {
+          <a class="help" [href]="box.helpPhoneHref">
+            <span class="help__icon"><app-svg-icon name="whatsapp" /></span>
+            <span class="help__text">
+              <span class="help__label">{{ box.helpLabel }}</span>
+              <span class="help__phone">{{ box.helpPhone }}</span>
+            </span>
+          </a>
+        }
+
+        <a class="logo" routerLink="/" aria-label="Humble Home – home">
+          <img [src]="site.logo" alt="Humble Home" width="180" height="80" />
+        </a>
+
+        <app-header-actions class="main-row__actions" />
+      </div>
+    </div>
+
+    <!-- main menu (desktop) -->
+    <div class="nav-bar">
+      <app-main-nav />
+    </div>
+  </div>
+
+  <!-- compact bar that slides in after scrolling down -->
+  <div
+    #stickyBar
+    class="sticky-bar"
+    [class.is-visible]="stickyVisible()"
+    [attr.inert]="stickyVisible() ? null : ''"
+  >
+    <div class="container sticky-bar__inner">
+      <a class="logo" routerLink="/" aria-label="Humble Home – home">
+        <img [src]="site.logo" alt="Humble Home" width="180" height="80" />
+      </a>
+      <app-main-nav [compact]="true" />
+      <app-header-actions />
+    </div>
+  </div>
+</header>
+
+<app-search-modal />
+<app-mobile-menu />

@@ -1,0 +1,84 @@
+<nav class="main-nav" aria-label="Main navigation">
+  <ul class="menu">
+    @for (item of items; track item.label; let i = $index) {
+      @if (item.children) {
+        <!-- dropdown parent (Collection, Pages) -->
+        <li
+          class="menu-item"
+          [class.is-open]="open() === i"
+          routerLinkActive="is-active"
+          (mouseenter)="onEnter(i)"
+          (mouseleave)="onLeave(i)"
+          (focusin)="onFocusIn(i)"
+          (focusout)="onFocusOut($event, i)"
+        >
+          <button
+            type="button"
+            class="menu-link"
+            aria-haspopup="true"
+            [attr.aria-expanded]="open() === i"
+            (click)="toggle(i)"
+          >
+            {{ item.label }}
+            <app-svg-icon class="chevron" name="chevron-down" />
+          </button>
+          <ul class="dropdown">
+            @for (child of item.children; track child.label) {
+              <li>
+                <a
+                  [routerLink]="child.link"
+                  routerLinkActive="is-active"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  >{{ child.label }}</a
+                >
+              </li>
+            }
+          </ul>
+        </li>
+      } @else if (item.mega) {
+        <!-- Shop: link + full-width mega menu -->
+        <li
+          class="menu-item has-mega"
+          [class.is-open]="open() === i"
+          (mouseenter)="onEnter(i)"
+          (mouseleave)="onLeave(i)"
+          (focusin)="onFocusIn(i)"
+          (focusout)="onFocusOut($event, i)"
+        >
+          <a
+            class="menu-link"
+            [class.is-current]="layout.isSectionActive(item)"
+            [routerLink]="item.link"
+            routerLinkActive="is-active"
+            ariaCurrentWhenActive="page"
+            aria-haspopup="true"
+            [attr.aria-expanded]="open() === i"
+            (pointerdown)="onTopLinkPointerDown(i)"
+            (click)="onTopLinkClick($event, i)"
+          >
+            {{ item.label }}
+            <app-svg-icon class="chevron" name="chevron-down" />
+          </a>
+          <div class="mega-panel">
+            <div class="container">
+              <app-mega-menu [data]="item.mega" />
+            </div>
+          </div>
+        </li>
+      } @else {
+        <li class="menu-item">
+          <a
+            class="menu-link"
+            [class.is-current]="layout.isSectionActive(item)"
+            [routerLink]="item.link"
+            routerLinkActive="is-active"
+            ariaCurrentWhenActive="page"
+            [routerLinkActiveOptions]="{ exact: item.link === '/' }"
+          >
+            {{ item.label }}
+          </a>
+        </li>
+      }
+    }
+  </ul>
+</nav>

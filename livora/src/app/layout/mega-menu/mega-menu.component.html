@@ -1,0 +1,49 @@
+<div class="mega">
+  <div class="mega__lists">
+    <section class="mega__list">
+      <p class="mega__title">{{ data().collectionsTitle }}</p>
+      <ul>
+        @for (item of data().collections; track item.label) {
+          <li>
+            <a [routerLink]="item.link" routerLinkActive="is-active">{{ item.label }}</a>
+          </li>
+        }
+      </ul>
+    </section>
+
+    <section class="mega__list">
+      <p class="mega__title">{{ data().featuresTitle }}</p>
+      <ul>
+        @for (item of data().features; track item.label) {
+          <li>
+            <a [routerLink]="item.link" routerLinkActive="is-active">{{ item.label }}</a>
+          </li>
+        }
+      </ul>
+    </section>
+  </div>
+
+  <div class="mega__tiles">
+    @for (tile of data().tiles; track tile.title) {
+      <a class="mega__tile" [routerLink]="tile.link">
+        <span class="mega__image"
+          ><img [src]="tile.image" alt="" width="228" height="178" loading="lazy"
+        /></span>
+        <span class="mega__tile-title">{{ tile.title }}</span>
+        <span class="mega__tile-text">{{ tile.text }}</span>
+      </a>
+    }
+
+    @if (data().promo; as promo) {
+      <a
+        class="mega__promo"
+        [routerLink]="promo.link"
+        [style.background-image]="promo.image ? 'url(' + promo.image + ')' : null"
+      >
+        <span class="mega__promo-eyebrow">{{ promo.eyebrow }}</span>
+        <span class="mega__promo-title">{{ promo.title }}</span>
+        <span class="mega__promo-text">{{ promo.text }}</span>
+      </a>
+    }
+  </div>
+</div>

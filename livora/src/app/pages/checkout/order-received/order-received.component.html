@@ -1,0 +1,108 @@
+<section class="received">
+  <div class="container">
+    <div #notice class="received-notice" role="status" tabindex="-1">
+      <span class="notice-icon" aria-hidden="true"><i class="fa-solid fa-check"></i></span>
+      <p class="notice-text">Thank you. Your order has been received.</p>
+    </div>
+
+    <ul class="overview">
+      <li>
+        <span class="overview-label">Order number:</span>
+        <strong class="overview-value">{{ order().id }}</strong>
+      </li>
+      <li>
+        <span class="overview-label">Date:</span>
+        <strong class="overview-value">{{ order().createdAt | date: 'MMMM d, y' }}</strong>
+      </li>
+      <li>
+        <span class="overview-label">Email:</span>
+        <strong class="overview-value">{{ order().billing.email }}</strong>
+      </li>
+      <li>
+        <span class="overview-label">Total:</span>
+        <strong class="overview-value">{{ order().total | currency:'AED':'symbol':'1.0-0' }}</strong>
+      </li>
+      <li>
+        <span class="overview-label">Payment method:</span>
+        <strong class="overview-value">{{ order().payment.title }}</strong>
+      </li>
+    </ul>
+
+    <p class="payment-note">{{ paymentNote() }}</p>
+
+    <div class="received-grid">
+      <div class="details-card">
+        <h2 class="card-title">Order details</h2>
+        <app-order-summary
+          [lines]="lines()"
+          [subtotal]="order().subtotal"
+          [discount]="order().discount"
+          [couponCode]="order().coupon?.code"
+          [shipping]="order().shipping"
+          [total]="order().total"
+          [paymentTitle]="order().payment.title"
+          [linkProducts]="true"
+        />
+      </div>
+
+      <div class="addresses">
+        <div class="address-card">
+          <h2 class="card-title">Billing address</h2>
+          <address class="address">
+            {{ order().billing.firstName }} {{ order().billing.lastName }}<br />
+            @if (order().billing.company) {
+              {{ order().billing.company }}<br />
+            }
+            {{ order().billing.address1 }}<br />
+            @if (order().billing.address2) {
+              {{ order().billing.address2 }}<br />
+            }
+            {{ order().billing.city }}, {{ order().billing.state }} {{ order().billing.postcode
+            }}<br />
+            {{ order().billing.country }}
+            <span class="address-contact">
+              <app-svg-icon name="whatsapp" />
+              <span class="sr-only">Phone:</span>
+              <a [href]="'tel:' + order().billing.phone">{{ order().billing.phone }}</a>
+            </span>
+            <span class="address-contact">
+              <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+              <span class="sr-only">Email:</span>
+              <a [href]="'mailto:' + order().billing.email">{{ order().billing.email }}</a>
+            </span>
+          </address>
+        </div>
+
+        @if (order().shippingAddress; as ship) {
+          <div class="address-card">
+            <h2 class="card-title">Shipping address</h2>
+            <address class="address">
+              {{ ship.firstName }} {{ ship.lastName }}<br />
+              @if (ship.company) {
+                {{ ship.company }}<br />
+              }
+              {{ ship.address1 }}<br />
+              @if (ship.address2) {
+                {{ ship.address2 }}<br />
+              }
+              {{ ship.city }}, {{ ship.state }} {{ ship.postcode }}<br />
+              {{ ship.country }}
+            </address>
+          </div>
+        }
+
+        @if (order().notes) {
+          <div class="address-card">
+            <h2 class="card-title">Order notes</h2>
+            <p class="notes">{{ order().notes }}</p>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="received-actions">
+      <a class="btn-default" routerLink="/shop">Continue Shopping</a>
+      <a class="btn-outline" routerLink="/my-account">My Account</a>
+    </div>
+  </div>
+</section>

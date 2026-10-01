@@ -1,0 +1,237 @@
+@use 'mixins' as *;
+
+// Original: ShopEngine "single product images" (gallery slider, thumbnails at the bottom). Column 615px wide at 1440px:
+// 615 × 610 stage (cream, 20px radius), 10px gap, four 24 % thumbnails (20px radius), "17% OFF" pill, expand button.
+:host {
+  display: block;
+  min-width: 0;
+
+  // The host fills the whole row and the inner wrapper sticks inside it (below the compact header bar) while the taller
+  // summary scrolls. The sticky element is NOT an ancestor of the lightbox: sticky creates a stacking context, which
+  // would trap the lightbox below the header.
+  @include desktop {
+    align-self: stretch;
+  }
+}
+
+.gallery {
+  @include desktop {
+    position: sticky;
+    top: calc(var(--header-height, 0px) + 20px);
+  }
+}
+
+.stage {
+  position: relative;
+}
+
+// ---------------------------------------------------------------- main image
+.viewer {
+  position: relative;
+  // definite width: `max-height` must clamp the height only (with `width: auto` it would shrink the width via the ratio)
+  width: 100%;
+  aspect-ratio: 1;
+  max-height: 610px; // the original's stage is square, at most 610px high (615 × 610 at 1440px)
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: var(--color-secondary);
+  cursor: zoom-in;
+  touch-action: pan-y;
+
+  // ≤ 1024px the original's stage is 0.85 × as high as it is wide, at most 518.5px (= 0.85 × 610px)
+  @include tablet {
+    aspect-ratio: 20 / 17;
+    max-height: 518.5px;
+  }
+}
+
+.viewer__img,
+.viewer__zoom {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.viewer__img {
+  user-select: none;
+}
+
+// full-size image scaled around the pointer – mouse devices only
+.viewer__zoom {
+  opacity: 0;
+  transform: scale(2);
+  transform-origin: var(--zoom-x, 50%) var(--zoom-y, 50%);
+  transition: opacity 0.25s ease-in-out;
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .viewer:hover .viewer__zoom {
+    opacity: 1;
+  }
+}
+
+.badge {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+  height: 30px;
+  padding: 5px 10px;
+  border-radius: 40px;
+  background: var(--color-accent);
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-white);
+  pointer-events: none;
+
+  @include tablet {
+    font-size: 12px;
+  }
+  @include mobile {
+    top: 10px;
+    left: 10px;
+    font-size: 14px;
+  }
+}
+
+.expand {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: var(--color-accent);
+  font-size: 18px;
+  color: var(--color-white);
+  transition: var(--transition-fast);
+
+  &:hover {
+    background: var(--color-primary);
+  }
+
+  @include mobile {
+    top: 10px;
+    right: 10px;
+    width: 36px;
+    height: 36px;
+  }
+}
+
+// ---------------------------------------------------------------- thumbnails
+.thumbs {
+  position: relative;
+  margin-top: 10px;
+}
+
+.thumbs__list {
+  position: relative;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 30px) / 4);
+  gap: 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.thumbs__item {
+  min-width: 0;
+}
+
+.thumb {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--color-secondary);
+  cursor: pointer;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  // current image
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 2px transparent;
+    transition: var(--transition-fast);
+    pointer-events: none;
+  }
+  &.is-active::after {
+    box-shadow: inset 0 0 0 2px var(--color-accent);
+  }
+  &:focus-visible {
+    outline-offset: -2px;
+  }
+}
+
+// the original's arrows: translucent 50px bars over the first / last thumbnail (desktop only, touch users swipe)
+.thumbs__nav {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  display: none;
+  place-items: center;
+  width: 50px;
+  padding: 0;
+  border: 0;
+  background: rgb(22 22 22 / 0.1);
+  font-size: 16px;
+  color: var(--color-primary);
+  opacity: 0.6;
+  transition: var(--transition-fast);
+
+  @include desktop {
+    display: grid;
+  }
+
+  &--prev {
+    left: 0;
+    border-radius: var(--radius-md) 0 0 var(--radius-md);
+  }
+  &--next {
+    right: 0;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  }
+
+  &:hover:not(:disabled),
+  &:focus-visible {
+    background: rgb(22 22 22 / 0.18);
+    opacity: 1;
+  }
+  &:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+  &:focus-visible {
+    outline-offset: -2px;
+  }
+}

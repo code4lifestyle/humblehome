@@ -1,0 +1,35 @@
+<section class="discount">
+  <div class="container">
+    <div class="discount__inner">
+      <div class="discount__content">
+        <app-section-title
+          align="left"
+          [light]="true"
+          eyebrow="Flat Discount"
+          title="Discover Amazing Flat Furniture Discounts Today"
+        >
+          <p>
+            Shop premium furniture collections at exclusive flat discounts and transform your home
+            with stylish, comfortable, and modern designs.
+          </p>
+        </app-section-title>
+
+        <div class="discount__actions">
+          <app-countdown [target]="deadline" />
+          <a class="btn-highlighted" routerLink="/shop">Buy Now</a>
+        </div>
+      </div>
+
+      <div class="discount__media">
+        <img
+          class="discount__image"
+          src="assets/images/discount-image.jpg"
+          alt=""
+          width="631"
+          height="608"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,44 @@
+<section class="top-rated">
+  <div class="container">
+    <div class="top-rated__head">
+      <app-section-title
+        class="top-rated__title"
+        align="left"
+        eyebrow="Top Rated Product"
+        title="Discover Our Newest Arrivals"
+      />
+      <p class="top-rated__text">
+        Find beautifully crafted furniture designed to transform ordinary spaces into warm, elegant,
+        and inviting living experience.
+      </p>
+    </div>
+
+    <div class="top-rated__grid">
+      @for (product of products; track product.id) {
+        <app-product-card
+          [product]="product"
+          badge="percent"
+          [class.no-tag]="isVariable(product)"
+        />
+      }
+    </div>
+
+    <p class="top-rated__cta">
+      <span class="cta-avatars" aria-hidden="true">
+        <img
+          class="cta-avatars__photo"
+          src="assets/images/author-1.jpg"
+          alt=""
+          width="30"
+          height="30"
+          loading="lazy"
+        />
+        <span class="cta-avatars__icon"><app-svg-icon name="whatsapp" /></span>
+      </span>
+      <span class="top-rated__cta-text">
+        Let’s make something great work together.
+        <a class="cta-link" routerLink="/shop"><strong>View Our All Products.</strong></a>
+      </span>
+    </p>
+  </div>
+</section>

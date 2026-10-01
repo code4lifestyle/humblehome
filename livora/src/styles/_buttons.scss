@@ -1,0 +1,283 @@
+// ---------------------------------------------------------------------------------------------------------------------
+// Livora button system  (owner: shell agent)
+//
+// Consumers just write   <a class="btn-default" routerLink="/shop">Shop Now</a>   or   <button class="btn-default">…</button>
+// and get the theme's pill button: accent background, trailing white circle with an up-right arrow (drawn by the
+// ::before / ::after pseudo-elements – no markup needed), hover = dark fill sweeps in from the left and the arrow turns 45°.
+//
+//   .btn-default      accent pill (default)          hover: dark fill sweeps in
+//   .btn-highlighted  the hero variant               hover: white fill, dark text, dark circle with white arrow
+//   .btn-dark         near-black pill                hover: accent fill
+//   .btn-outline      transparent, 1px dark outline  hover: dark fill, white text
+//   .btn-light        white pill (dark backgrounds)  hover: accent fill, white text
+//   .btn-plain        NO arrow circle (Woo style "Update cart", "Place order", form submits) – standalone or combined
+//                     with any variant above:  class="btn-dark btn-plain"
+//   modifiers         .btn-sm  .btn-lg  .btn-block  ·  disabled: [disabled] / .disabled / [aria-disabled="true"]
+//
+// NOTE: the arrow is a pseudo-element, so use <a> or <button> – <input type="submit"> cannot render it (use .btn-plain there).
+// If a button already contains its own <svg>/<i> icon (original theme markup) the pseudo arrow is switched off automatically.
+// ---------------------------------------------------------------------------------------------------------------------
+@use 'mixins' as *;
+
+// Up-right arrow (theme icon "arrow-white.svg", 20×20). Used as a mask so its colour follows --btn-arrow.
+$btn-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M15.165 14.166C15.165 14.7183 14.7173 15.166 14.165 15.166C13.6129 15.1658 13.165 14.7182 13.165 14.166V8.24707L6.53906 14.873C6.14854 15.2636 5.51552 15.2636 5.125 14.873C4.73462 14.4825 4.73452 13.8495 5.125 13.459L11.751 6.83301H5.83203C5.27975 6.83301 4.83203 6.38529 4.83203 5.83301C4.83203 5.28072 5.27975 4.83301 5.83203 4.83301H14.165C14.7173 4.83301 15.165 5.28072 15.165 5.83301V14.166Z'/%3E%3C/svg%3E");
+
+$btn-all: '.btn-default, .btn-highlighted, .btn-dark, .btn-outline, .btn-light, .btn-plain';
+$btn-enabled: ':not(:disabled):not(.disabled):not([aria-disabled="true"])';
+
+// hover / keyboard-focus state of an enabled button (hover only on devices that really hover)
+@mixin btn-active {
+  @media (hover: hover) {
+    &#{$btn-enabled}:hover {
+      @content;
+    }
+  }
+  &#{$btn-enabled}:focus-visible {
+    @content;
+  }
+}
+
+// ---- base -----------------------------------------------------------------------------------------------------------
+#{$btn-all} {
+  // knobs (overridden by the variants / sizes below)
+  --btn-size: 40px; // trailing circle
+  --btn-pad: 5px; // space around the circle
+  --btn-pad-start: 24px; // space before the label
+  --btn-gap: 5px;
+  --btn-bg: var(--color-accent);
+  --btn-color: var(--color-white);
+  --btn-fill: var(--color-primary); // colour that sweeps in on hover
+  --btn-color-hover: var(--color-white);
+  --btn-ring: transparent; // 1px inset outline
+  --btn-circle: var(--color-white);
+  --btn-arrow: var(--color-accent);
+  --btn-circle-hover: var(--btn-circle);
+  --btn-arrow-hover: var(--btn-arrow);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--btn-gap);
+  max-width: 100%;
+  margin: 0;
+  padding: var(--btn-pad) var(--btn-pad) var(--btn-pad) var(--btn-pad-start);
+  border: 0;
+  border-radius: var(--radius-pill);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1em;
+  letter-spacing: 0;
+  text-align: center;
+  text-decoration: none;
+  text-transform: capitalize;
+  color: var(--btn-color);
+  background-color: var(--btn-bg);
+  // the "sweep": a solid layer that grows from 0 → 100 % width (anchored right at rest, left on hover, like the theme)
+  background-image: linear-gradient(var(--btn-fill), var(--btn-fill));
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: 0 100%;
+  box-shadow: inset 0 0 0 1px var(--btn-ring);
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  appearance: none;
+  transition:
+    background-size 0.4s ease-in-out,
+    background-color 0.4s ease-in-out,
+    color 0.4s ease-in-out,
+    box-shadow 0.4s ease-in-out;
+
+  // trailing circle (in flow, so the label never runs under it)
+  &::after {
+    content: '';
+    flex: 0 0 auto;
+    width: var(--btn-size);
+    height: var(--btn-size);
+    border-radius: 50%;
+    background-color: var(--btn-circle);
+    transition: background-color 0.4s ease-in-out;
+  }
+
+  // the arrow, laid over the circle
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: var(--btn-pad);
+    z-index: 1;
+    width: var(--btn-size);
+    height: var(--btn-size);
+    margin-top: calc(var(--btn-size) / -2);
+    background-color: var(--btn-arrow);
+    -webkit-mask-image: $btn-arrow;
+    mask-image: $btn-arrow;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: 55%;
+    mask-size: 55%;
+    transition:
+      transform 0.4s ease-in-out,
+      background-color 0.4s ease-in-out;
+  }
+
+  @include btn-active {
+    background-position: left center;
+    background-size: 100% 100%;
+    color: var(--btn-color-hover);
+
+    &::after {
+      background-color: var(--btn-circle-hover);
+    }
+    &::before {
+      background-color: var(--btn-arrow-hover);
+      transform: rotate(45deg);
+    }
+  }
+
+  // original theme markup: an <svg>/<i> icon inside the button → style it as the circle and drop the pseudo arrow
+  > svg,
+  > i {
+    flex: 0 0 auto;
+    width: var(--btn-size);
+    height: var(--btn-size);
+    padding: 9px;
+    border-radius: 50%;
+    background: var(--btn-circle);
+    color: var(--btn-arrow);
+    transition: transform 0.4s ease-in-out;
+  }
+  > i {
+    display: inline-grid;
+    place-items: center;
+    padding: 0;
+    transform: rotate(-45deg);
+  }
+  &:has(> svg, > i) {
+    &::before,
+    &::after {
+      display: none;
+    }
+  }
+  @include btn-active {
+    > svg {
+      transform: rotate(45deg);
+    }
+    > i {
+      transform: rotate(0);
+    }
+  }
+
+  // disabled
+  &:disabled,
+  &.disabled,
+  &[aria-disabled='true'] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  &.disabled,
+  &[aria-disabled='true'] {
+    pointer-events: none;
+  }
+
+  @include tablet {
+    --btn-size: 36px;
+    --btn-pad-start: 16px;
+    font-size: 14px;
+  }
+}
+
+// ---- variants -------------------------------------------------------------------------------------------------------
+// hero button: white sweep, dark label, the circle turns dark with a white arrow
+.btn-highlighted {
+  --btn-gap: 10px;
+  --btn-fill: var(--color-white);
+  --btn-color-hover: var(--color-primary);
+  --btn-circle-hover: var(--color-primary);
+  --btn-arrow-hover: var(--color-white);
+
+  @include tablet {
+    --btn-gap: 9px;
+  }
+}
+
+.btn-dark {
+  --btn-bg: var(--color-primary);
+  --btn-fill: var(--color-accent);
+  --btn-arrow: var(--color-primary);
+  --btn-arrow-hover: var(--color-accent);
+}
+
+.btn-outline {
+  --btn-bg: transparent;
+  --btn-color: var(--color-primary);
+  --btn-color-hover: var(--color-white);
+  --btn-ring: var(--color-primary);
+  --btn-circle: var(--color-primary);
+  --btn-arrow: var(--color-white);
+  --btn-circle-hover: var(--color-white);
+  --btn-arrow-hover: var(--color-primary);
+}
+
+.btn-light {
+  --btn-bg: var(--color-white);
+  --btn-color: var(--color-primary);
+  --btn-color-hover: var(--color-white);
+  --btn-fill: var(--color-accent);
+  --btn-circle: var(--color-accent);
+  --btn-arrow: var(--color-white);
+  --btn-circle-hover: var(--color-white);
+  --btn-arrow-hover: var(--color-accent);
+}
+
+// no arrow circle – Woo-style plain pill (50px high, 46px on tablet/mobile)
+.btn-plain {
+  padding: 17px 24px;
+
+  &::before,
+  &::after {
+    display: none;
+  }
+
+  @include tablet {
+    padding: 16px;
+  }
+}
+
+// ---- sizes & layout -------------------------------------------------------------------------------------------------
+.btn-sm {
+  --btn-size: 32px;
+  --btn-pad: 4px;
+  --btn-pad-start: 18px;
+  font-size: 14px;
+
+  &.btn-plain {
+    padding: 10px 20px;
+  }
+}
+
+.btn-lg {
+  --btn-size: 48px;
+  --btn-pad: 6px;
+  --btn-pad-start: 30px;
+  font-size: 18px;
+
+  &.btn-plain {
+    padding: 20px 32px;
+  }
+}
+
+// full width: label left, circle right (plain buttons: centred label)
+.btn-block {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+
+  &.btn-plain {
+    justify-content: center;
+  }
+}

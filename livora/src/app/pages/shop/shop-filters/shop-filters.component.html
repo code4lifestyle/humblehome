@@ -1,0 +1,178 @@
+<!-- Price range -->
+<section class="facet facet-price" aria-labelledby="facet-price-title">
+  <h3 class="facet-title" id="facet-price-title">Price Range</h3>
+
+  <div
+    class="range"
+    [class.low-on-top]="lowOnTop()"
+    [style.--low]="lowFraction()"
+    [style.--high]="highFraction()"
+  >
+    <span class="range-track" aria-hidden="true"></span>
+    <span class="range-fill" aria-hidden="true"></span>
+    <input
+      class="range-input range-min"
+      type="range"
+      step="1"
+      aria-label="Minimum price slider"
+      [min]="bounds.min"
+      [max]="bounds.max"
+      [value]="draftMin()"
+      [attr.aria-valuetext]="'AED ' + draftMin()"
+      (input)="onRangeInput('min', $event)"
+      (change)="commitPrice()"
+    />
+    <input
+      class="range-input range-max"
+      type="range"
+      step="1"
+      aria-label="Maximum price slider"
+      [min]="bounds.min"
+      [max]="bounds.max"
+      [value]="draftMax()"
+      [attr.aria-valuetext]="'AED ' + draftMax()"
+      (input)="onRangeInput('max', $event)"
+      (change)="commitPrice()"
+    />
+  </div>
+
+  <div class="price-fields">
+    <label class="price-field">
+      <span class="price-currency" aria-hidden="true">AED</span>
+      <input
+        class="form-control form-control-sm"
+        type="number"
+        inputmode="numeric"
+        step="1"
+        aria-label="Minimum price"
+        [min]="bounds.min"
+        [max]="bounds.max"
+        [value]="draftMin()"
+        (change)="onPriceField('min', $event)"
+      />
+    </label>
+    <span class="price-dash" aria-hidden="true">&ndash;</span>
+    <label class="price-field">
+      <span class="price-currency" aria-hidden="true">AED</span>
+      <input
+        class="form-control form-control-sm"
+        type="number"
+        inputmode="numeric"
+        step="1"
+        aria-label="Maximum price"
+        [min]="bounds.min"
+        [max]="bounds.max"
+        [value]="draftMax()"
+        (change)="onPriceField('max', $event)"
+      />
+    </label>
+  </div>
+
+  <div class="price-actions">
+    <p class="price-result">AED {{ aed(draftMin()) }} – {{ aed(draftMax()) }}</p>
+    <button type="button" class="price-reset" (click)="resetPrice()">Reset</button>
+  </div>
+</section>
+
+<!-- Product rating -->
+<section class="facet facet-rating" aria-labelledby="facet-rating-title">
+  <h3 class="facet-title" id="facet-rating-title">Product rating</h3>
+  <ul class="rating-list">
+    @for (row of ratingRows; track row.step) {
+      <li>
+        <button
+          type="button"
+          class="rating-row"
+          [class.is-active]="rating() === row.step"
+          [attr.aria-pressed]="rating() === row.step"
+          [attr.aria-label]="row.label + ' (' + row.count + ')'"
+          [title]="row.step === 5 ? '5 stars' : row.step + ' stars & up'"
+          (click)="toggleRating(row.step)"
+        >
+          <span class="mark" aria-hidden="true"></span>
+          <span class="stars" aria-hidden="true">
+            @for (star of stars; track star) {
+              <i class="fa-solid fa-star" [class.on]="star <= row.step"></i>
+            }
+          </span>
+          @if (row.step < 5) {
+            <span class="up" aria-hidden="true">&amp; up</span>
+          }
+          <span class="count" aria-hidden="true">({{ row.count }})</span>
+        </button>
+      </li>
+    }
+  </ul>
+</section>
+
+<!-- Categories -->
+<section class="facet facet-categories" aria-labelledby="facet-categories-title">
+  <h3 class="facet-title" id="facet-categories-title">Categories</h3>
+  <ul class="option-list">
+    @for (category of categoryList; track category.slug) {
+      <li>
+        @if (lockedCategory(); as locked) {
+          <a
+            class="option"
+            [class.is-checked]="category.slug === locked"
+            [routerLink]="['/product-category', category.slug]"
+            queryParamsHandling="merge"
+            [queryParams]="{ page: null }"
+            [attr.aria-current]="category.slug === locked ? 'page' : null"
+          >
+            <span class="box" aria-hidden="true"></span>
+            <span class="name">{{ category.name }}</span>
+            <span class="count"> ({{ category.count }})</span>
+          </a>
+        } @else {
+          <label class="option" [class.is-checked]="categories().includes(category.slug)">
+            <input
+              type="checkbox"
+              [value]="category.slug"
+              [checked]="categories().includes(category.slug)"
+              (change)="toggleCategory(category.slug, $any($event.target).checked)"
+            />
+            <span class="name">{{ category.name }}</span>
+            <span class="count"> ({{ category.count }})</span>
+          </label>
+        }
+      </li>
+    }
+  </ul>
+</section>
+
+<!-- Brands -->
+<section class="facet facet-brands" aria-labelledby="facet-brands-title">
+  <h3 class="facet-title" id="facet-brands-title">Brands</h3>
+  <ul class="option-list">
+    @for (brand of brandList; track brand.slug) {
+      <li>
+        @if (lockedBrand(); as locked) {
+          <a
+            class="option"
+            [class.is-checked]="brand.slug === locked"
+            [routerLink]="['/brand', brand.slug]"
+            queryParamsHandling="merge"
+            [queryParams]="{ page: null }"
+            [attr.aria-current]="brand.slug === locked ? 'page' : null"
+          >
+            <span class="box" aria-hidden="true"></span>
+            <span class="name">{{ brand.name }}</span>
+            <span class="count"> ({{ brand.count }})</span>
+          </a>
+        } @else {
+          <label class="option" [class.is-checked]="brands().includes(brand.slug)">
+            <input
+              type="checkbox"
+              [value]="brand.slug"
+              [checked]="brands().includes(brand.slug)"
+              (change)="toggleBrand(brand.slug, $any($event.target).checked)"
+            />
+            <span class="name">{{ brand.name }}</span>
+            <span class="count"> ({{ brand.count }})</span>
+          </label>
+        }
+      </li>
+    }
+  </ul>
+</section>

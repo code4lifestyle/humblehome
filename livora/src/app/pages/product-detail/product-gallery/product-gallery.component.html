@@ -1,0 +1,101 @@
+<div class="gallery">
+  <div class="stage">
+    @if (badge()) {
+      <span class="badge">{{ badge() }}</span>
+    }
+    <button
+      type="button"
+      class="expand"
+      aria-label="View full-size images"
+      title="Enlarge"
+      (click)="openLightbox()"
+    >
+      <i class="fa-solid fa-up-right-and-down-left-from-center" aria-hidden="true"></i>
+    </button>
+
+    <div
+      class="viewer"
+      (click)="onViewerClick()"
+      (pointerdown)="onPointerDown($event)"
+      (pointerup)="onPointerUp($event)"
+      (pointerenter)="onPointerEnter($event)"
+      (pointermove)="onPointerMove($event)"
+    >
+      <img
+        class="viewer__img"
+        [src]="mainSrc()"
+        [srcset]="mainSrcset()"
+        [alt]="mainAlt()"
+        width="600"
+        height="600"
+        fetchpriority="high"
+        decoding="async"
+      />
+      @if (zoomReady()) {
+        <img
+          class="viewer__zoom"
+          [src]="current()"
+          alt=""
+          width="1200"
+          height="1200"
+          aria-hidden="true"
+        />
+      }
+    </div>
+  </div>
+
+  @if (count() > 1) {
+    <div class="thumbs">
+      <ul #strip class="thumbs__list">
+        @for (thumb of thumbs(); track thumb.index) {
+          <li class="thumbs__item">
+            <button
+              type="button"
+              class="thumb"
+              [class.is-active]="thumb.index === index() && !detached()"
+              [attr.aria-label]="thumb.label"
+              [attr.aria-current]="thumb.index === index() && !detached() ? 'true' : null"
+              (click)="select(thumb.index)"
+            >
+              <img
+                [src]="thumb.src"
+                alt=""
+                width="300"
+                height="300"
+                loading="lazy"
+                decoding="async"
+              />
+            </button>
+          </li>
+        }
+      </ul>
+      <button
+        type="button"
+        class="thumbs__nav thumbs__nav--prev"
+        aria-label="Previous image"
+        [disabled]="atStart()"
+        (click)="step(-1)"
+      >
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+      </button>
+      <button
+        type="button"
+        class="thumbs__nav thumbs__nav--next"
+        aria-label="Next image"
+        [disabled]="atEnd()"
+        (click)="step(1)"
+      >
+        <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+      </button>
+    </div>
+  }
+</div>
+
+@if (lightboxOpen()) {
+  <app-product-lightbox
+    [images]="lightboxImages()"
+    [alt]="alt()"
+    [(index)]="lightboxIndex"
+    (closed)="closeLightbox()"
+  />
+}

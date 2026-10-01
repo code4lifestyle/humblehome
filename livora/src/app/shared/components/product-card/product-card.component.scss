@@ -1,0 +1,368 @@
+@use 'mixins' as *;
+
+// Ported from the ShopEngine product loop (shop page) and product-list widget (home "Top Rated").
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+// ---------------------------------------------------------------- image
+.thumb {
+  position: relative;
+  isolation: isolate;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: var(--color-secondary);
+}
+
+.thumb-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition:
+    transform 0.6s ease-in-out,
+    opacity 0.5s ease-in-out;
+}
+
+.img-hover {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+.card:hover .img {
+  transform: scale(1.05);
+}
+
+.card:hover .img-hover {
+  opacity: 1;
+}
+
+// "-13%" variant (home): no zoom, no text inset
+.is-home:hover .img {
+  transform: none;
+}
+
+// ---------------------------------------------------------------- badges
+.badge {
+  position: absolute;
+  z-index: 2;
+  color: var(--color-white);
+  background: var(--color-accent);
+  pointer-events: none;
+}
+
+.badge-sale {
+  top: 15px;
+  left: 15px;
+  padding: 5px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: normal;
+
+  @include mobile {
+    top: 10px;
+    left: 10px;
+  }
+}
+
+.badge-percent {
+  top: 10px;
+  right: 10px;
+  padding: 0 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 22px;
+
+  @include mobile {
+    padding: 0 7px;
+    font-size: 10px;
+  }
+}
+
+// ---------------------------------------------------------------- hover buttons
+.overlay {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  right: 8px;
+  left: 8px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  opacity: 0;
+  transform: translateY(calc(-50% + 25px));
+  pointer-events: none;
+  transition:
+    opacity 0.5s ease-in-out,
+    transform 0.5s ease-in-out;
+
+  @include mobile {
+    gap: 5px;
+  }
+}
+
+.card:hover .overlay,
+.card:has(:focus-visible) .overlay {
+  opacity: 1;
+  transform: translateY(-50%);
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--color-white);
+  color: var(--color-primary);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  transition: var(--transition-fast);
+
+  @include mobile {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+  }
+
+  &:hover,
+  &.is-active {
+    background: var(--color-primary);
+    color: var(--color-white);
+  }
+}
+
+// the buttons only take clicks once they are visible (the empty part of the row must not block the image link)
+.overlay .icon-btn {
+  pointer-events: none;
+}
+.card:hover .overlay .icon-btn,
+.card:has(:focus-visible) .overlay .icon-btn {
+  pointer-events: auto;
+}
+
+// theme SVG icons tinted with currentColor
+.ic {
+  display: block;
+  width: 20px;
+  height: 20px;
+  background-color: currentColor;
+  -webkit-mask: var(--ic) center / contain no-repeat;
+  mask: var(--ic) center / contain no-repeat;
+
+  @include mobile {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.ic-heart {
+  --ic: url('/assets/icons/icon-wishlist-primary.svg');
+}
+
+// touch screens have no hover: keep the buttons visible along the bottom edge of the image
+@media (hover: none) {
+  .overlay {
+    top: auto;
+    bottom: 10px;
+    opacity: 1;
+    transform: none;
+  }
+
+  .overlay .icon-btn {
+    pointer-events: auto;
+  }
+}
+
+// ---------------------------------------------------------------- text
+.content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0 10px;
+}
+
+.is-home .content {
+  padding: 0;
+}
+
+.cats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 12px;
+  margin: 15px 0 0;
+  padding: 0;
+  font-size: 14px;
+  line-height: 1.6em;
+  list-style: none;
+
+  a {
+    color: var(--color-text);
+
+    &:hover {
+      color: var(--color-accent);
+    }
+  }
+}
+
+.brand {
+  margin-top: 16px;
+  color: var(--color-text);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+
+  &:hover {
+    color: var(--color-accent);
+  }
+}
+
+.title {
+  margin: 0;
+  padding: 6px 0 10px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4em;
+  letter-spacing: -0.03em;
+
+  a {
+    color: var(--color-primary);
+  }
+
+  @include tablet {
+    padding-top: 4px;
+  }
+  @include mobile {
+    font-size: 14px;
+  }
+}
+
+// home "Top Rated" spacing: image → brand → title → stars
+.is-home {
+  .brand {
+    margin-top: 16px;
+  }
+
+  .title {
+    padding: 4px 0 10px;
+    line-height: 1.3em;
+    letter-spacing: normal;
+  }
+
+  .rating {
+    margin-bottom: 12px;
+  }
+}
+
+.cats + .title {
+  padding-top: 6px;
+}
+
+.rating {
+  min-height: 18px;
+
+  @include mobile {
+    min-height: 16px;
+    font-size: 14px;
+  }
+}
+
+.excerpt {
+  margin: 12px 0 0;
+  color: var(--color-text);
+  @include line-clamp(3);
+}
+
+// ---------------------------------------------------------------- list layout
+.is-list {
+  flex-direction: row;
+  align-items: center;
+  gap: 30px;
+
+  .thumb {
+    flex: none;
+    width: 260px;
+  }
+
+  .content {
+    padding: 0;
+  }
+
+  .title {
+    padding: 6px 0;
+    font-size: 22px;
+  }
+
+  .row-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .row-actions .icon-btn {
+    width: 40px;
+    height: 40px;
+    background: var(--color-secondary);
+    font-size: 16px;
+
+    &:hover,
+    &.is-active {
+      background: var(--color-primary);
+    }
+
+    .ic {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  @include tablet {
+    gap: 20px;
+
+    .thumb {
+      width: 200px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+
+    .thumb {
+      width: 100%;
+    }
+
+    .title {
+      font-size: 18px;
+    }
+  }
+}

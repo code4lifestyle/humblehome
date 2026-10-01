@@ -1,0 +1,583 @@
+@use 'mixins' as *;
+
+// Original: Elementor post 11075. Every Elementor container is padded 10px by default, so the vertical distances below
+// are "container padding + gap + nested container padding" (e.g. 90 + 10 = 100px above the first heading).
+:host {
+  display: block;
+}
+
+// page sections keep 20px of side padding on tablet/mobile (boxed container 10px + child container 10px)
+.container {
+  @include tablet {
+    padding-inline: 20px;
+  }
+}
+
+// ═══ Best offer ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+.best-offer {
+  padding-block: 100px;
+
+  @include tablet {
+    padding-block: 50px;
+  }
+}
+
+.best-offer__title {
+  max-width: 770px;
+  margin-inline: auto;
+}
+
+// two banners side by side (stacked on phones)
+.offers {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 30px;
+  margin-top: 60px;
+
+  @include tablet {
+    margin-top: 30px;
+  }
+  @include mobile {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+// text column 56 % (title + text on top, button at the bottom) · image column 44 %
+.offer {
+  display: grid;
+  grid-template-columns: calc(56% - 10px) calc(44% - 10px);
+  align-items: center;
+  gap: 30px 20px;
+  padding: 40px;
+  border-radius: var(--radius-md);
+  background: var(--color-secondary);
+
+  @include tablet {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 30px;
+  }
+  @include mobile {
+    padding: 20px;
+  }
+}
+
+.offer__text {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  justify-content: space-between;
+  gap: 20px;
+  min-width: 0;
+}
+
+.offer__title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2em;
+  letter-spacing: 0;
+  color: var(--color-primary);
+
+  @include tablet {
+    font-size: 22px;
+  }
+  @include mobile {
+    font-size: 20px;
+  }
+}
+
+.offer__desc {
+  margin: 10px 0 0;
+}
+
+.offer__button {
+  --btn-gap: 10px; // the original's creative button keeps 10px between label and arrow disc (9px on tablet)
+  align-self: flex-start;
+
+  @include tablet {
+    --btn-gap: 9px;
+  }
+}
+
+.offer__media {
+  position: relative;
+
+  @include tablet {
+    width: 300px;
+    max-width: 100%;
+  }
+  @include mobile {
+    width: 250px;
+    justify-self: center;
+  }
+}
+
+.offer__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1.05;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+}
+
+// round "Save 40%" tag that pulses (original: zoom_in_out 1s infinite alternate)
+.offer__save {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 92px;
+  height: 92px;
+  margin: 0;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: var(--color-white);
+  text-align: center;
+  animation: zoom-in-out 1s infinite linear alternate;
+  transition: background-color 0.4s ease-in-out;
+
+  &:hover {
+    background: var(--color-primary);
+  }
+
+  @include tablet {
+    top: -10px;
+    right: -10px;
+    width: 84px;
+    height: 84px;
+  }
+}
+
+.offer__save-label {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.3em;
+}
+
+.offer__save-value {
+  margin-top: 5px;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.2em;
+
+  @include tablet {
+    font-size: 22px;
+  }
+  @include mobile {
+    font-size: 20px;
+  }
+}
+
+@keyframes zoom-in-out {
+  100% {
+    transform: scale(0.9);
+  }
+}
+
+// ── the six round chips ────────────────────────────────────────────────────────────────────────────────────────────────
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 60px;
+
+  @include tablet {
+    gap: 15px;
+    margin-top: 40px;
+  }
+  @include mobile {
+    gap: 10px;
+  }
+}
+
+.chip {
+  width: calc(16.66% - 25px);
+  max-width: calc(16.66% - 25px);
+
+  @include tablet {
+    width: auto;
+    max-width: none;
+  }
+}
+
+// a grey layer slides in from the left on hover (ElementsKit "gradient-active hover_from_left")
+.chip__link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 14px;
+  overflow: hidden;
+  border: 1px solid var(--color-divider);
+  border-radius: 50px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -101%;
+    width: 100%;
+    height: 100%;
+    background: var(--color-divider);
+    transition: left 0.6s ease;
+  }
+
+  &:hover::before,
+  &:focus-visible::before {
+    left: 0;
+  }
+
+  @include tablet {
+    padding: 8px 15px 8px 8px;
+  }
+  @include mobile {
+    padding: 5px 10px 5px 5px;
+  }
+}
+
+.chip__image {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  width: 50px;
+  height: 50px;
+  margin-right: 15px;
+  object-fit: cover;
+  border-radius: 50%;
+
+  @include tablet {
+    width: 44px;
+    height: 44px;
+    margin-right: 10px;
+  }
+  @include mobile {
+    width: 40px;
+    height: 40px;
+    margin-right: 8px;
+  }
+}
+
+.chip__label {
+  position: relative;
+  z-index: 1;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1em;
+  color: var(--color-primary);
+}
+
+// ── vision & mission ───────────────────────────────────────────────────────────────────────────────────────────────────
+.vision-mission {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 100px;
+
+  @include tablet {
+    margin-top: 50px;
+  }
+  @include mobile {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.vm-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 530px;
+  padding: 40px;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  color: var(--color-white);
+
+  // dark gradient towards the bottom so the white text stays readable
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, #16161600 64.68%, #161616cc 89.75%);
+  }
+
+  @include tablet {
+    min-height: 377px;
+    padding: 25px;
+  }
+  @include mobile {
+    min-height: 362px;
+    padding: 20px;
+  }
+}
+
+.vm-card__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.vm-card__body {
+  position: relative;
+  z-index: 1;
+}
+
+.vm-card__title {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.2em;
+  letter-spacing: 0;
+  color: var(--color-white);
+
+  @include tablet {
+    font-size: 24px;
+  }
+  @include mobile {
+    font-size: 20px;
+  }
+}
+
+.vm-card__text {
+  margin: 10px 0 0;
+  color: var(--color-white);
+}
+
+// ═══ Authorised dealers – logo ticker ═════════════════════════════════════════════════════════════════════════════════
+.dealers {
+  padding: 40px 0 50px;
+
+  @include tablet {
+    padding: 15px 0 25px;
+  }
+}
+
+.dealers__title {
+  max-width: 780px;
+  margin: 0 auto 50px;
+  padding: 10px 20px;
+
+  @include tablet {
+    max-width: none;
+    margin-bottom: 20px;
+  }
+}
+
+// Pure-CSS marquee: the track holds two identical halves (3 copies of the logo list each) and slides by exactly one half.
+.ticker {
+  overflow: hidden;
+}
+
+.ticker__track {
+  display: flex;
+  width: max-content;
+  animation: ticker-scroll 30s linear infinite;
+}
+
+.ticker:hover .ticker__track {
+  animation-play-state: paused;
+}
+
+@keyframes ticker-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.ticker__group {
+  display: flex;
+  flex: none;
+}
+
+.ticker__item {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  padding-left: 30px;
+
+  @include tablet {
+    padding-left: 15px;
+  }
+  @include mobile {
+    padding-left: 10px;
+  }
+}
+
+.ticker__logo {
+  width: auto;
+  max-width: 139px;
+  height: 70px;
+  margin-right: 30px;
+  object-fit: contain;
+
+  @include tablet {
+    height: 55px;
+    margin-right: 15px;
+  }
+  @include menu-collapse {
+    max-width: 125px;
+  }
+  @include mobile {
+    max-width: 105px;
+    height: 45px;
+    margin-right: 10px;
+  }
+}
+
+// reduced motion: no scrolling, a single centred row of logos
+@media (prefers-reduced-motion: reduce) {
+  .ticker__track {
+    flex-wrap: wrap;
+    justify-content: center;
+    width: auto;
+    animation: none;
+  }
+  .ticker__group[aria-hidden='true'] {
+    display: none;
+  }
+}
+
+// ═══ Our team ═════════════════════════════════════════════════════════════════════════════════════════════════════════
+.team {
+  padding: 50px 0 100px;
+
+  @include tablet {
+    padding: 25px 0 50px;
+  }
+}
+
+.team__title {
+  max-width: 770px;
+  margin-inline: auto;
+}
+
+.team__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 60px;
+
+  @include tablet {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 30px;
+  }
+  @include mobile {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.member {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+}
+
+.member__photo {
+  position: relative;
+
+  // gradient from transparent to 60 % dark so the name stays readable
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+      180deg,
+      transparent 28.36%,
+      color-mix(in srgb, var(--color-primary) 60%, transparent) 79.22%
+    );
+  }
+}
+
+.member__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1.306;
+  object-fit: cover;
+  transition: all 0.6s ease-in-out;
+
+  @include tablet {
+    aspect-ratio: 1 / 1.03;
+  }
+}
+
+.member:hover .member__image,
+.member:focus-within .member__image {
+  transform: scale(1.06);
+}
+
+// social icons: hidden until the card is hovered / focused (drop in from above)
+.member__social {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 0.5s ease-in-out;
+
+  li {
+    margin-bottom: 10px;
+  }
+
+  a {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--color-white);
+    font-size: 16px;
+    color: var(--color-primary);
+    transition: var(--transition-fast);
+
+    &:hover,
+    &:focus-visible {
+      background: var(--color-accent);
+      color: var(--color-white);
+    }
+  }
+}
+
+.member:hover .member__social,
+.member:focus-within .member__social {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.member__info {
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  z-index: 2;
+  width: calc(100% - 60px);
+  text-align: center;
+
+  @include tablet {
+    bottom: 20px;
+    left: 20px;
+    width: calc(100% - 40px);
+  }
+}
+
+.member__name {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2em;
+  letter-spacing: 0;
+  color: var(--color-white);
+}
+
+.member__role {
+  margin: 10px 0 0;
+  color: var(--color-white);
+}

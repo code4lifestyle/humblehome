@@ -1,0 +1,109 @@
+<footer class="site-footer">
+  <div class="container">
+    <!-- social · logo · call -->
+    <div class="footer-top">
+      <ul class="footer-social" aria-label="Social media">
+        @for (link of site.social; track link.name) {
+          <li>
+            <a
+              [href]="link.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              [attr.aria-label]="link.name"
+            >
+              <i [class]="link.icon" aria-hidden="true"></i>
+            </a>
+          </li>
+        }
+      </ul>
+
+      <a class="footer-logo" routerLink="/" aria-label="Humble Home – home">
+        <img [src]="site.logoLight" alt="Humble Home" width="180" height="80" />
+      </a>
+
+      <a class="footer-call" [href]="site.contact.phoneHref">
+        <span class="footer-call__icon"><app-svg-icon name="whatsapp" /></span>
+        <span class="footer-call__text">
+          <span class="footer-call__label">{{ footer.callLabel }}</span>
+          <span class="footer-call__phone">{{ site.contact.phone }}</span>
+        </span>
+      </a>
+    </div>
+
+    <!-- about + newsletter · links · contact -->
+    <div class="footer-main">
+      <div class="footer-col footer-about">
+        <p>{{ footer.about }}</p>
+
+        <form class="newsletter" novalidate (submit)="subscribe($event, email)">
+          <div class="newsletter__box" [class.is-invalid]="newsletterError()">
+            <input
+              #email
+              class="newsletter__field"
+              type="email"
+              name="email"
+              autocomplete="email"
+              [placeholder]="footer.newsletterPlaceholder ?? 'Enter Email Address*'"
+              aria-label="Email address"
+              [attr.aria-invalid]="newsletterError() ? 'true' : null"
+              aria-describedby="newsletter-error"
+              (input)="newsletterError.set(null)"
+            />
+            <button
+              type="submit"
+              class="newsletter__submit"
+              [attr.aria-label]="footer.newsletterButtonLabel ?? 'Subscribe'"
+            ></button>
+          </div>
+          <div id="newsletter-error" class="newsletter__error" role="alert">
+            @if (newsletterError(); as message) {
+              <p>{{ message }}</p>
+            }
+          </div>
+        </form>
+      </div>
+
+      <nav class="footer-col footer-links" aria-labelledby="footer-quick-links">
+        <h3 id="footer-quick-links">{{ footer.quickLinksTitle }}</h3>
+        <ul>
+          @for (link of footer.quickLinks; track link.label) {
+            <li>
+              <a [routerLink]="link.link">{{ link.label }}</a>
+            </li>
+          }
+        </ul>
+      </nav>
+
+      <nav class="footer-col footer-links" aria-labelledby="footer-customer-services">
+        <h3 id="footer-customer-services">{{ footer.customerServicesTitle }}</h3>
+        <ul>
+          @for (link of footer.customerServices; track link.label) {
+            <li>
+              <a [routerLink]="link.link">{{ link.label }}</a>
+            </li>
+          }
+        </ul>
+      </nav>
+
+      <div class="footer-col footer-contact">
+        <h3>{{ footer.contactTitle }}</h3>
+        <address>
+          <p>{{ site.contact.address }}</p>
+          <p>
+            <a [href]="site.contact.phoneHref">{{ site.contact.phone }}</a>
+          </p>
+          <p>
+            <a [href]="'mailto:' + site.contact.email">{{ site.contact.email }}</a>
+          </p>
+        </address>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copyright">
+        Copyright &copy; {{ footer.copyrightYear }} <a routerLink="/">{{ site.name }}</a
+        >. All Rights Reserved.
+      </p>
+    </div>
+  </div>
+</footer>

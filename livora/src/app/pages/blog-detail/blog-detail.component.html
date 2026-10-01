@@ -1,0 +1,157 @@
+@if (post(); as post) {
+  <main class="page blog-detail">
+    <!-- banner: title + date + categories (the original shows no breadcrumb on a post) -->
+    <section class="post-banner">
+      <div class="container">
+        <div class="banner-box">
+          <h1>{{ post.title }}</h1>
+          <ul class="post-meta">
+            <li>
+              <i class="fa-solid fa-calendar-days" aria-hidden="true"></i>
+              <time [attr.datetime]="post.date">{{ post.date | date: 'MMMM d, y' }}</time>
+            </li>
+            @if (categories().length) {
+              <li>
+                <i class="fa-solid fa-tag" aria-hidden="true"></i>
+                <span class="post-categories">
+                  @for (category of categories(); track category.slug) {
+                    <a [routerLink]="['/category', category.slug]" rel="category tag">{{
+                      category.name
+                    }}</a>
+                  }
+                </span>
+              </li>
+            }
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <article class="post-section" [class.has-more]="nav().prev || nav().next || related().length">
+      <div class="post-container">
+        <figure class="post-image">
+          <img [src]="post.image" [alt]="post.title" width="1024" height="576" />
+        </figure>
+
+        <div class="post-content">
+          <div class="post-entry">
+            @for (block of post.body; track $index) {
+              @switch (block.type) {
+                @case ('heading') {
+                  <h2>{{ block.text }}</h2>
+                }
+                @case ('list') {
+                  <ul>
+                    @for (item of block.items; track $index) {
+                      <li>{{ item }}</li>
+                    }
+                  </ul>
+                }
+                @case ('paragraph') {
+                  @if (block.quote) {
+                    <blockquote>
+                      <p>{{ block.text }}</p>
+                    </blockquote>
+                  } @else {
+                    <p>{{ block.text }}</p>
+                  }
+                }
+              }
+            }
+          </div>
+
+          <div class="post-footer">
+            <div class="post-tags">
+              @if (tags().length) {
+                <span class="tag-links">
+                  <span class="tag-label">Tags:</span>
+                  @for (tag of tags(); track tag.slug) {
+                    <a [routerLink]="['/tag', tag.slug]" rel="tag">{{ tag.name }}</a>
+                  }
+                </span>
+              }
+            </div>
+
+            @if (share(); as links) {
+              <ul class="post-share" aria-label="Share this post">
+                <li>
+                  <a
+                    [href]="links.facebook"
+                    target="_blank"
+                    rel="noopener nofollow"
+                    aria-label="Share on Facebook"
+                  >
+                    <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    [href]="links.whatsapp"
+                    target="_blank"
+                    rel="noopener nofollow"
+                    aria-label="Share on WhatsApp"
+                  >
+                    <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    [href]="links.linkedin"
+                    target="_blank"
+                    rel="noopener nofollow"
+                    aria-label="Share on LinkedIn"
+                  >
+                    <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
+                  </a>
+                </li>
+              </ul>
+            }
+          </div>
+
+          @if (nav().prev || nav().next) {
+            <nav class="post-nav" aria-label="Post navigation">
+              @if (nav().prev; as prev) {
+                <a class="post-nav-link is-prev" [routerLink]="['/blog', prev.slug]" rel="prev">
+                  <span class="post-nav-arrow" aria-hidden="true">
+                    <i class="fa-solid fa-arrow-left"></i>
+                  </span>
+                  <span class="post-nav-text">
+                    <span class="post-nav-label">Previous Post</span>
+                    <span class="post-nav-title">{{ prev.title }}</span>
+                  </span>
+                </a>
+              }
+              @if (nav().next; as next) {
+                <a class="post-nav-link is-next" [routerLink]="['/blog', next.slug]" rel="next">
+                  <span class="post-nav-text">
+                    <span class="post-nav-label">Next Post</span>
+                    <span class="post-nav-title">{{ next.title }}</span>
+                  </span>
+                  <span class="post-nav-arrow" aria-hidden="true">
+                    <i class="fa-solid fa-arrow-right"></i>
+                  </span>
+                </a>
+              }
+            </nav>
+          }
+        </div>
+      </div>
+    </article>
+
+    @if (related().length) {
+      <section class="related" aria-label="Related posts">
+        <div class="post-container">
+          <div class="related-inner">
+            <app-section-title eyebrow="Our Blog" title="Related Posts" />
+
+            <div class="related-grid">
+              @for (item of related(); track item.slug) {
+                <app-blog-card [post]="item" [showMeta]="false" />
+              }
+            </div>
+          </div>
+        </div>
+      </section>
+    }
+  </main>
+}

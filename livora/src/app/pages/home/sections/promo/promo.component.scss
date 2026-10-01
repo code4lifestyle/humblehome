@@ -1,0 +1,130 @@
+@use 'mixins' as *;
+
+// Original: Elementor container 0a66746 (40px padding) with two `.offer-item` boxes – 465px min-height, 50px padding, 20px
+// radius, photo background with a dark top-down gradient (`.offer-item:before`).
+:host {
+  display: block;
+}
+
+.promo {
+  padding-block: 50px; // 40px section padding + the 10px of the nested row container
+
+  @include tablet {
+    padding-block: 25px;
+  }
+}
+
+.promo__grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.offer {
+  position: relative;
+  display: flex;
+  flex: 0 0 calc(50% - 10px);
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: 465px;
+  padding: 50px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--color-secondary) center / cover no-repeat;
+
+  // top-down gradient so the white copy reads on any photo
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgb(22 22 22 / 80%) 0%,
+      rgb(22 22 22 / 36%) 39.52%,
+      transparent 50.11%
+    );
+  }
+
+  > * {
+    position: relative;
+  }
+
+  @include tablet {
+    min-height: 390px;
+    padding: 30px;
+  }
+  @include mobile {
+    flex-basis: 100%;
+    min-height: 300px;
+    padding: 20px;
+  }
+}
+
+.offer--one {
+  background-image: url('/assets/images/offer-item-image-1.jpg');
+}
+.offer--two {
+  background-image: url('/assets/images/offer-item-image-2.jpg');
+}
+
+.offer__eyebrow {
+  margin: 0 0 10px;
+  color: var(--color-white);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.6em;
+  letter-spacing: 0;
+}
+
+.offer__title {
+  margin: 0 0 40px;
+  color: var(--color-white);
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.4em;
+
+  @include tablet {
+    margin-bottom: 30px;
+    font-size: 24px;
+  }
+  @include mobile {
+    margin-bottom: 20px;
+    font-size: 20px;
+  }
+}
+
+// text link with a small white disc – the disc's arrow turns 45° on hover
+.offer__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--color-white);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.45em;
+
+  svg {
+    flex: none;
+    width: 24px;
+    height: 24px;
+    padding: 4px;
+    border-radius: 50%;
+    background: var(--color-white);
+    color: var(--color-accent);
+    transition: var(--transition-base);
+
+    @include mobile {
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  &:hover svg,
+  &:focus-visible svg {
+    transform: rotate(45deg);
+  }
+
+  &:focus-visible {
+    outline-color: var(--color-white);
+  }
+}

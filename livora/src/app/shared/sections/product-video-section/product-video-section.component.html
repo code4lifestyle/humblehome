@@ -1,0 +1,69 @@
+<section class="product-video">
+  <div class="container">
+    <div class="product-video__row">
+      <div class="product-video__text">
+        <app-section-title
+          [light]="true"
+          align="left"
+          eyebrow="Product Video"
+          title="Watch Products Designed For Modern Living"
+        />
+      </div>
+
+      <div class="product-video__action">
+        <div class="play">
+          <svg class="play__ring" viewBox="0 0 140 140" aria-hidden="true" focusable="false">
+            <defs>
+              <path
+                [attr.id]="ringId"
+                d="M 70,70 m -52,0 a 52,52 0 1,1 104,0 a 52,52 0 1,1 -104,0"
+              />
+            </defs>
+            <text>
+              <textPath
+                [attr.href]="'#' + ringId"
+                startOffset="0"
+                textLength="322"
+                lengthAdjust="spacing"
+              >
+                MODERA LIVING * MODERA LIVING *
+              </textPath>
+            </text>
+          </svg>
+          <button
+            type="button"
+            class="play__button"
+            aria-haspopup="dialog"
+            aria-label="Play video"
+            (click)="open()"
+          >
+            <i class="fa-solid fa-play" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <dialog
+    #dialog
+    class="video-modal"
+    aria-label="Product video"
+    (close)="onClosed()"
+    (click)="onDialogClick($event)"
+  >
+    <button type="button" class="video-modal__close" aria-label="Close video" (click)="close()">
+      <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+    </button>
+    <div class="video-modal__frame">
+      @if (playing()) {
+        <iframe
+          [src]="videoUrl"
+          title="Product video"
+          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+          allowfullscreen
+          referrerpolicy="strict-origin-when-cross-origin"
+        ></iframe>
+      }
+    </div>
+  </dialog>
+</section>

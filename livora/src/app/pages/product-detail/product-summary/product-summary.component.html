@@ -1,0 +1,143 @@
+<div class="summary">
+  <div class="intro">
+    <h1 class="title">{{ product().name }}</h1>
+
+    <p class="cats">
+      @for (category of categories(); track category.slug; let last = $last) {
+        <a [routerLink]="['/product-category', category.slug]">{{ category.name }}</a>
+        @if (!last) {
+          <span>, </span>
+        }
+      }
+    </p>
+
+    <div class="excerpt">
+      <p>{{ product().excerpt }}</p>
+      @if (product().highlights.length) {
+        <ul>
+          @for (highlight of product().highlights; track highlight) {
+            <li>{{ highlight }}</li>
+          }
+        </ul>
+      }
+    </div>
+  </div>
+
+  <div class="buy">
+    <div class="cart">
+      @if (attributes().length) {
+        <div #picker class="variations">
+          @for (attribute of attributes(); track attribute.slug; let lastAttribute = $last) {
+            <div class="variation">
+              <span class="variation__label" [id]="'attribute-' + attribute.slug">{{
+                attribute.name
+              }}</span>
+
+              <div class="variation__control">
+                @if (attribute.swatches) {
+                  <div
+                    class="swatches"
+                    role="radiogroup"
+                    [attr.aria-labelledby]="'attribute-' + attribute.slug"
+                  >
+                    @for (option of attribute.options; track option; let i = $index) {
+                      <button
+                        type="button"
+                        role="radio"
+                        class="swatch"
+                        [class.is-selected]="isChosen(attribute, option)"
+                        [class.has-dark-check]="darkCheck(attribute, option)"
+                        [style.--swatch]="swatchColour(attribute, option)"
+                        [attr.aria-checked]="isChosen(attribute, option)"
+                        [attr.aria-label]="option"
+                        [tabindex]="tabStop(attribute, i)"
+                        (click)="choose(attribute, option)"
+                        (keydown)="onSwatchKey($event, attribute, i)"
+                      >
+                        <span class="swatch__tip" aria-hidden="true">{{ option }}</span>
+                      </button>
+                    }
+                  </div>
+                } @else {
+                  <select
+                    class="form-control form-control-sm variation__select"
+                    [attr.aria-labelledby]="'attribute-' + attribute.slug"
+                    (change)="onSelect(attribute, $event)"
+                  >
+                    <option value="">Choose an option</option>
+                    @for (option of attribute.options; track option) {
+                      <option [value]="option" [selected]="isChosen(attribute, option)">
+                        {{ option }}
+                      </option>
+                    }
+                  </select>
+                }
+
+                @if (lastAttribute && hasChoice()) {
+                  <button type="button" class="variation__clear" (click)="clear()">Clear</button>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      }
+
+      <div class="actions">
+        <a
+          class="btn-default btn-plain"
+          [routerLink]="['/contact-us']"
+          [queryParams]="consultQuery()"
+          fragment="consultation"
+        >
+          Book a free consultation
+        </a>
+
+        <button
+          type="button"
+          class="wish"
+          [class.is-active]="wished()"
+          [attr.aria-pressed]="wished()"
+          [attr.aria-label]="wished() ? 'Remove from wishlist' : 'Add to wishlist'"
+          [title]="wished() ? 'Remove from wishlist' : 'Add to wishlist'"
+          (click)="toggleWishlist()"
+        >
+          <i
+            [class]="wished() ? 'fa-solid fa-heart' : 'fa-regular fa-heart'"
+            aria-hidden="true"
+          ></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="details">
+    <ul class="meta">
+      @if (showSku()) {
+        <li>
+          <span class="meta__label">SKU:</span>&ngsp;<span class="meta__value">{{ sku() }}</span>
+        </li>
+      }
+      <li>
+        <span class="meta__label">{{ categories().length > 1 ? 'Categories:' : 'Category:' }}</span
+        >&ngsp;
+        @for (category of categories(); track category.slug; let last = $last) {
+          <a [routerLink]="['/product-category', category.slug]">{{ category.name }}</a>
+          @if (!last) {
+            <span class="meta__sep">, </span>
+          }
+        }
+      </li>
+      @if (brands().length) {
+        <li>
+          <span class="meta__label">Brand:</span>&ngsp;
+          @for (brand of brands(); track brand.slug; let last = $last) {
+            <a [routerLink]="['/brand', brand.slug]">{{ brand.name }}</a>
+            @if (!last) {
+              <span class="meta__sep">, </span>
+            }
+          }
+        </li>
+      }
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,50 @@
+@use 'mixins' as *;
+
+// Headings: h1/h2 = 36px (tablet 30px, mobile 24px), weight 700, line-height 1.4em / letter-spacing -0.03em (Elementor kit).
+// h3–h6 have no global size in the original – sections set their own; sensible defaults below.
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-weight: 700;
+  line-height: 1.2em;
+  color: var(--color-primary);
+}
+
+h1,
+h2 {
+  font-size: var(--font-size-h1);
+  line-height: 1.4em;
+  letter-spacing: var(--letter-spacing-heading);
+
+  @include tablet {
+    font-size: 30px;
+  }
+  @include mobile {
+    font-size: 24px;
+  }
+}
+
+h3 {
+  font-size: 24px;
+  @include mobile {
+    font-size: 20px;
+  }
+}
+h4 {
+  font-size: 20px;
+}
+h5 {
+  font-size: 18px;
+}
+h6 {
+  font-size: 16px;
+}
+
+strong,
+b {
+  font-weight: 700;
+}

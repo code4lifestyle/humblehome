@@ -1,0 +1,245 @@
+@use 'mixins' as *;
+
+// Original: ShopEngine tabs → WooCommerce reviews. Two columns with a 4 % gap (1280px: 614px each; one column on phones):
+// left = "Average Rating" block + review list, right = "Add a review" form.
+:host {
+  display: block;
+}
+
+.reviews {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4%;
+
+  @include mobile {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.reviews__main,
+.reviews__form {
+  min-width: 0;
+}
+
+.reviews__title {
+  margin: 0 0 10px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: normal;
+  color: var(--color-primary);
+
+  // "1 review for Leather Recliner": 20px above (the original's padding) and 20px below
+  &--list {
+    margin-bottom: 20px;
+    padding-top: 20px;
+
+    @include mobile {
+      margin-bottom: 15px;
+      font-size: 15px;
+    }
+  }
+}
+
+.reviews__empty {
+  margin: 0;
+  color: var(--color-text);
+}
+
+// ---------------------------------------------------------------- average + bars
+.rating {
+  margin-bottom: 20px;
+
+  .reviews__title {
+    margin-bottom: 15px;
+    line-height: 21px;
+    letter-spacing: -0.03em;
+  }
+}
+
+.rating__average {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 26px;
+  color: var(--color-primary);
+
+  app-star-rating {
+    font-size: 13px;
+  }
+}
+
+.bars {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  margin-top: 14px;
+  font-size: 15px;
+  line-height: 17px;
+  color: var(--color-primary);
+}
+
+.bar__label {
+  flex: none;
+  width: 50px;
+}
+
+.bar__track {
+  flex: none;
+  width: 150px;
+  height: 10px;
+  margin-right: 10px;
+  background: var(--color-divider);
+}
+
+.bar__fill {
+  display: block;
+  height: 100%;
+  background: var(--color-accent);
+}
+
+// ---------------------------------------------------------------- review list
+.comments {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.comment {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 20px 0;
+
+  &:first-child {
+    padding-top: 0;
+  }
+  &:last-child {
+    padding-bottom: 0;
+  }
+  & + & {
+    border-top: 1px solid var(--color-divider);
+  }
+
+  @include mobile {
+    gap: 8px;
+  }
+}
+
+.avatar {
+  flex: none;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+
+  @include mobile {
+    width: 40px;
+    height: 40px;
+  }
+}
+// neutral "mystery person" (the original shows the Gravatar default)
+.avatar__bg {
+  fill: color-mix(in srgb, var(--color-primary) 22%, var(--color-white));
+}
+.avatar__fg {
+  fill: color-mix(in srgb, var(--color-primary) 4%, var(--color-white));
+}
+
+.comment__body {
+  flex: 1;
+  min-width: 0;
+  color: var(--color-text);
+
+  app-star-rating {
+    font-size: 13px;
+  }
+}
+
+.comment__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 5px;
+  margin: 5px 0;
+  font-size: 15px;
+  line-height: 19.92px;
+  color: var(--color-primary);
+}
+
+.comment__author {
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.comment__verified {
+  font-style: italic;
+}
+
+.comment__text {
+  margin: 0;
+  font-size: 15px;
+  line-height: 28px;
+  color: var(--color-primary);
+}
+
+// ---------------------------------------------------------------- form
+.review-form__notes {
+  margin: 0 0 20px;
+  font-size: 15px;
+  line-height: 20px;
+  color: var(--color-text);
+}
+
+.req {
+  color: var(--color-danger);
+}
+
+.review-form {
+  .form-group {
+    margin-bottom: 20px;
+  }
+  textarea.form-control {
+    min-height: 90px;
+  }
+  .form-check {
+    margin-bottom: 20px;
+    align-items: center;
+    color: var(--color-text);
+  }
+  .form-check span {
+    line-height: 20px;
+  }
+}
+
+// star picker: five outlined stars that fill up on hover / choice
+.stars {
+  display: flex;
+  margin: -4px 0 0 -4px;
+}
+
+.star {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  font-size: 15px;
+  color: var(--color-accent);
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.15);
+  }
+}

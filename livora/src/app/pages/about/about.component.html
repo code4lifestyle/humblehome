@@ -1,0 +1,169 @@
+<main class="page">
+  <app-page-header title="About Us" [crumbs]="crumbs" />
+
+  <!-- ── Best offer + vision & mission ─────────────────────────────────────────────────────────────────────────── -->
+  <section class="best-offer">
+    <div class="container">
+      <div class="best-offer__title">
+        <app-section-title eyebrow="Best Offer" title="Where Comfort Meets Timeless Design" />
+      </div>
+
+      <div class="offers">
+        @for (offer of offers; track offer.title) {
+          <article class="offer">
+            <div class="offer__text">
+              <div>
+                <h3 class="offer__title">{{ offer.title }}</h3>
+                <p class="offer__desc">{{ offer.text }}</p>
+              </div>
+              <a
+                class="btn-default offer__button"
+                routerLink="/shop"
+                [attr.aria-label]="'Shop Now – ' + offer.title"
+              >
+                Shop Now
+              </a>
+            </div>
+
+            <div class="offer__media">
+              <img
+                class="offer__image"
+                [src]="offer.image"
+                [alt]="offer.title"
+                width="300"
+                height="293"
+                loading="lazy"
+              />
+              <p class="offer__save">
+                <span class="offer__save-label">Save</span>
+                <strong class="offer__save-value">{{ offer.save }}</strong>
+              </p>
+            </div>
+          </article>
+        }
+      </div>
+
+      <ul class="chips">
+        @for (chip of chips; track chip.label) {
+          <li class="chip">
+            <a class="chip__link" [routerLink]="chip.link">
+              <img
+                class="chip__image"
+                [src]="chip.image"
+                alt=""
+                width="50"
+                height="50"
+                loading="lazy"
+              />
+              <span class="chip__label">{{ chip.label }}</span>
+            </a>
+          </li>
+        }
+      </ul>
+
+      <div class="vision-mission">
+        @for (card of visionMission; track card.title) {
+          <article class="vm-card">
+            <img
+              class="vm-card__bg"
+              [src]="card.image"
+              alt=""
+              width="640"
+              height="522"
+              loading="lazy"
+            />
+            <div class="vm-card__body">
+              <h3 class="vm-card__title">{{ card.title }}</h3>
+              <p class="vm-card__text">{{ card.text }}</p>
+            </div>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <app-approach-section />
+  <app-best-seller-section />
+
+  <!-- ── Authorised dealers: infinite logo ticker ──────────────────────────────────────────────────────────────── -->
+  <section class="dealers">
+    <div class="dealers__title">
+      <app-section-title
+        eyebrow="Authorised Dealer"
+        title="Trusted Brand For Modern Living Trusted Brand For Modern Living"
+      />
+    </div>
+
+    <div class="ticker" role="group" aria-label="Authorised dealer brands">
+      <div class="ticker__track">
+        @for (copy of tickerCopies; track copy) {
+          <ul class="ticker__group" [attr.aria-hidden]="copy > 0 ? 'true' : null">
+            @for (logo of logos; track logo.image) {
+              <li class="ticker__item">
+                <img
+                  class="ticker__logo"
+                  [src]="logo.image"
+                  [alt]="copy === 0 ? logo.name : ''"
+                  width="184"
+                  height="80"
+                  loading="lazy"
+                />
+              </li>
+            }
+          </ul>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Our team ───────────────────────────────────────────────────────────────────────────────────────────────── -->
+  <section class="team">
+    <div class="container">
+      <div class="team__title">
+        <app-section-title eyebrow="Our Team" title="Passionate Minds Behind Humble Home" />
+      </div>
+
+      <ul class="team__grid">
+        @for (member of team; track member.name) {
+          <li>
+            <article class="member">
+              <div class="member__photo">
+                <img
+                  class="member__image"
+                  [src]="member.image"
+                  [alt]="member.name"
+                  width="311"
+                  height="395"
+                  loading="lazy"
+                />
+              </div>
+
+              <ul class="member__social">
+                @for (link of social; track link.name) {
+                  <li>
+                    <a
+                      [href]="link.url"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      [attr.aria-label]="member.name + ' on ' + link.label"
+                    >
+                      <i [class]="link.icon" aria-hidden="true"></i>
+                    </a>
+                  </li>
+                }
+              </ul>
+
+              <div class="member__info">
+                <h3 class="member__name">{{ member.name }}</h3>
+                <p class="member__role">{{ member.role }}</p>
+              </div>
+            </article>
+          </li>
+        }
+      </ul>
+    </div>
+  </section>
+
+  <app-testimonial-slider [items]="testimonials" />
+  <app-faq-preview-section [items]="faqPreview" />
+</main>

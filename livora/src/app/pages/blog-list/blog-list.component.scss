@@ -1,0 +1,55 @@
+@use 'mixins' as *;
+@use 'blog-card-original' as *;
+
+:host {
+  display: block;
+}
+
+// The original's blog pages sit in a Bootstrap `.container` (1300px, 15px gutters): the content starts at x = 85 on a
+// 1440px screen and 15px from the edge on tablets and phones.
+.blog-container {
+  width: 100%;
+  max-width: 1300px;
+  margin-inline: auto;
+  padding-inline: 15px;
+}
+
+// .page-blog-archive: 100px above and (70px padding + 30px card margin) below, 50px on tablets and phones
+.blog-archive {
+  padding-block: 100px;
+
+  @include menu-collapse {
+    padding-block: 50px;
+  }
+}
+
+// col-xl-4 (≥ 1200px) · col-md-6 (≥ 768px) · full width below, 30px gutters
+.post-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 30px;
+
+  @include down(1199px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  @include mobile {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  @include original-card-look;
+}
+
+.empty {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 40px 0;
+  text-align: center;
+
+  h2 {
+    margin-bottom: 15px;
+  }
+
+  p {
+    margin-bottom: 30px;
+  }
+}

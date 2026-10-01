@@ -1,0 +1,31 @@
+<section class="stories">
+  <div class="container stories__inner">
+    <div class="stories__head">
+      <app-section-title eyebrow="Design Stories" title="Modern Living Inspirations" />
+    </div>
+
+    <div class="stories__grid">
+      @for (story of stories; track story.label) {
+        <div class="story" [class]="'story--' + story.photo">
+          <a
+            class="story__icon"
+            [href]="story.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            [attr.aria-label]="story.label + ' (opens in a new tab)'"
+          >
+            <i [class]="story.icon" aria-hidden="true"></i>
+          </a>
+        </div>
+      }
+    </div>
+
+    <p class="stories__quote">
+      <span class="stories__tag">Free</span>
+      <span>
+        Let’s make something great work together.
+        <a class="stories__link" routerLink="/contact-us"><strong>Get Free Quote.</strong></a>
+      </span>
+    </p>
+  </div>
+</section>

@@ -1,0 +1,20 @@
+<section class="news">
+  <div class="container">
+    <div class="news__head">
+      <app-section-title eyebrow="Latest News" title="Creative Furniture Styling Tips" />
+    </div>
+
+    <div class="news__grid">
+      @if (featured) {
+        <div class="news__featured">
+          <app-blog-card [post]="featured" variant="highlight" />
+        </div>
+      }
+      <div class="news__list">
+        @for (post of others; track post.slug) {
+          <app-blog-card [post]="post" variant="row" />
+        }
+      </div>
+    </div>
+  </div>
+</section>

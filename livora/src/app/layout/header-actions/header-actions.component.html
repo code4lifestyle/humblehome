@@ -1,0 +1,37 @@
+<div class="actions">
+  <button
+    type="button"
+    class="action"
+    aria-label="Search products"
+    aria-haspopup="dialog"
+    (click)="layout.openSearch()"
+  >
+    <app-svg-icon name="search" />
+  </button>
+
+  <a
+    class="action"
+    routerLink="/wishlist"
+    [attr.aria-label]="'Wishlist, ' + itemsLabel(wishlist.count())"
+  >
+    <app-svg-icon name="heart" />
+    @if (wishlist.count() > 0) {
+      <span class="badge" aria-hidden="true">{{ wishlist.count() }}</span>
+    }
+  </a>
+
+  <a class="action" routerLink="/my-account" aria-label="My account">
+    <app-svg-icon name="user" />
+  </a>
+
+  <button
+    type="button"
+    class="burger"
+    aria-label="Open menu"
+    aria-haspopup="dialog"
+    [attr.aria-expanded]="layout.mobileMenuOpen()"
+    (click)="layout.openMobileMenu()"
+  >
+    <app-svg-icon name="menu" />
+  </button>
+</div>

@@ -1,0 +1,27 @@
+:host {
+  display: block;
+}
+
+// visible only while focused (keyboard users)
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 16px;
+  z-index: 2000;
+  padding: 10px 18px;
+  border-radius: 8px;
+  background: var(--color-primary);
+  font-weight: 700;
+  color: var(--color-white);
+  transition: top 0.2s ease-in-out;
+
+  &:focus {
+    top: 12px;
+  }
+}
+
+// the routed page (the header bar that becomes sticky is fixed, so nothing needs to be offset here)
+.app-content {
+  display: block;
+  outline: none;
+}

@@ -1,0 +1,199 @@
+@use 'mixins' as *;
+
+// "Best Seller" – original: Elementor container 0ecf61b (home) / 5f3b7de (about).
+// Vertical rhythm = section padding (90/40) + the 10px default padding of the nested Elementor containers.
+
+:host {
+  display: block;
+}
+
+.best-seller {
+  padding: 100px 0 50px;
+
+  @include tablet {
+    padding: 50px 0 25px;
+  }
+}
+
+.best-seller__head {
+  max-width: 770px;
+  margin: 0 auto 60px;
+
+  @include tablet {
+    max-width: none;
+    margin-bottom: 30px;
+  }
+}
+
+// ── Layout: one big tile | 2 × 2 small tiles ─────────────────────────────────────────────────────────────────────────
+.best-seller__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+
+  @include tablet {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.best-seller__small {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+
+  @include mobile {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+// ── Tile ────────────────────────────────────────────────────────────────────────────────────────────────────────────
+.tile {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  padding: 10px;
+  background: var(--color-secondary);
+  border-radius: var(--radius-md);
+}
+
+.tile__image {
+  display: block;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 0.843;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    transition: transform 0.6s ease-in-out;
+
+    @include tablet {
+      aspect-ratio: 1 / 0.7;
+    }
+  }
+}
+
+.tile:hover .tile__image img {
+  transform: scale(1.06);
+}
+
+.tile__body {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px 10px 10px;
+
+  @include mobile {
+    padding: 10px;
+  }
+}
+
+.tile__text {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.tile__title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4em;
+  letter-spacing: var(--letter-spacing-heading);
+  color: var(--color-primary);
+
+  a {
+    color: inherit;
+  }
+}
+
+.tile__price {
+  margin: 10px 0 0;
+  line-height: 1.6em;
+
+  @include mobile {
+    margin-top: 5px;
+  }
+
+  span {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-primary);
+
+    @include mobile {
+      font-size: 14px;
+    }
+  }
+}
+
+.tile__arrow {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 50px;
+  background: var(--color-accent);
+  color: var(--color-white);
+  line-height: 0;
+  transition: var(--transition-base);
+
+  svg {
+    width: 18px;
+    height: 18px;
+    transition: var(--transition-base);
+  }
+
+  &:hover svg {
+    transform: rotate(45deg);
+  }
+}
+
+.tile__body:hover .tile__arrow {
+  background: var(--color-primary);
+}
+
+// ── The large tile is bigger all round ──────────────────────────────────────────────────────────────────────────────
+.tile--large {
+  .tile__image img {
+    aspect-ratio: 1 / 0.96;
+
+    @include tablet {
+      aspect-ratio: 1 / 0.7;
+    }
+  }
+
+  .tile__body {
+    padding: 20px 30px 20px 20px;
+
+    @include tablet {
+      padding: 10px 20px 10px 10px;
+    }
+    @include mobile {
+      padding: 10px;
+    }
+  }
+
+  .tile__title {
+    font-size: 20px;
+
+    @include tablet {
+      font-size: 18px;
+    }
+    @include mobile {
+      font-size: 16px;
+    }
+  }
+
+  .tile__arrow {
+    padding: 8px;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}

@@ -1,0 +1,81 @@
+<app-page-header title="Wishlist" [crumbs]="crumbs" />
+
+@if (products().length === 0) {
+  <section class="empty">
+    <div class="container">
+      <div class="empty-box">
+        <span class="empty-icon" aria-hidden="true"><i class="fa-regular fa-heart"></i></span>
+        <h2 class="empty-title" tabindex="-1">Your wishlist is empty</h2>
+        <p class="empty-text">Tap the heart on any product to save it here for later.</p>
+        <a class="btn-default" routerLink="/shop">Back To Shop</a>
+      </div>
+    </div>
+  </section>
+} @else {
+  <section class="wishlist">
+    <div class="container">
+      <div class="wishlist-bar">
+        <p class="wishlist-count" role="status">
+          <strong>{{ products().length }}</strong>
+          {{ products().length === 1 ? 'product' : 'products' }} in your wishlist
+        </p>
+        <div class="wishlist-actions">
+          <button type="button" class="btn-default btn-plain" (click)="addAll()">
+            Add all to cart
+          </button>
+          <button type="button" class="btn-outline btn-plain" (click)="clear()">
+            Clear wishlist
+          </button>
+        </div>
+      </div>
+
+      <ul class="wishlist-grid">
+        @for (product of products(); track product.id; let i = $index) {
+          <li class="wish-item">
+            <div class="wish-card">
+              <app-product-card [product]="product" />
+              <button
+                type="button"
+                class="wish-remove"
+                title="Remove from wishlist"
+                [attr.aria-label]="'Remove ' + product.name + ' from wishlist'"
+                (click)="remove(product, i)"
+              >
+                <svg
+                  viewBox="0 0 14 14"
+                  width="12"
+                  height="12"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path
+                    d="M1.5 1.5l11 11M12.5 1.5l-11 11"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div class="wish-actions">
+              @if (isVariable(product)) {
+                <a class="btn-dark btn-plain btn-block" [routerLink]="['/product', product.slug]"
+                  >Select options</a
+                >
+              } @else {
+                <button
+                  type="button"
+                  class="btn-dark btn-plain btn-block"
+                  (click)="addToCart(product)"
+                >
+                  Add to cart
+                </button>
+              }
+            </div>
+          </li>
+        }
+      </ul>
+    </div>
+  </section>
+}

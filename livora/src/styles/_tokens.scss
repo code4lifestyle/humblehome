@@ -1,0 +1,41 @@
+// Design tokens ported from the original Livora theme (Elementor global kit + theme css-variable.css).
+// Use these CSS custom properties everywhere – never hard-code the brand colours.
+:root {
+  // Colours
+  --color-primary: #161616;          // near-black: headings, dark surfaces
+  --color-secondary: #f8f5ef;        // warm cream: alt section backgrounds
+  --color-text: #585858;             // body copy
+  --color-accent: #b08d57;           // gold/bronze: buttons, highlights, prices
+  --color-accent-secondary: transparent;
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-divider: #1616161a;        // borders on light surfaces
+  --color-dark-divider: #ffffff1a;   // borders on dark surfaces
+  --color-bg: #fcfbfa;               // page background
+  --color-star: #f5a623;             // rating stars
+  --color-danger: #d63638;
+  --color-success: #2e7d4f;
+
+  // Typography
+  --font-family: 'OPPOSans', sans-serif;
+  --font-size-body: 15px;
+  --line-height-body: 1.6em;
+  --font-size-h1: 36px;              // h1/h2 default; tablet 30px, mobile 24px (see _typography.scss)
+  --letter-spacing-heading: -0.03em;
+
+  // Layout
+  // Measured on the original (header, footer and page sections alike): content is inset max(20px, (viewport − 1300px)/2 + 10px),
+  // i.e. 1280px of content on wide screens (x = 80 at 1440px) and a 20px side inset below ~1320px. `max-width: 1320px` with
+  // 20px padding reproduces exactly that.
+  --container-max: 1320px;
+  --container-gutter: 20px;
+  --header-height: 0px;              // set at runtime by the header component if a sticky offset is needed
+
+  // Shape & motion
+  --radius-pill: 100px;
+  --radius-md: 20px;
+  --radius-sm: 10px;
+  --transition-base: all 0.4s ease-in-out;
+  --transition-fast: all 0.3s ease-in-out;
+  --shadow-soft: 0 10px 40px 0 #0000000d;
+}

@@ -1,0 +1,19 @@
+<div class="section-title">
+  @if (eyebrow()) {
+    <p class="section-title__eyebrow">{{ eyebrow() }}</p>
+  }
+
+  @switch (tag()) {
+    @case ('h1') {
+      <h1 class="section-title__heading">{{ title() }}</h1>
+    }
+    @case ('h3') {
+      <h3 class="section-title__heading">{{ title() }}</h3>
+    }
+    @default {
+      <h2 class="section-title__heading">{{ title() }}</h2>
+    }
+  }
+
+  <div class="section-title__text"><ng-content /></div>
+</div>

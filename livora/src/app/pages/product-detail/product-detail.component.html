@@ -1,0 +1,47 @@
+<main class="page product-page">
+  @for (view of views(); track view.product.id) {
+    <div class="container product">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a routerLink="/">Home</a></li>
+          @if (view.category; as category) {
+            <li>
+              <a [routerLink]="['/product-category', category.slug]">{{ category.name }}</a>
+            </li>
+          }
+          <li aria-current="page">{{ view.product.name }}</li>
+        </ol>
+      </nav>
+
+      <div class="product__columns">
+        <app-product-gallery
+          [images]="view.product.images"
+          [alt]="view.product.name"
+          [badge]="badge()"
+          [variation]="variation()"
+        />
+        <app-product-summary [product]="view.product" (variationChange)="variation.set($event)" />
+      </div>
+
+      <app-product-tabs class="product__tabs" [product]="view.product" />
+    </div>
+
+    @if (view.related.length) {
+      <section class="related">
+        <div class="container">
+          <!-- heading block kept exactly as the original shows it (Featured products / Explore Our Signature Jewellery Pieces) -->
+          <app-section-title
+            eyebrow="Featured products"
+            title="Explore Our Signature Jewellery Pieces"
+          />
+
+          <ul class="related__grid" aria-label="Related products">
+            @for (item of view.related; track item.id) {
+              <li><app-product-card [product]="item" /></li>
+            }
+          </ul>
+        </div>
+      </section>
+    }
+  }
+</main>

@@ -1,0 +1,13 @@
+/*
+  Global styles entry. Order matters.
+  Partials live in src/styles/. Component SCSS can reuse mixins/breakpoints with:
+      @use 'mixins' as *;        // resolved through angular.json → stylePreprocessorOptions.includePaths
+*/
+@use 'styles/tokens';
+@use 'styles/fonts';
+@use 'styles/base';
+@use 'styles/typography';
+@use 'styles/layout';
+@use 'styles/buttons';
+@use 'styles/forms';
+@use 'styles/utilities';

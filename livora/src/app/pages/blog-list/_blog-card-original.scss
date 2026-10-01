@@ -1,0 +1,36 @@
+@use 'mixins' as *;
+
+// Local workaround (not an edit of the shared component): the shared `app-blog-card` is very close to the original blog
+// card (`.page-blog-archive .post-item`) but differs in three details. All overrides set absolute values, so they stay
+// harmless once the shared card has been fixed – then this file and its two `@include`s can simply be deleted.
+//
+//   · the original has a 10px flex gap between the image and the text block (card 10px taller than the shared one)
+//   · at ≤ 991px the text block has 10px padding instead of 20px
+//   · at ≤ 767px the "Read More" row has 15px (not 20px) above and below its divider and a 22px arrow disc
+//
+// Used by the blog list and by the related posts of the blog detail page (blog-detail.component.scss).
+@mixin original-card-look {
+  app-blog-card ::ng-deep .post {
+    gap: 10px;
+  }
+
+  @include menu-collapse {
+    app-blog-card ::ng-deep .body {
+      padding: 10px;
+    }
+  }
+
+  // `!important`: the card's own `.excerpt + .more` rule is more specific
+  @include mobile {
+    app-blog-card ::ng-deep .body .more {
+      margin-top: 15px !important;
+      padding-top: 15px !important;
+    }
+
+    app-blog-card ::ng-deep .read-more svg {
+      width: 22px;
+      height: 22px;
+      padding: 3px;
+    }
+  }
+}

@@ -1,0 +1,56 @@
+@if (total() > 1) {
+  @if (variant() === 'load-more') {
+    @if (current() < total()) {
+      <div class="more">
+        <button type="button" class="pg load-more" (click)="go(current() + 1)">
+          {{ loadMoreLabel() }}
+        </button>
+      </div>
+    }
+  } @else {
+    <nav class="pagination" aria-label="Pagination">
+      <ul>
+        <li>
+          <button
+            type="button"
+            class="pg pg-arrow"
+            aria-label="Previous page"
+            [disabled]="current() <= 1"
+            (click)="go(current() - 1)"
+          >
+            <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+          </button>
+        </li>
+        @for (item of items(); track $index) {
+          <li>
+            @if (item === null) {
+              <span class="pg pg-gap" aria-hidden="true">&hellip;</span>
+            } @else {
+              <button
+                type="button"
+                class="pg"
+                [class.is-current]="item === current()"
+                [attr.aria-label]="'Page ' + item"
+                [attr.aria-current]="item === current() ? 'page' : null"
+                (click)="go(item)"
+              >
+                {{ item }}
+              </button>
+            }
+          </li>
+        }
+        <li>
+          <button
+            type="button"
+            class="pg pg-arrow"
+            aria-label="Next page"
+            [disabled]="current() >= total()"
+            (click)="go(current() + 1)"
+          >
+            <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  }
+}

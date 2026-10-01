@@ -1,0 +1,17 @@
+@if (finished()) {
+  <p class="finished" role="status">{{ finishedText() }}</p>
+} @else {
+  <div
+    class="timer"
+    role="timer"
+    aria-live="off"
+    [attr.aria-label]="'Countdown timer: ' + summary()"
+  >
+    @for (unit of units(); track unit.key) {
+      <div class="unit">
+        <span class="count">{{ unit.value }}</span>
+        <span class="label">{{ unit.label }}</span>
+      </div>
+    }
+  </div>
+}

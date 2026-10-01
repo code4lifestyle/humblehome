@@ -1,0 +1,92 @@
+@use 'mixins' as *;
+
+:host {
+  display: block;
+}
+
+// Original: column with a 15px gap, pill (7px 16px, 40px radius, 1px divider) + h2 36/30/24px
+.section-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  text-align: center;
+
+  // original: the gap between pill, heading and paragraph is 10px on tablet/mobile
+  @include tablet {
+    gap: 10px;
+  }
+}
+:host(.is-left) .section-title {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.section-title__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 7px 16px;
+  border: 1px solid var(--color-divider);
+  border-radius: 40px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.3em;
+  color: var(--color-primary);
+
+  // accent dot
+  &::before {
+    content: '';
+    flex: 0 0 6px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-accent);
+  }
+
+  @include tablet {
+    padding: 6px 12px;
+  }
+}
+
+.section-title__heading {
+  margin: 0;
+  font-size: var(--font-size-h1);
+  font-weight: 700;
+  line-height: 1.4em;
+  letter-spacing: var(--letter-spacing-heading);
+  color: var(--color-primary);
+
+  @include tablet {
+    font-size: 30px;
+  }
+  @include mobile {
+    font-size: 24px;
+  }
+}
+
+.section-title__text {
+  max-width: 100%;
+  color: var(--color-text);
+
+  &:empty {
+    display: none;
+  }
+  // projected paragraphs live in the consumer's view – only neutralise their bottom margin
+  ::ng-deep > p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// dark backgrounds
+:host(.is-light) {
+  .section-title__eyebrow {
+    border-color: var(--color-dark-divider);
+    color: var(--color-white);
+  }
+  .section-title__heading,
+  .section-title__text {
+    color: var(--color-white);
+  }
+}

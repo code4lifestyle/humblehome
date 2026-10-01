@@ -1,0 +1,43 @@
+// Star size is driven by font-size (em based) – see data-size on the host.
+:host {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: 16px;
+  line-height: 1;
+  vertical-align: middle;
+  color: var(--color-accent);
+}
+
+:host([data-size='sm']) {
+  font-size: 13px;
+}
+
+:host([data-size='lg']) {
+  font-size: 20px;
+}
+
+.stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.18em;
+  white-space: nowrap;
+
+  i {
+    display: block;
+    font-size: 1em;
+    line-height: 1;
+  }
+}
+
+.value {
+  font-size: 0.9em;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.count {
+  font-size: 0.85em;
+  color: var(--color-text);
+  opacity: 0.8;
+}

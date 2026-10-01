@@ -1,0 +1,73 @@
+@use 'mixins' as *;
+
+// "Frequently Asked Questions" – original: Elementor container 2123290 (about) / 2e9e8c8 (testimonials).
+// Left half: sticky intro (pill, heading, paragraph, button). Right half: accordion.
+
+:host {
+  display: block;
+}
+
+.faq-preview {
+  padding-block: 90px;
+
+  @include tablet {
+    padding-block: 40px;
+  }
+}
+
+.faq-preview__row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  @include tablet {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+}
+
+// The 10px column padding of the original only matters between the two columns (side by side), not at the edges.
+.faq-preview__intro,
+.faq-preview__list {
+  min-width: 0;
+  padding-block: 10px;
+}
+
+.faq-preview__intro {
+  padding-right: 10px;
+}
+
+.faq-preview__list {
+  padding-left: 10px;
+}
+
+@include tablet {
+  .faq-preview__intro {
+    padding-right: 0;
+  }
+
+  .faq-preview__list {
+    padding-left: 0;
+  }
+}
+
+.faq-preview__sticky {
+  position: sticky;
+  top: calc(var(--header-height, 0px) + 40px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
+
+  @include tablet {
+    position: static;
+    gap: 10px;
+  }
+}
+
+.faq-preview__button {
+  margin-top: 25px;
+
+  @include tablet {
+    margin-top: 20px;
+  }
+}

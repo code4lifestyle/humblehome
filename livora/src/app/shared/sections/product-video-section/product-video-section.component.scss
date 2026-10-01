@@ -1,0 +1,223 @@
+@use 'mixins' as *;
+
+// "Product Video" – original: Elementor container 9c31e95 (home) / 0fcff34 (testimonials).
+// 850px tall (580px on tablet), content pinned to the bottom, still image + bottom-to-top dark gradient.
+
+:host {
+  display: block;
+}
+
+.product-video {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 850px;
+  padding-block: 100px;
+  background: url('/assets/images/intro-video-bg.jpg') 50% 50% / cover no-repeat;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(
+      180deg,
+      rgb(255 255 255 / 0%) 50%,
+      color-mix(in srgb, var(--color-primary) 80%, transparent) 100%
+    );
+    pointer-events: none;
+  }
+
+  > .container {
+    position: relative;
+  }
+
+  @include tablet {
+    min-height: 580px;
+    padding-block: 60px;
+  }
+}
+
+.product-video__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+
+  @include mobile {
+    gap: 30px;
+  }
+}
+
+.product-video__text {
+  width: 50%;
+
+  @include tablet {
+    width: 75%;
+  }
+  @include mobile {
+    width: 100%;
+  }
+}
+
+.product-video__action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 50%;
+  padding-left: 30px;
+
+  @include tablet {
+    width: 25%;
+  }
+  @include mobile {
+    align-items: flex-start;
+    width: 100%;
+    padding-left: 0;
+  }
+}
+
+// ── Play button with the rotating circular text ─────────────────────────────────────────────────────────────────────
+.play {
+  position: relative;
+  width: 140px;
+  height: 140px;
+
+  @include tablet {
+    width: 120px;
+    height: 120px;
+  }
+  @include mobile {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+.play__ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  animation: play-rotate 20s linear infinite;
+
+  text {
+    fill: var(--color-white);
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+.play:hover .play__ring {
+  animation-play-state: paused;
+}
+
+.play__button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-white);
+  font-size: 42px;
+  line-height: 1;
+  transform: translate(-50%, -50%);
+  transition: var(--transition-fast);
+
+  &:hover {
+    transform: translate(-50%, -50%) scale(1.12);
+  }
+
+  @include tablet {
+    width: 35px;
+    height: 35px;
+    font-size: 35px;
+  }
+  @include mobile {
+    width: 30px;
+    height: 30px;
+    font-size: 30px;
+  }
+}
+
+@keyframes play-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// ── Modal (native <dialog>: focus trap, Esc, inert page behind) ─────────────────────────────────────────────────────
+.video-modal {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 20px;
+  border: 0;
+  background: transparent;
+  color: var(--color-white);
+
+  &[open] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: modal-fade 0.3s ease-out;
+  }
+
+  &::backdrop {
+    background: rgb(11 11 11 / 88%);
+  }
+}
+
+.video-modal__frame {
+  width: 100%;
+  max-width: 900px;
+  aspect-ratio: 16 / 9;
+  background: var(--color-black);
+  box-shadow: 0 20px 60px rgb(0 0 0 / 50%);
+
+  iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+}
+
+.video-modal__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 12%);
+  color: var(--color-white);
+  font-size: 20px;
+  transition: var(--transition-fast);
+
+  &:hover {
+    background: var(--color-accent);
+  }
+}
+
+@keyframes modal-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

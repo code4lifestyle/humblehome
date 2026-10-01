@@ -1,0 +1,360 @@
+@if (view() === 'lost-password') {
+  <!-- ==================================================== lost password ==================================================== -->
+  <app-page-header title="Forgot Password" [crumbs]="accountCrumbs" />
+
+  <section class="auth">
+    <div class="container">
+      <div class="auth-grid auth-grid--single">
+        <div class="auth-col auth-col--narrow">
+          <h2 class="auth-title">Forgot your password</h2>
+          <p class="auth-intro">
+            Forgot your password? Please enter your username or email address. You will receive a
+            link to create a new password via email.
+          </p>
+
+          <form class="auth-form" [formGroup]="resetForm" (ngSubmit)="resetPassword()" novalidate>
+            <div class="form-group">
+              <label class="form-label" for="user_login">Username or email</label>
+              <input
+                id="user_login"
+                class="form-control"
+                type="text"
+                name="user_login"
+                formControlName="login"
+                autocomplete="username"
+                [attr.aria-invalid]="resetError() ? 'true' : null"
+                [attr.aria-describedby]="resetError() ? 'user_login_error' : null"
+              />
+              @if (resetError(); as message) {
+                <p id="user_login_error" class="form-error" role="alert">{{ message }}</p>
+              }
+            </div>
+
+            @if (resetSent()) {
+              <p class="form-message form-message--success" role="status">
+                Password reset email has been sent.
+              </p>
+            }
+
+            <button type="submit" class="btn-default btn-plain">Reset password</button>
+            <p class="back-link"><a routerLink="/my-account">Back to login</a></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+} @else if (auth.user(); as user) {
+  <!-- ======================================================= dashboard ======================================================= -->
+  <app-page-header title="My Account" [crumbs]="accountCrumbs" />
+
+  <section class="dash">
+    <div class="container">
+      <div class="dash-grid">
+        <nav class="dash-nav" aria-label="Account navigation">
+          <ul>
+            <li>
+              <a class="dash-link is-active" routerLink="/my-account" aria-current="page">
+                <i class="ic ic-dashboard" aria-hidden="true"></i>Dashboard
+              </a>
+            </li>
+            <li>
+              <a class="dash-link" routerLink="/wishlist">
+                <i class="ic ic-wishlist" aria-hidden="true"></i>Wishlist
+                <span class="dash-count">{{ wishlist.count() }}</span>
+              </a>
+            </li>
+            <li>
+              <a class="dash-link" routerLink="/cart">
+                <i class="ic ic-cart" aria-hidden="true"></i>Cart
+                <span class="dash-count">{{ cart.count() }}</span>
+              </a>
+            </li>
+            <li>
+              <a class="dash-link" routerLink="/shop">
+                <i class="ic ic-shop" aria-hidden="true"></i>Shop
+              </a>
+            </li>
+            <li>
+              <button type="button" class="dash-link" (click)="logout()">
+                <i class="ic ic-logout" aria-hidden="true"></i>Log out
+              </button>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="dash-main">
+          <h2 class="dash-title" tabindex="-1">Hello {{ user.name }}</h2>
+          <p class="dash-intro">
+            From your account dashboard you can view your recent order, manage your wishlist and
+            cart, and keep exploring our latest collections. Signed in as
+            <strong>{{ user.email }}</strong
+            >.
+          </p>
+
+          <ul class="tiles">
+            <li>
+              <a class="tile" routerLink="/wishlist">
+                <span class="tile-icon"><i class="ic ic-wishlist" aria-hidden="true"></i></span>
+                <span class="tile-text">
+                  <strong class="tile-title">Wishlist</strong>
+                  <span class="tile-meta"
+                    >{{ wishlist.count() }}
+                    {{ wishlist.count() === 1 ? 'product' : 'products' }} saved</span
+                  >
+                </span>
+              </a>
+            </li>
+            <li>
+              <a class="tile" routerLink="/cart">
+                <span class="tile-icon"><i class="ic ic-cart" aria-hidden="true"></i></span>
+                <span class="tile-text">
+                  <strong class="tile-title">Cart</strong>
+                  <span class="tile-meta"
+                    >{{ cart.count() }} {{ cart.count() === 1 ? 'item' : 'items' }} ·
+                    {{ cart.subtotal() | currency:'AED':'symbol':'1.0-0' }}</span
+                  >
+                </span>
+              </a>
+            </li>
+            <li>
+              <a class="tile" routerLink="/shop">
+                <span class="tile-icon"><i class="ic ic-shop" aria-hidden="true"></i></span>
+                <span class="tile-text">
+                  <strong class="tile-title">Shop</strong>
+                  <span class="tile-meta">Browse all furniture</span>
+                </span>
+              </a>
+            </li>
+          </ul>
+
+          <div class="recent">
+            <h3 class="recent-title">Recent order</h3>
+            @if (lastOrder(); as order) {
+              <dl class="recent-meta">
+                <div>
+                  <dt>Order</dt>
+                  <dd>{{ order.id }}</dd>
+                </div>
+                <div>
+                  <dt>Date</dt>
+                  <dd>{{ order.createdAt | date: 'MMMM d, y' }}</dd>
+                </div>
+                <div>
+                  <dt>Status</dt>
+                  <dd>
+                    <span class="status" [class.status--hold]="order.status === 'on-hold'">
+                      {{ order.status === 'on-hold' ? 'On hold' : 'Processing' }}
+                    </span>
+                  </dd>
+                </div>
+                <div>
+                  <dt>Total</dt>
+                  <dd>{{ order.total | currency:'AED':'symbol':'1.0-0' }}</dd>
+                </div>
+              </dl>
+              <ul class="recent-items">
+                @for (item of order.items; track item.productId + ':' + (item.variation ?? '')) {
+                  <li>
+                    <a [routerLink]="['/product', item.slug]">{{ item.name }}</a>
+                    <span class="recent-qty">&times; {{ item.quantity }}</span>
+                    <span class="recent-line">{{ item.lineTotal | currency:'AED':'symbol':'1.0-0' }}</span>
+                  </li>
+                }
+              </ul>
+              <p class="recent-note">
+                Paid with <strong>{{ order.payment.title }}</strong> · shipping to
+                {{ order.shippingAddress?.city ?? order.billing.city }},
+                {{ order.shippingAddress?.country ?? order.billing.country }}
+              </p>
+            } @else {
+              <p class="recent-empty">You have not placed an order yet.</p>
+              <a class="btn-default" routerLink="/shop">Browse Products</a>
+            }
+          </div>
+
+          <button type="button" class="btn-outline btn-plain dash-logout" (click)="logout()">
+            Log out
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+} @else {
+  <!-- ==================================================== login / sign up ==================================================== -->
+  <app-page-header title="Login & Sign Up" [crumbs]="accountCrumbs" />
+
+  <section class="auth">
+    <div class="container">
+      <div class="auth-grid">
+        <!-- ---------------------------------------------------- login ---------------------------------------------------- -->
+        <div class="auth-col auth-col--login">
+          <h2 class="auth-title">Login your account</h2>
+          <p class="auth-intro">
+            Access your account to explore our latest collections, track your orders shopping
+            experience. Enter your detail below to continue your journey with us.
+          </p>
+
+          <form class="auth-form" [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
+            <div class="form-group">
+              <label class="form-label form-label--required" for="username"
+                >Username or email address</label
+              >
+              <input
+                id="username"
+                class="form-control"
+                type="text"
+                name="username"
+                formControlName="identifier"
+                autocomplete="username"
+                aria-required="true"
+                [attr.aria-invalid]="loginError()?.field === 'identifier' ? 'true' : null"
+                [attr.aria-describedby]="
+                  loginError()?.field === 'identifier' ? 'username_error' : null
+                "
+              />
+              @if (loginError(); as e) {
+                @if (e.field === 'identifier') {
+                  <p id="username_error" class="form-error" role="alert">{{ e.text }}</p>
+                }
+              }
+            </div>
+
+            <div class="form-group">
+              <label class="form-label form-label--required" for="password">Password</label>
+              <div class="form-control-wrap">
+                <input
+                  id="password"
+                  class="form-control"
+                  [type]="showLoginPassword() ? 'text' : 'password'"
+                  name="password"
+                  formControlName="password"
+                  autocomplete="current-password"
+                  aria-required="true"
+                  [attr.aria-invalid]="loginError()?.field === 'password' ? 'true' : null"
+                  [attr.aria-describedby]="
+                    loginError()?.field === 'password' ? 'password_error' : null
+                  "
+                />
+                <button
+                  type="button"
+                  class="form-control-icon"
+                  aria-label="Show password"
+                  [attr.aria-pressed]="showLoginPassword()"
+                  (click)="showLoginPassword.set(!showLoginPassword())"
+                >
+                  <i
+                    class="fa-regular"
+                    [class.fa-eye]="showLoginPassword()"
+                    [class.fa-eye-slash]="!showLoginPassword()"
+                    aria-hidden="true"
+                  ></i>
+                </button>
+              </div>
+              @if (loginError(); as e) {
+                @if (e.field === 'password') {
+                  <p id="password_error" class="form-error" role="alert">{{ e.text }}</p>
+                }
+              }
+            </div>
+
+            <label class="form-check remember">
+              <input type="checkbox" name="rememberme" formControlName="remember" />
+              <span>Remember me</span>
+            </label>
+
+            <button type="submit" class="btn-default btn-plain" [disabled]="busy()">Log in</button>
+
+            <p class="lost-password">
+              <a routerLink="/my-account/lost-password" title="Lost Password"
+                >Lost your password?</a
+              >
+            </p>
+          </form>
+        </div>
+
+        <!-- --------------------------------------------------- sign up --------------------------------------------------- -->
+        <div class="auth-col auth-col--register">
+          <h2 class="auth-title">Sign up your account</h2>
+          <p class="auth-intro">
+            Sign up to explore our exclusive watch collection track your order experience. Create
+            your account in just a few steps &amp; stay updated with the latest arrivals.
+          </p>
+
+          <form class="auth-form" [formGroup]="registerForm" (ngSubmit)="register()" novalidate>
+            <div class="form-group">
+              <label class="form-label form-label--required" for="reg_email">Email address</label>
+              <input
+                id="reg_email"
+                class="form-control"
+                type="email"
+                name="email"
+                formControlName="email"
+                autocomplete="email"
+                aria-required="true"
+                [attr.aria-invalid]="registerError()?.field === 'email' ? 'true' : null"
+                [attr.aria-describedby]="
+                  registerError()?.field === 'email' ? 'reg_email_error' : null
+                "
+              />
+              @if (registerError(); as e) {
+                @if (e.field === 'email') {
+                  <p id="reg_email_error" class="form-error" role="alert">{{ e.text }}</p>
+                }
+              }
+            </div>
+
+            <div class="form-group">
+              <label class="form-label form-label--required" for="reg_password">Password</label>
+              <div class="form-control-wrap">
+                <input
+                  id="reg_password"
+                  class="form-control"
+                  [type]="showRegisterPassword() ? 'text' : 'password'"
+                  name="password"
+                  formControlName="password"
+                  autocomplete="new-password"
+                  aria-required="true"
+                  [attr.aria-invalid]="registerError()?.field === 'password' ? 'true' : null"
+                  [attr.aria-describedby]="
+                    registerError()?.field === 'password' ? 'reg_password_error' : null
+                  "
+                />
+                <button
+                  type="button"
+                  class="form-control-icon"
+                  aria-label="Show password"
+                  [attr.aria-pressed]="showRegisterPassword()"
+                  (click)="showRegisterPassword.set(!showRegisterPassword())"
+                >
+                  <i
+                    class="fa-regular"
+                    [class.fa-eye]="showRegisterPassword()"
+                    [class.fa-eye-slash]="!showRegisterPassword()"
+                    aria-hidden="true"
+                  ></i>
+                </button>
+              </div>
+              @if (registerError(); as e) {
+                @if (e.field === 'password') {
+                  <p id="reg_password_error" class="form-error" role="alert">{{ e.text }}</p>
+                }
+              }
+            </div>
+
+            <p class="privacy-text">
+              Your personal data will be used to support your experience throughout this website, to
+              manage access to your account, and for other purposes described in our
+              <a [routerLink]="['/policy', 'privacy-policy']" target="_blank" rel="noopener"
+                >privacy policy</a
+              >.
+            </p>
+
+            <button type="submit" class="btn-default btn-plain btn-block" [disabled]="busy()">
+              Register
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+}

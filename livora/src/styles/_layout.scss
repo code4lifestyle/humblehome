@@ -1,0 +1,28 @@
+@use 'mixins' as *;
+
+// Boxed content wrapper – 1320px max incl. 20px gutters = 1280px of content, exactly like the original's Elementor boxed
+// containers: content starts at x = 80 at a 1440px viewport, x = 43 at 1366px and keeps a 20px side inset below ~1320px.
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-gutter);
+}
+
+// Standard vertical rhythm for page sections
+.section {
+  @include section-padding();
+}
+.section--secondary {
+  background: var(--color-secondary);
+}
+.section--dark {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+// Minimal page wrapper used by every routed page so header/footer stay at the edges
+.page {
+  display: block;
+  min-height: 50vh;
+}

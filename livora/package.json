@@ -1,0 +1,38 @@
+{
+  "name": "livora-angular",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "build:dev": "ng build --configuration development",
+    "watch": "ng build --watch --configuration development",
+    "serve:original": "http-server .. -p 8090 -c-1 -s",
+    "shot": "node tools/shot.mjs",
+    "check:links": "node tools/check-links.mjs"
+  },
+  "private": true,
+  "packageManager": "npm@11.12.1",
+  "dependencies": {
+    "@angular/common": "^21.2.0",
+    "@angular/compiler": "^21.2.0",
+    "@angular/core": "^21.2.0",
+    "@angular/forms": "^21.2.0",
+    "@angular/platform-browser": "^21.2.0",
+    "@angular/router": "^21.2.0",
+    "@fortawesome/fontawesome-free": "^6.7.2",
+    "rxjs": "~7.8.0",
+    "swiper": "^11.2.10",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^21.2.6",
+    "@angular/cli": "^21.2.6",
+    "@angular/compiler-cli": "^21.2.0",
+    "http-server": "^14.1.1",
+    "playwright-core": "^1.63.0",
+    "prettier": "^3.8.1",
+    "typescript": "~5.9.2"
+  },
+  "description": "Humble Home furniture store - Angular rebuild of the Livora WordPress/Elementor demo"
+}

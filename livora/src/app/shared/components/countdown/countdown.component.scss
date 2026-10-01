@@ -1,0 +1,94 @@
+@use 'mixins' as *;
+
+// Ported from the ElementsKit countdown on the home page ("Flat Discount"): 65 × 80 units, 38px bold numbers,
+// 15px labels and a big ":" between the units.
+:host {
+  display: inline-block;
+  color: var(--countdown-color, var(--color-white));
+}
+
+.timer {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px 60px;
+
+  @include mobile {
+    gap: 30px;
+  }
+}
+
+.unit {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 65px;
+  height: 80px;
+
+  @include tablet {
+    min-width: 70px;
+    height: 70px;
+  }
+  @include mobile {
+    min-width: 65px;
+    height: 60px;
+  }
+
+  // ":" between two units, centred in the gap
+  &:not(:last-child)::after {
+    content: ':';
+    position: absolute;
+    top: 15px;
+    left: calc(100% + 20px);
+    width: 20px;
+    height: 36px;
+    font-size: 70px;
+    line-height: 0;
+
+    @include mobile {
+      left: calc(100% + 10px);
+      width: 10px;
+      height: 26px;
+      font-size: 40px;
+    }
+  }
+}
+
+.count {
+  margin-bottom: 15px;
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 1.1em;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+
+  @include tablet {
+    margin-bottom: 10px;
+    font-size: 32px;
+  }
+  @include mobile {
+    margin-bottom: 5px;
+    font-size: 26px;
+  }
+}
+
+.label {
+  font-size: 15px;
+  line-height: 1.6em;
+}
+
+.finished {
+  margin: 0;
+  color: var(--color-accent);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.4em;
+  letter-spacing: -0.03em;
+
+  @include tablet {
+    font-size: 20px;
+  }
+  @include mobile {
+    font-size: 18px;
+  }
+}

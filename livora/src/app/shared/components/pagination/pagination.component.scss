@@ -1,0 +1,101 @@
+@use 'mixins' as *;
+
+// Look of the original WooCommerce / ShopEngine pagination: accent pills, the current page is dark, hover = dark.
+:host {
+  display: block;
+  text-align: center;
+}
+
+.pagination,
+.more {
+  margin-top: 45px;
+
+  @include tablet {
+    margin-top: 15px;
+  }
+  @include mobile {
+    margin-top: 20px;
+  }
+}
+
+ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  // 9 slots (prev, 7 pages, next) have to fit a 360px phone
+  @include mobile {
+    gap: 5px;
+  }
+}
+
+.pg {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 50px;
+  height: 50px;
+  padding: 0 18px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  transition: var(--transition-fast);
+
+  @include tablet {
+    min-width: 46px;
+    height: 46px;
+    padding: 0 14px;
+    font-size: 14px;
+  }
+  @include mobile {
+    min-width: 34px;
+    height: 34px;
+    padding: 0 8px;
+  }
+
+  &:hover:not(:disabled):not(.is-current) {
+    background: var(--color-primary);
+  }
+
+  &.is-current {
+    background: var(--color-primary);
+    cursor: default;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.pg-arrow i {
+  font-size: 13px;
+}
+
+// "…" between number groups
+.pg-gap {
+  min-width: 24px;
+  padding: 0;
+  background: transparent;
+  color: var(--color-text);
+  letter-spacing: 1px;
+}
+
+.load-more {
+  height: 50px;
+  padding: 0 28px;
+  cursor: pointer;
+
+  @include tablet {
+    height: 46px;
+    padding: 0 16px;
+  }
+}
