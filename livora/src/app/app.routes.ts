@@ -130,6 +130,11 @@ export const routes: Routes = [
 
   // Content pages
   {
+    path: 'our-locations',
+    title: 'Our Locations',
+    loadComponent: () => import('./pages/locations/locations.component').then((m) => m.LocationsComponent),
+  },
+  {
     path: 'contact-us',
     title: 'Contact Us',
     loadComponent: () => import('./pages/contact/contact.component').then((m) => m.ContactComponent),

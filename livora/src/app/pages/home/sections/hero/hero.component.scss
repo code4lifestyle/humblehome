@@ -54,7 +54,7 @@
   // the theme's hero heading: 80px / 900 (58 tablet / 36 mobile), 1.2em – bigger than the regular section heading
   ::ng-deep .section-title__heading {
     font-size: 80px;
-    font-weight: 900;
+    font-weight: 500;
     line-height: 1.2em;
 
     @include tablet {

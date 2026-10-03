@@ -1,0 +1,27 @@
+<main class="locations">
+  <app-page-header title="Our Locations" [crumbs]="crumbs" />
+
+  <section class="locations__body">
+    <div class="container">
+      <address class="locations__card">
+        <h2>Humble Home</h2>
+        <p>{{ contact.address }}</p>
+        <p>
+          <a [href]="contact.phoneHref">{{ contact.phone }}</a>
+        </p>
+        <p>{{ contact.hours }}</p>
+      </address>
+
+      <div class="locations__map">
+        <iframe
+          class="locations__frame"
+          [src]="mapUrl"
+          title="Map showing the Humble Home store in the United Arab Emirates"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </section>
+</main>

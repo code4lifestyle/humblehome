@@ -20,9 +20,6 @@
           {{ products().length === 1 ? 'product' : 'products' }} in your wishlist
         </p>
         <div class="wishlist-actions">
-          <button type="button" class="btn-default btn-plain" (click)="addAll()">
-            Add all to cart
-          </button>
           <button type="button" class="btn-outline btn-plain" (click)="clear()">
             Clear wishlist
           </button>
@@ -59,19 +56,14 @@
               </button>
             </div>
             <div class="wish-actions">
-              @if (isVariable(product)) {
-                <a class="btn-dark btn-plain btn-block" [routerLink]="['/product', product.slug]"
-                  >Select options</a
-                >
-              } @else {
-                <button
-                  type="button"
-                  class="btn-dark btn-plain btn-block"
-                  (click)="addToCart(product)"
-                >
-                  Add to cart
-                </button>
-              }
+              <a
+                class="btn-dark btn-plain btn-block"
+                [routerLink]="['/contact-us']"
+                [queryParams]="consultQuery(product)"
+                fragment="consultation"
+              >
+                Book a free consultation
+              </a>
             </div>
           </li>
         }

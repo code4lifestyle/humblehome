@@ -1,0 +1,28 @@
+// Floating chat button: cream circle, dark icon, fixed to the lower-right corner.
+.whatsapp-float {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 950;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #efe4d2;
+  box-shadow: 0 6px 18px rgb(22 22 22 / 18%);
+  font-size: 28px;
+  color: var(--color-primary);
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--color-accent);
+    color: var(--color-white);
+    transform: translateY(-2px);
+  }
+}

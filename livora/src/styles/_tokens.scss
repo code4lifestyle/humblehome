@@ -2,14 +2,14 @@
 // Use these CSS custom properties everywhere – never hard-code the brand colours.
 :root {
   // Colours
-  --color-primary: #161616;          // near-black: headings, dark surfaces
+  --color-primary: #0b0b0a;          // black: headings, dark surfaces
   --color-secondary: #f8f5ef;        // warm cream: alt section backgrounds
   --color-text: #585858;             // body copy
-  --color-accent: #b08d57;           // gold/bronze: buttons, highlights, prices
+  --color-accent: #a27b35;           // dark gold: buttons, highlights, prices
   --color-accent-secondary: transparent;
   --color-white: #ffffff;
-  --color-black: #000000;
-  --color-divider: #1616161a;        // borders on light surfaces
+  --color-black: #0b0b0a;
+  --color-divider: #0b0b0a1a;        // borders on light surfaces
   --color-dark-divider: #ffffff1a;   // borders on dark surfaces
   --color-bg: #fcfbfa;               // page background
   --color-star: #f5a623;             // rating stars
@@ -17,11 +17,13 @@
   --color-success: #2e7d4f;
 
   // Typography
-  --font-family: 'OPPOSans', sans-serif;
+  --font-family: 'Montserrat', sans-serif;
+  --font-heading: 'Bodoni Moda', 'Times New Roman', serif;
+  --font-accent: 'Cormorant Garamond', 'Times New Roman', serif;
   --font-size-body: 15px;
   --line-height-body: 1.6em;
   --font-size-h1: 36px;              // h1/h2 default; tablet 30px, mobile 24px (see _typography.scss)
-  --letter-spacing-heading: -0.03em;
+  --letter-spacing-heading: 0;
 
   // Layout
   // Measured on the original (header, footer and page sections alike): content is inset max(20px, (viewport − 1300px)/2 + 10px),

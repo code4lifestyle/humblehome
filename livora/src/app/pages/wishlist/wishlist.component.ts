@@ -9,11 +9,9 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Product } from '@core/models';
-import { CartService } from '@core/services/cart.service';
 import { ProductService } from '@core/services/product.service';
 import { ToastService } from '@core/services/toast.service';
 import { WishlistService } from '@core/services/wishlist.service';
-import { isVariable } from '@core/utils/product.utils';
 import {
   PageHeaderComponent,
   PageHeaderCrumb,
@@ -21,9 +19,8 @@ import {
 import { ProductCardComponent } from '@shared/components/product-card/product-card.component';
 
 /**
- * `/wishlist` – the saved products as a grid of `app-product-card`s with a remove button and an "Add to cart" /
- * "Select options" action per item, "Add all to cart" (simple products only) and "Clear wishlist".
- * The original mirror only shows a login gate here, so this page is designed in the theme's style.
+ * `/wishlist` – the saved products as a grid of `app-product-card`s with a remove button and a
+ * "Book a free consultation" link per item, plus "Clear wishlist".
  */
 @Component({
   selector: 'app-wishlist-page',
@@ -35,7 +32,6 @@ import { ProductCardComponent } from '@shared/components/product-card/product-ca
 export class WishlistComponent {
   private readonly wishlist = inject(WishlistService);
   private readonly catalog = inject(ProductService);
-  private readonly cart = inject(CartService);
   private readonly toast = inject(ToastService);
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly injector = inject(Injector);
@@ -48,12 +44,14 @@ export class WishlistComponent {
   /** Saved products in the order they were added (ids that no longer exist in the catalog are skipped). */
   protected readonly products = computed(() => this.catalog.byIds(this.wishlist.ids()));
 
-  protected isVariable(product: Product): boolean {
-    return isVariable(product);
-  }
-
-  protected addToCart(product: Product): void {
-    this.cart.add(product);
+  /** Contact form query for this saved product, including its photo. */
+  protected consultQuery(product: Product): Record<string, string> {
+    const params: Record<string, string> = { product: product.slug };
+    const image = product.images[0];
+    if (image) {
+      params['image'] = image;
+    }
+    return params;
   }
 
   protected remove(product: Product, index: number): void {
@@ -65,44 +63,6 @@ export class WishlistComponent {
     this.wishlist.clear();
     this.toast.show('Your wishlist has been cleared.', { type: 'info' });
     this.restoreFocus(0);
-  }
-
-  /**
-   * Adds every simple product to the cart. Variable products need a colour/option choice, so they are skipped and
-   * named in a hint. `CartService.add()` shows one toast per product – they are replaced by a single summary toast.
-   */
-  protected addAll(): void {
-    const all = this.products();
-    const simple = all.filter((p) => !isVariable(p));
-    const skipped = all.filter((p) => isVariable(p));
-
-    if (simple.length > 0) {
-      const known = new Set(this.toast.toasts().map((t) => t.id));
-      for (const product of simple) {
-        this.cart.add(product);
-      }
-      for (const t of this.toast.toasts()) {
-        if (!known.has(t.id)) {
-          this.toast.dismiss(t.id);
-        }
-      }
-      this.toast.show(
-        simple.length === 1
-          ? `“${simple[0].name}” has been added to your cart.`
-          : `${simple.length} products have been added to your cart.`,
-        { action: { label: 'View cart', link: '/cart' } },
-      );
-    }
-
-    if (skipped.length > 0) {
-      const names = skipped.map((p) => p.name).join(', ');
-      this.toast.show(
-        `${skipped.length === 1 ? 'This product has' : 'These products have'} options to choose and ${
-          skipped.length === 1 ? 'was' : 'were'
-        } not added: ${names}. Open ${skipped.length === 1 ? 'it' : 'them'} to pick the options.`,
-        { type: 'info', duration: 8000 },
-      );
-    }
   }
 
   /** The focused button disappears with its card → hand the focus to the next remove button (or the page top). */

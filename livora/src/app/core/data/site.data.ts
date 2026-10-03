@@ -14,7 +14,7 @@ export const SITE_CONFIG: SiteConfig = {
     phone: '+91 12345 6789',
     phoneHref: 'tel:+911234567890',
     email: 'support@domain.com',
-    address: '245 Modern Avenue, Manhattan, New York, USA',
+    address: 'United Arab Emirates',
     hours: 'Monday - Friday 10 AM - 8 PM',
   },
 
@@ -44,6 +44,7 @@ export const SITE_CONFIG: SiteConfig = {
     },
     { label: 'Curtains', link: '/curtains' },
     { label: 'Marble', link: '/marble' },
+    { label: 'Our Locations', link: '/our-locations' },
     { label: 'Contact Us', link: '/contact-us' },
   ],
 
@@ -56,6 +57,7 @@ export const SITE_CONFIG: SiteConfig = {
       { label: 'Furniture', link: '/furniture' },
       { label: 'Curtains', link: '/curtains' },
       { label: 'Marble', link: '/marble' },
+      { label: 'Our Locations', link: '/our-locations' },
       { label: 'Contact Us', link: '/contact-us' },
     ],
     customerServicesTitle: 'Customer Services',

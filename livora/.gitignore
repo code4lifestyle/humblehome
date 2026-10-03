@@ -46,3 +46,4 @@ Thumbs.db
 # QA screenshots / scratch builds
 /shots
 /tmp
+.vercel

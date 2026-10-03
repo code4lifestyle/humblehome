@@ -1,6 +1,6 @@
 @use 'mixins' as *;
 
-// Headings: h1/h2 = 36px (tablet 30px, mobile 24px), weight 700, line-height 1.4em / letter-spacing -0.03em (Elementor kit).
+// Headings: Bodoni Moda. h1/h2 = 36px (tablet 30px, mobile 24px).
 // h3–h6 have no global size in the original – sections set their own; sensible defaults below.
 h1,
 h2,
@@ -9,7 +9,9 @@ h4,
 h5,
 h6 {
   margin: 0;
-  font-weight: 700;
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-optical-sizing: auto;
   line-height: 1.2em;
   color: var(--color-primary);
 }
@@ -47,4 +49,13 @@ h6 {
 strong,
 b {
   font-weight: 700;
+}
+
+// Accent italic: Cormorant Garamond, as in the brand type sheet.
+em,
+i,
+blockquote {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-weight: 500;
 }

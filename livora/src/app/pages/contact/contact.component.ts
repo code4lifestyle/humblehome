@@ -127,7 +127,7 @@ export class ContactComponent {
     {
       icon: CONTACT_ICONS.home,
       title: 'Address:',
-      text: '245 Modern Avenue, Manhattan, New York, USA - 00258',
+      text: 'United Arab Emirates',
     },
     {
       icon: CONTACT_ICONS.phone,
@@ -152,7 +152,7 @@ export class ContactComponent {
   // ── store map ────────────────────────────────────────────────────────────────────────────────────────────────────────
   /** Embed URL of the original page (a fixed literal, so bypassing the sanitizer is safe). */
   protected readonly mapUrl: SafeResourceUrl = inject(DomSanitizer).bypassSecurityTrustResourceUrl(
-    'https://maps.google.com/maps?q=New%20York&t=m&z=12&output=embed&iwloc=near',
+    'https://maps.google.com/maps?q=United%20Arab%20Emirates&t=m&z=6&output=embed&iwloc=near',
   );
 
   constructor() {

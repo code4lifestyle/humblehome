@@ -5,11 +5,12 @@ import { filter } from 'rxjs';
 import { FooterComponent } from './layout/footer/footer.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { ToastContainerComponent } from './layout/toast-container/toast-container.component';
+import { WhatsappButtonComponent } from './layout/whatsapp-button/whatsapp-button.component';
 
 /** App shell: skip link + header + routed page + footer + toast notifications. Owned by the shell agent. */
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent, FooterComponent, ToastContainerComponent],
+  imports: [RouterOutlet, HeaderComponent, FooterComponent, WhatsappButtonComponent, ToastContainerComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './app.html',
   styleUrl: './app.scss',

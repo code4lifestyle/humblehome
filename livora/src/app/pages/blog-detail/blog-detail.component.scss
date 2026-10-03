@@ -41,7 +41,7 @@
   h1 {
     margin: 0;
     font-size: 64px;
-    font-weight: 900;
+    font-weight: 500;
     line-height: 1.2em;
     letter-spacing: var(--letter-spacing-heading);
     color: var(--color-white);
@@ -249,9 +249,11 @@
 
     p {
       margin: 0 0 20px;
-      font-size: 18px;
-      font-weight: 600;
-      line-height: 1.5em;
+      font-family: var(--font-accent);
+      font-size: 22px;
+      font-style: italic;
+      font-weight: 500;
+      line-height: 1.45em;
       color: var(--color-primary);
 
       &:last-child {
