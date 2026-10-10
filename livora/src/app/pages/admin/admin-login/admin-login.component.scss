@@ -1,0 +1,72 @@
+.login {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: 24px;
+  background:
+    linear-gradient(rgba(11, 11, 10, 0.55), rgba(11, 11, 10, 0.55)),
+    url('/assets/images/hh-2-12.jpg') center / cover no-repeat;
+}
+
+.login__card {
+  width: 100%;
+  max-width: 440px;
+  padding: 44px 40px 36px;
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+  text-align: center;
+}
+
+.login__logo img {
+  height: 56px;
+  width: auto;
+}
+
+.login__title {
+  margin: 24px 0 6px;
+  font-size: 28px;
+}
+
+.login__lead {
+  margin: 0 0 28px;
+}
+
+.login__form {
+  display: grid;
+  gap: 18px;
+  text-align: left;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+.password {
+  position: relative;
+
+  .form-control {
+    padding-right: 48px;
+  }
+}
+
+.password__toggle {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  padding: 6px;
+  border: 0;
+  background: none;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.login__note {
+  margin: 24px 0 0;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  background: var(--color-secondary);
+  font-size: 13px;
+}

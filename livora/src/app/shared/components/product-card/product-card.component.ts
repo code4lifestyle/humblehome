@@ -6,8 +6,6 @@ import { ProductService } from '@core/services/product.service';
 import { WishlistService } from '@core/services/wishlist.service';
 import { imageVariant } from '@core/utils/image.utils';
 import { discountPercent, isOnSale } from '@core/utils/product.utils';
-import { StarRatingComponent } from '../star-rating/star-rating.component';
-
 /** `srcset` of the 300x300 / 600x600 variants of a product image (null without an image). */
 const srcsetOf = (path?: string): string | null =>
   path ? `${imageVariant(path, '300x300')} 300w, ${imageVariant(path, '600x600')} 600w` : null;
@@ -31,7 +29,7 @@ const prettify = (slug: string): string =>
  */
 @Component({
   selector: 'app-product-card',
-  imports: [RouterLink, NgTemplateOutlet, StarRatingComponent],
+  imports: [RouterLink, NgTemplateOutlet],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.scss',

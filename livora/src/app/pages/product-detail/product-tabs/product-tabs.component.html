@@ -60,19 +60,4 @@
       </table>
     </div>
   }
-
-  <div
-    class="panel"
-    role="tabpanel"
-    id="panel-reviews"
-    aria-labelledby="tab-reviews"
-    tabindex="0"
-    [hidden]="active() !== 'reviews'"
-  >
-    <app-product-reviews
-      [productName]="product().name"
-      [reviews]="reviews()"
-      (reviewSubmitted)="addReview($event)"
-    />
-  </div>
 </div>

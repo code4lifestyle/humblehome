@@ -14,7 +14,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { Params, Router } from '@angular/router';
+import { Params, Router, RouterLink } from '@angular/router';
 import { ProductQuery } from '@core/models';
 import { PageTitleService } from '@core/services/page-title.service';
 import { ProductService } from '@core/services/product.service';
@@ -24,6 +24,7 @@ import {
 } from '@shared/components/page-header/page-header.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { ProductCardComponent } from '@shared/components/product-card/product-card.component';
+import { SectionTitleComponent } from '@shared/components/section-title/section-title.component';
 import { ShopFiltersComponent } from './shop-filters/shop-filters.component';
 import {
   DEFAULT_PER_PAGE,
@@ -60,7 +61,14 @@ const FOCUSABLE =
  */
 @Component({
   selector: 'app-shop-page',
-  imports: [PageHeaderComponent, ProductCardComponent, PaginationComponent, ShopFiltersComponent],
+  imports: [
+    PageHeaderComponent,
+    ProductCardComponent,
+    PaginationComponent,
+    ShopFiltersComponent,
+    SectionTitleComponent,
+    RouterLink,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.scss',
@@ -216,13 +224,43 @@ export class ShopComponent {
 
   protected readonly title = computed(() => this.heading() ?? 'Premium Furniture');
 
-  /** Curtains and Marble use their own photo behind the title. Other pages keep the default banner. */
+  /** Furniture, Curtains, and Marble use their own photo behind the title. */
   protected readonly headerImage = computed(() => {
     const category = this.category();
-    if (category?.slug === 'curtains' || category?.slug === 'marble') {
+    if (
+      category?.slug === 'furniture' ||
+      category?.slug === 'curtains' ||
+      category?.slug === 'marble'
+    ) {
       return category.image;
     }
     return undefined;
+  });
+
+  /** Intro copy for the three collection pages. Product photos stay in the grid below. */
+  protected readonly categoryIntro = computed(() => {
+    switch (this.category()?.slug) {
+      case 'furniture':
+        return {
+          eyebrow: 'Bespoke Furniture',
+          title: 'Made for Your Space',
+          text: 'From statement pieces to practical storage, our furniture is designed around the way you live. We create custom furniture to your preferred dimensions, materials, colors, finishes, and style, giving you the freedom to create something truly yours.',
+        };
+      case 'curtains':
+        return {
+          eyebrow: 'Curtains',
+          title: 'Made to Measure. Made for Your Home.',
+          text: 'The right curtains can transform the atmosphere of an entire room. We offer custom-made curtains tailored to your windows, interior style, and lifestyle — from light and airy sheers to luxurious blackout and layered curtains.',
+        };
+      case 'marble':
+        return {
+          eyebrow: 'Marble & Natural Stone',
+          title: 'Naturally Unique',
+          text: 'No two pieces of natural stone are exactly alike. We offer carefully selected marble and natural stone for furniture, surfaces, and statement pieces — bringing natural character and timeless elegance into your home.',
+        };
+      default:
+        return null;
+    }
   });
 
   protected readonly crumbs = computed<PageHeaderCrumb[]>(() => {
@@ -289,7 +327,12 @@ export class ShopComponent {
     effect(() => {
       this.listingKey();
       if (!this.notFound()) {
-        this.pageTitle.set(this.heading() ?? 'Shop');
+        this.pageTitle.set(this.heading() ?? 'Shop', {
+          description:
+            this.categoryIntro()?.text ??
+            'Browse Humble Home furniture, curtains, and marble. Every piece can be made to your size, fabric, and finish.',
+          image: this.category()?.image,
+        });
       }
     });
 

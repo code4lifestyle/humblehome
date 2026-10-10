@@ -14,6 +14,30 @@ $filter-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' 
 
 // Elementor: 90px section padding + 10px column padding above the content; below the pager the original measures
 // 75px on desktop (its pagination overflows the column) and 50px on tablet / mobile
+.category-intro {
+  padding: 72px 0 0;
+  text-align: center;
+
+  ::ng-deep .section-title__text {
+    max-width: 720px;
+    margin-inline: auto;
+    font-size: 16px;
+    line-height: 1.75;
+  }
+
+  .btn-default {
+    margin-top: 28px;
+  }
+
+  @include tablet {
+    padding-top: 40px;
+  }
+}
+
+.category-intro + .shop {
+  padding-top: 48px;
+}
+
 .shop {
   padding: 100px 0 75px;
 

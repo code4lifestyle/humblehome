@@ -1,0 +1,65 @@
+<main class="login">
+  <section class="login__card" aria-labelledby="login-title">
+    <a routerLink="/" class="login__logo" aria-label="Humble Home – back to the website">
+      <img src="assets/images/humble-home-logo.svg" alt="Humble Home" width="150" height="56" />
+    </a>
+
+    <h1 id="login-title" class="login__title">Dashboard Sign In</h1>
+    <p class="login__lead">Sign in to manage Humble Home products.</p>
+
+    <form class="login__form" novalidate (ngSubmit)="submit()">
+      <div class="field">
+        <label class="form-label" for="admin-email">Email</label>
+        <input
+          id="admin-email"
+          name="email"
+          type="email"
+          class="form-control"
+          autocomplete="username"
+          placeholder="you@humblehome.ae"
+          [(ngModel)]="email"
+          (input)="error.set('')"
+        />
+      </div>
+
+      <div class="field">
+        <label class="form-label" for="admin-password">Password</label>
+        <div class="password">
+          <input
+            id="admin-password"
+            name="password"
+            class="form-control"
+            autocomplete="current-password"
+            placeholder="Password"
+            [type]="showPassword() ? 'text' : 'password'"
+            [(ngModel)]="password"
+            (input)="error.set('')"
+          />
+          <button
+            type="button"
+            class="password__toggle"
+            [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
+            (click)="showPassword.set(!showPassword())"
+          >
+            <i class="fa-regular" [class.fa-eye]="!showPassword()" [class.fa-eye-slash]="showPassword()" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+
+      @if (error()) {
+        <p class="form-error" role="alert">{{ error() }}</p>
+      }
+
+      <button type="submit" class="btn-default btn-plain btn-block" [disabled]="loading()">
+        {{ loading() ? 'Signing in…' : 'Sign In' }}
+      </button>
+    </form>
+
+    @if (!configured) {
+      <p class="login__note">
+        Supabase is not connected yet. Add the project URL and anon key in
+        <code>src/app/core/supabase.config.ts</code>.
+      </p>
+    }
+  </section>
+</main>

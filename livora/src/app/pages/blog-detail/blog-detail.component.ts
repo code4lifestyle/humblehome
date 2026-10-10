@@ -97,7 +97,10 @@ export class BlogDetailComponent {
     effect(() => {
       const post = this.post();
       if (post) {
-        this.pageTitle.set(post.title);
+        this.pageTitle.set(post.title, {
+          description: firstParagraph(post).slice(0, 220),
+          image: post.image,
+        });
       } else {
         untracked(() => void this.router.navigateByUrl('/404', { skipLocationChange: true }));
       }

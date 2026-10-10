@@ -63,9 +63,8 @@
   pointer-events: none;
 }
 
-// hamburger – tablet / mobile only
 .burger {
-  display: none;
+  display: inline-flex;
   flex: none;
   width: 38px;
   height: 38px;
@@ -85,9 +84,6 @@
     background: var(--color-primary);
   }
 
-  @include tablet {
-    display: inline-flex;
-  }
   @include mobile {
     margin-left: 5px;
   }

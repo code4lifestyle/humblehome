@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, computed, signal } from '@angular/core';
 import { BRANDS } from '../data/brands.data';
 import { PRODUCT_CATEGORIES } from '../data/categories.data';
+import { HH_PRODUCTS } from '../data/hh-products.data';
 import { PRODUCTS, PRODUCT_SLUG_ALIASES } from '../data/products.data';
 import {
   Brand,
@@ -11,8 +12,35 @@ import {
   ProductQuery,
 } from '../models';
 import { currentPrice, priceBounds as productPriceBounds } from '../utils/product.utils';
+import { supabase } from './supabase.client';
 
 const DEFAULT_PER_PAGE = 9;
+
+/** Bundled catalog: shown until the database has products, and the source of "Import current products". */
+const BASE_PRODUCTS: readonly Product[] = [...PRODUCTS, ...HH_PRODUCTS];
+
+const TABLE = 'products';
+
+interface ProductRow {
+  id: number;
+  slug: string;
+  data: Omit<Product, 'id' | 'slug'>;
+}
+
+/** Where the catalog came from: the Supabase table, or the bundled data (empty table / no connection). */
+export type CatalogSource = 'database' | 'empty-database' | 'offline';
+
+const fromRow = (row: ProductRow): Product => ({ ...row.data, id: Number(row.id), slug: row.slug });
+
+const toData = ({ id: _id, slug: _slug, ...data }: Product): ProductRow['data'] => data;
+
+function requireClient() {
+  const client = supabase();
+  if (!client) {
+    throw new Error('Supabase is not configured.');
+  }
+  return client;
+}
 
 /** Case- and accent-insensitive A→Z, like the MySQL collation behind the original "Default sorting". */
 const collator = new Intl.Collator('en', { sensitivity: 'base' });
@@ -101,37 +129,53 @@ const resolveOrder = (value: string | undefined): ProductOrderBy => {
 const brandSlugsOf = (p: Product): string[] => p.brands ?? [p.brand];
 
 /**
- * Read-only product catalog (data in `core/data/*.data.ts`).
- * Everything is synchronous and pure; lookup tables are built once. Arrays are returned as copies (safe to sort),
+ * Product catalog (data in `core/data/*.data.ts` plus dashboard changes). Reads are synchronous and signal-backed,
+ * so `computed()` callers update after create / update / remove. Arrays are returned as copies (safe to sort),
  * the Product objects themselves are shared and must be treated as read-only.
  *
  *   inject(ProductService).query({ category: ['bedroom'], orderby: 'price-asc', page: 1 })
  */
 @Injectable({ providedIn: 'root' })
 export class ProductService {
+  private readonly items = signal<readonly Product[]>(BASE_PRODUCTS);
+  private readonly _source = signal<CatalogSource>('offline');
+  readonly source = this._source.asReadonly();
+
   /** Catalog order = "Default sorting" = alphabetical by name. */
-  private readonly catalog: readonly Product[] = [...PRODUCTS].sort(byName);
-  private readonly idMap = new Map<number, Product>(this.catalog.map((p) => [p.id, p]));
-  private readonly slugMap = new Map<string, Product>(
-    this.catalog.map((p) => [normalizeSlug(p.slug), p]),
+  private readonly catalogSig = computed<readonly Product[]>(() => [...this.items()].sort(byName));
+  private get catalog(): readonly Product[] {
+    return this.catalogSig();
+  }
+
+  private readonly idMapSig = computed(() => new Map<number, Product>(this.catalog.map((p) => [p.id, p])));
+  private get idMap(): Map<number, Product> {
+    return this.idMapSig();
+  }
+  private readonly slugMapSig = computed(
+    () => new Map<string, Product>(this.catalog.map((p) => [normalizeSlug(p.slug), p])),
   );
+  private get slugMap(): Map<string, Product> {
+    return this.slugMapSig();
+  }
   private readonly categoryMap = new Map<string, ProductCategory>(
     PRODUCT_CATEGORIES.map((c) => [normalizeSlug(c.slug), c]),
   );
   private readonly brandMap = new Map<string, Brand>(BRANDS.map((b) => [normalizeSlug(b.slug), b]));
 
-  private readonly categoryList: (ProductCategory & { count: number })[] = PRODUCT_CATEGORIES.map(
-    (c) => ({
+  private readonly categoryListSig = computed<(ProductCategory & { count: number })[]>(() =>
+    PRODUCT_CATEGORIES.map((c) => ({
       ...c,
       count: this.catalog.filter((p) => p.categories.includes(c.slug)).length,
-    }),
+    })),
   );
-  private readonly brandList: (Brand & { count: number })[] = BRANDS.map((b) => ({
-    ...b,
-    count: this.catalog.filter((p) => brandSlugsOf(p).includes(b.slug)).length,
-  }));
+  private readonly brandListSig = computed<(Brand & { count: number })[]>(() =>
+    BRANDS.map((b) => ({
+      ...b,
+      count: this.catalog.filter((p) => brandSlugsOf(p).includes(b.slug)).length,
+    })),
+  );
 
-  private readonly bounds: { min: number; max: number } = (() => {
+  private readonly boundsSig = computed<{ min: number; max: number }>(() => {
     const all = this.catalog.map(productPriceBounds);
     return all.length
       ? {
@@ -139,9 +183,9 @@ export class ProductService {
           max: Math.ceil(Math.max(...all.map((b) => b.max))),
         }
       : { min: 0, max: 0 };
-  })();
+  });
 
-  private readonly ratings: Record<1 | 2 | 3 | 4 | 5, number> = (() => {
+  private readonly ratingsSig = computed<Record<1 | 2 | 3 | 4 | 5, number>>(() => {
     const counts: Record<1 | 2 | 3 | 4 | 5, number> = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
     for (const p of this.catalog) {
       const rounded = Math.round(p.rating);
@@ -150,22 +194,130 @@ export class ProductService {
       }
     }
     return counts;
-  })();
+  });
 
   /** Folded "name excerpt categories brands" text per product id, used by `query({ search })`. */
-  private readonly haystacks = new Map<number, string>(
-    this.catalog.map((p) => [
-      p.id,
-      fold(
-        [
-          p.name,
-          p.excerpt,
-          ...p.categories.map((c) => this.categoryMap.get(normalizeSlug(c))?.name ?? c),
-          ...brandSlugsOf(p).map((b) => this.brandMap.get(normalizeSlug(b))?.name ?? b),
-        ].join(' \n '),
+  private readonly haystacksSig = computed(
+    () =>
+      new Map<number, string>(
+        this.catalog.map((p) => [
+          p.id,
+          fold(
+            [
+              p.name,
+              p.excerpt,
+              ...p.categories.map((c) => this.categoryMap.get(normalizeSlug(c))?.name ?? c),
+              ...brandSlugsOf(p).map((b) => this.brandMap.get(normalizeSlug(b))?.name ?? b),
+            ].join(' \n '),
+          ),
+        ]),
       ),
-    ]),
   );
+  private get haystacks(): Map<number, string> {
+    return this.haystacksSig();
+  }
+
+  // ---------------------------------------------------------------- dashboard (create / update / delete)
+
+  // ---------------------------------------------------------------- database (Supabase `products` table)
+
+  /** Loads the catalog from Supabase; keeps the bundled products when the table is empty or unreachable. */
+  async load(): Promise<void> {
+    const client = supabase();
+    if (!client) {
+      this._source.set('offline');
+      return;
+    }
+    const { data, error } = await client.from(TABLE).select('id, slug, data');
+    if (error) {
+      console.warn('[products] Supabase load failed, showing bundled products:', error.message);
+      this._source.set('offline');
+      return;
+    }
+    if (!data.length) {
+      this.items.set(BASE_PRODUCTS);
+      this._source.set('empty-database');
+      return;
+    }
+    this.items.set((data as ProductRow[]).map(fromRow));
+    this._source.set('database');
+  }
+
+  /** Copies the bundled products into the empty table (dashboard, signed in). */
+  async importBundled(): Promise<void> {
+    const rows = BASE_PRODUCTS.map((p) => ({ id: p.id, slug: p.slug, data: toData(p) }));
+    const { error } = await requireClient().from(TABLE).upsert(rows, { onConflict: 'id' });
+    if (error) {
+      throw new Error(error.message);
+    }
+    await this.load();
+  }
+
+  /** Adds a product; the database assigns the id, a unique slug is made from the name. */
+  async create(draft: Omit<Product, 'id' | 'slug'> & { slug?: string }): Promise<Product> {
+    this.assertDatabase();
+    const { slug: _slug, ...rest } = draft;
+    const slug = this.uniqueSlug(draft.slug || draft.name);
+    const { data, error } = await requireClient()
+      .from(TABLE)
+      .insert({ slug, data: rest })
+      .select('id, slug, data')
+      .single();
+    if (error) {
+      throw new Error(error.message);
+    }
+    const product = fromRow(data as ProductRow);
+    this.items.update((list) => [...list, product]);
+    return product;
+  }
+
+  async update(product: Product): Promise<Product> {
+    this.assertDatabase();
+    const saved = { ...product, slug: this.uniqueSlug(product.slug || product.name, product.id) };
+    const { error } = await requireClient()
+      .from(TABLE)
+      .update({ slug: saved.slug, data: toData(saved) })
+      .eq('id', saved.id);
+    if (error) {
+      throw new Error(error.message);
+    }
+    this.items.update((list) => list.map((p) => (p.id === saved.id ? saved : p)));
+    return saved;
+  }
+
+  async remove(id: number): Promise<void> {
+    this.assertDatabase();
+    const { error } = await requireClient().from(TABLE).delete().eq('id', id);
+    if (error) {
+      throw new Error(error.message);
+    }
+    this.items.update((list) => list.filter((p) => p.id !== id));
+  }
+
+  private assertDatabase(): void {
+    if (this._source() !== 'database') {
+      throw new Error(
+        this._source() === 'empty-database'
+          ? 'Import the current products into the database first.'
+          : 'The products database is not reachable. Run supabase/setup.sql and reload.',
+      );
+    }
+  }
+
+  private uniqueSlug(source: string, ownId?: number): string {
+    const base =
+      fold(source)
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '') || 'product';
+    let slug = base;
+    for (let n = 2; ; n++) {
+      const owner = this.slugMap.get(slug);
+      if (!owner || owner.id === ownId) {
+        return slug;
+      }
+      slug = `${base}-${n}`;
+    }
+  }
 
   // ---------------------------------------------------------------- lookups
 
@@ -201,7 +353,7 @@ export class ProductService {
 
   /** The 5 categories (alphabetical, like the shop sidebar) with their number of products. */
   categories(): (ProductCategory & { count: number })[] {
-    return this.categoryList.slice();
+    return this.categoryListSig().slice();
   }
 
   categoryBySlug(slug: string): ProductCategory | undefined {
@@ -210,7 +362,7 @@ export class ProductService {
 
   /** The 5 brands (alphabetical, like the shop sidebar) with their number of products. */
   brands(): (Brand & { count: number })[] {
-    return this.brandList.slice();
+    return this.brandListSig().slice();
   }
 
   brandBySlug(slug: string): Brand | undefined {
@@ -345,12 +497,12 @@ export class ProductService {
 
   /** Whole-dollar bounds of all effective prices (floor(lowest) … ceil(highest)) for the price filter. */
   priceBounds(): { min: number; max: number } {
-    return { ...this.bounds };
+    return { ...this.boundsSig() };
   }
 
   /** Number of products per rounded average rating (4.5 → 5), for the "Product rating" filter. */
   ratingCounts(): Record<1 | 2 | 3 | 4 | 5, number> {
-    return { ...this.ratings };
+    return { ...this.ratingsSig() };
   }
 
   private sorted(order: ProductOrderBy): Product[] {

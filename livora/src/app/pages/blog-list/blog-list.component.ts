@@ -97,7 +97,9 @@ export class BlogListComponent {
     effect(() => {
       const view = this.view();
       if (view) {
-        this.pageTitle.set(view.pageTitle);
+        this.pageTitle.set(view.pageTitle, {
+          description: `Humble Home journal: ${view.title}. Design stories and home inspiration from Dubai.`,
+        });
       } else {
         untracked(() => void this.router.navigateByUrl('/404', { skipLocationChange: true }));
       }

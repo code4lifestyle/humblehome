@@ -34,41 +34,22 @@
 
           <form class="contact-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
             <div class="form-grid">
-              <div class="form-group">
-                <label class="sr-only" for="contact-first-name">First name</label>
+              <div class="form-group form-col-full">
+                <label class="sr-only" for="contact-name">Name</label>
                 <input
-                  id="contact-first-name"
+                  id="contact-name"
                   class="form-control form-control-lg"
                   type="text"
-                  formControlName="firstName"
-                  placeholder="Enter First Name *"
-                  autocomplete="given-name"
+                  formControlName="name"
+                  placeholder="Enter Name *"
+                  autocomplete="name"
                   maxlength="100"
                   required
-                  [attr.aria-invalid]="error('firstName') ? 'true' : null"
-                  [attr.aria-describedby]="error('firstName') ? 'contact-first-name-error' : null"
+                  [attr.aria-invalid]="error('name') ? 'true' : null"
+                  [attr.aria-describedby]="error('name') ? 'contact-name-error' : null"
                 />
-                @if (error('firstName'); as message) {
-                  <p class="form-error" id="contact-first-name-error">{{ message }}</p>
-                }
-              </div>
-
-              <div class="form-group">
-                <label class="sr-only" for="contact-last-name">Last name</label>
-                <input
-                  id="contact-last-name"
-                  class="form-control form-control-lg"
-                  type="text"
-                  formControlName="lastName"
-                  placeholder="Enter Last Name *"
-                  autocomplete="family-name"
-                  maxlength="100"
-                  required
-                  [attr.aria-invalid]="error('lastName') ? 'true' : null"
-                  [attr.aria-describedby]="error('lastName') ? 'contact-last-name-error' : null"
-                />
-                @if (error('lastName'); as message) {
-                  <p class="form-error" id="contact-last-name-error">{{ message }}</p>
+                @if (error('name'); as message) {
+                  <p class="form-error" id="contact-name-error">{{ message }}</p>
                 }
               </div>
 
@@ -113,15 +94,21 @@
               </div>
 
               <div class="form-group form-col-full">
-                <label class="sr-only" for="contact-message">Message</label>
+                <label class="sr-only" for="contact-inquiry">Product inquiry</label>
                 <textarea
-                  id="contact-message"
+                  id="contact-inquiry"
                   class="form-control"
-                  formControlName="message"
-                  placeholder="Any Additional Message..."
+                  formControlName="inquiry"
+                  placeholder="Product inquiry *"
                   rows="4"
                   maxlength="2000"
+                  required
+                  [attr.aria-invalid]="error('inquiry') ? 'true' : null"
+                  [attr.aria-describedby]="error('inquiry') ? 'contact-inquiry-error' : null"
                 ></textarea>
+                @if (error('inquiry'); as message) {
+                  <p class="form-error" id="contact-inquiry-error">{{ message }}</p>
+                }
               </div>
             </div>
 

@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  DestroyRef,
   ElementRef,
   afterRenderEffect,
   effect,
@@ -17,7 +16,7 @@ import { MegaMenuComponent } from '../mega-menu/mega-menu.component';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 
 /**
- * Off-canvas navigation for tablet / mobile (≤ 1024px): full-screen accent panel sliding in from the left with an
+ * Off-canvas navigation: full-screen accent panel sliding in from the left with an
  * accordion for the sub menus (Shop shows the whole mega menu content). Opened through `LayoutService.openMobileMenu()`,
  * closes on Escape, on the close button and after every navigation; traps the keyboard focus while open.
  */
@@ -55,12 +54,6 @@ export class MobileMenuComponent {
     effect(() => {
       if (!this.layout.mobileMenuOpen()) untracked(() => this.expanded.set(null));
     });
-
-    // resized to desktop while open → the desktop menu takes over
-    const desktop = window.matchMedia('(min-width: 1025px)');
-    const onChange = (e: MediaQueryListEvent) => e.matches && this.layout.closeMobileMenu(false);
-    desktop.addEventListener('change', onChange);
-    inject(DestroyRef).onDestroy(() => desktop.removeEventListener('change', onChange));
   }
 
   protected toggle(index: number): void {

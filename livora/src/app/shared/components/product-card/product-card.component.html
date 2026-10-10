@@ -65,14 +65,6 @@
       <a [routerLink]="link()">{{ product().name }}</a>
     </h3>
 
-    @if (product().rating > 0) {
-      <app-star-rating
-        class="rating"
-        [value]="product().rating"
-        [count]="product().reviewCount > 0 ? product().reviewCount : null"
-      />
-    }
-
     @if (layout() === 'list') {
       <p class="excerpt">{{ product().excerpt }}</p>
       <div class="row-actions">

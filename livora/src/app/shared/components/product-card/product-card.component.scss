@@ -274,23 +274,10 @@
     line-height: 1.3em;
     letter-spacing: normal;
   }
-
-  .rating {
-    margin-bottom: 12px;
-  }
 }
 
 .cats + .title {
   padding-top: 6px;
-}
-
-.rating {
-  min-height: 18px;
-
-  @include mobile {
-    min-height: 16px;
-    font-size: 14px;
-  }
 }
 
 .excerpt {

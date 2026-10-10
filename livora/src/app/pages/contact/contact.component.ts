@@ -27,12 +27,11 @@ import {
 import { SectionTitleComponent } from '@shared/components/section-title/section-title.component';
 import { CONTACT_ICONS, ContactIcon } from './contact-icons';
 
-type FieldName = 'firstName' | 'lastName' | 'email' | 'phone';
+type FieldName = 'name' | 'email' | 'phone' | 'inquiry';
 
 /** Error message per field and error key (the first failing validator wins). */
 const MESSAGES: Record<FieldName, Record<string, string>> = {
-  firstName: { required: 'Please enter your first name.' },
-  lastName: { required: 'Please enter your last name.' },
+  name: { required: 'Please enter your name.' },
   email: {
     required: 'Please enter your email address.',
     email: 'Please enter a valid email address.',
@@ -42,6 +41,7 @@ const MESSAGES: Record<FieldName, Record<string, string>> = {
     required: 'Please enter your phone number.',
     phone: 'Please enter a valid phone number.',
   },
+  inquiry: { required: 'Please enter your product inquiry.' },
 };
 
 /** Like `Validators.required`, but a value made of spaces only counts as empty. */
@@ -107,14 +107,13 @@ export class ContactComponent {
   ];
 
   protected readonly form = inject(NonNullableFormBuilder).group({
-    firstName: ['', [requiredTrimmed]],
-    lastName: ['', [requiredTrimmed]],
+    name: ['', [requiredTrimmed]],
     email: [
       '',
       [requiredTrimmed, Validators.email, Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/)],
     ],
     phone: ['', [requiredTrimmed, phoneValidator]],
-    message: [''],
+    inquiry: ['', [requiredTrimmed]],
   });
 
   // ── contact info card (the contact page has its own wording, see the original) ───────────────────────────────────────
@@ -158,13 +157,11 @@ export class ContactComponent {
   constructor() {
     effect(() => {
       const item = this.consultation();
-      if (!item || this.form.controls.message.value.trim()) {
+      if (!item || this.form.controls.inquiry.value.trim()) {
         return;
       }
       const choice = item.choice ? ` (${item.choice})` : '';
-      this.form.controls.message.setValue(
-        `I would like to book a free consultation for ${item.name}${choice}.`,
-      );
+      this.form.controls.inquiry.setValue(`${item.name}${choice}`);
     });
   }
 

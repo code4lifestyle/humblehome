@@ -3,20 +3,26 @@
 
   <section class="locations__body">
     <div class="container">
-      <address class="locations__card">
-        <h2>Humble Home</h2>
-        <p>{{ contact.address }}</p>
-        <p>
-          <a [href]="contact.phoneHref">{{ contact.phone }}</a>
-        </p>
-        <p>{{ contact.hours }}</p>
-      </address>
+      <h2 class="locations__heading">Shops</h2>
+
+      <ul class="locations__shops">
+        @for (shop of shops; track shop.number) {
+          <li>
+            <address>
+              <span class="locations__number">{{ shop.number }}</span>
+              <span>Dragon Mart 2, International City, Dubai, United Arab Emirates</span>
+            </address>
+          </li>
+        }
+      </ul>
+
+      <a class="btn-default btn-plain" routerLink="/contact-us">Book a Free Visit</a>
 
       <div class="locations__map">
         <iframe
           class="locations__frame"
           [src]="mapUrl"
-          title="Map showing the Humble Home store in the United Arab Emirates"
+          title="Map showing Humble Home shops at Dragon Mart 2, International City, Dubai"
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
           allowfullscreen

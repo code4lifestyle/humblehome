@@ -1,0 +1,134 @@
+<a class="back" routerLink="/admin"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> All products</a>
+
+@if (isEdit() && !existing()) {
+  <div class="card">
+    <h1>Product not found</h1>
+    <p>This product may have been deleted.</p>
+  </div>
+} @else {
+  <h1 class="title">{{ isEdit() ? 'Edit product' : 'Add new product' }}</h1>
+
+  <form class="grid" novalidate [formGroup]="form" (ngSubmit)="save()">
+    <div class="col">
+      <section class="card">
+        <h2>Details</h2>
+
+        <div class="field">
+          <label class="form-label form-label--required" for="p-name">Product name</label>
+          <input id="p-name" class="form-control" formControlName="name" placeholder="e.g. Curved Cloud Sofa" />
+          @if (invalid('name')) {
+            <p class="form-error">Please enter the product name.</p>
+          }
+        </div>
+
+        <div class="field">
+          <label class="form-label form-label--required" for="p-excerpt">Short description</label>
+          <textarea
+            id="p-excerpt"
+            class="form-control"
+            rows="3"
+            formControlName="excerpt"
+            placeholder="One or two sentences shown under the product name."
+          ></textarea>
+          @if (invalid('excerpt')) {
+            <p class="form-error">Please add a short description.</p>
+          }
+        </div>
+
+        <div class="field">
+          <label class="form-label" for="p-description">Full description</label>
+          <textarea
+            id="p-description"
+            class="form-control"
+            rows="5"
+            formControlName="description"
+            placeholder="Leave an empty line between paragraphs."
+          ></textarea>
+        </div>
+
+        <div class="field">
+          <label class="form-label" for="p-features">Features</label>
+          <textarea
+            id="p-features"
+            class="form-control"
+            rows="4"
+            formControlName="features"
+            placeholder="One feature per line"
+          ></textarea>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Photos</h2>
+        <p class="hint">The first photo is the main image on the website.</p>
+
+        <ul class="photos">
+          @for (img of images(); track img; let i = $index) {
+            <li class="photo" [class.is-main]="i === 0">
+              <img [src]="thumb(img)" alt="" width="140" height="140" />
+              @if (i === 0) {
+                <span class="photo__badge">Main</span>
+              }
+              <div class="photo__actions">
+                @if (i > 0) {
+                  <button type="button" (click)="makeMain(i)" title="Set as main photo" aria-label="Set as main photo">
+                    <i class="fa-solid fa-star" aria-hidden="true"></i>
+                  </button>
+                }
+                <button type="button" (click)="removeImage(i)" title="Remove photo" aria-label="Remove photo">
+                  <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                </button>
+              </div>
+            </li>
+          }
+          <li>
+            <label class="upload" [class.is-busy]="uploading()">
+              <input type="file" accept="image/*" multiple (change)="onFiles($event)" [disabled]="uploading()" />
+              <i class="fa-solid" [class.fa-cloud-arrow-up]="!uploading()" [class.fa-spinner]="uploading()" [class.fa-spin]="uploading()" aria-hidden="true"></i>
+              <span>{{ uploading() ? 'Uploading…' : 'Upload photos' }}</span>
+            </label>
+          </li>
+        </ul>
+        @if (imageError()) {
+          <p class="form-error">Please upload at least one photo.</p>
+        }
+      </section>
+    </div>
+
+    <div class="col">
+      <section class="card">
+        <h2>Category</h2>
+        <p class="hint">Where the product appears in the website menu.</p>
+        <div class="sections">
+          @for (cat of mainCategories; track cat.slug) {
+            <label class="section-option" [class.is-checked]="sections().includes(cat.slug)">
+              <input type="checkbox" [checked]="sections().includes(cat.slug)" (change)="toggle(sections, cat.slug)" />
+              <i class="fa-solid {{ cat.icon }}" aria-hidden="true"></i>
+              <span>{{ cat.name }}</span>
+            </label>
+          }
+        </div>
+        @if (sectionError()) {
+          <p class="form-error">Choose at least one category.</p>
+        }
+
+        <p class="sub">Room (optional)</p>
+        <div class="rooms">
+          @for (room of roomCategories; track room.slug) {
+            <label class="check">
+              <input type="checkbox" [checked]="rooms().includes(room.slug)" (change)="toggle(rooms, room.slug)" />
+              {{ room.name }}
+            </label>
+          }
+        </div>
+      </section>
+
+      <div class="submit">
+        <button type="submit" class="btn-default btn-plain btn-block" [disabled]="uploading() || saving()">
+          {{ saving() ? 'Saving…' : isEdit() ? 'Save changes' : 'Add product' }}
+        </button>
+        <a class="btn-outline btn-plain btn-block" routerLink="/admin">Cancel</a>
+      </div>
+    </div>
+  </form>
+}

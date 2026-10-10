@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin/
+Disallow: /cart
+Disallow: /checkout
+Disallow: /my-account
+
+Sitemap: https://humble-home-phi.vercel.app/sitemap.xml

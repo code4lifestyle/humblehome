@@ -1,0 +1,158 @@
+<div class="page-head">
+  <div>
+    <h1>Products</h1>
+    <p>Upload new products, edit details and remove products from the website.</p>
+  </div>
+  <a
+    class="btn-default btn-plain"
+    routerLink="/admin/products/new"
+    [queryParams]="{ category: tab() === 'all' ? null : tab() }"
+  >
+    + Add {{ tab() === 'all' ? 'product' : (tab() | titlecase) }}
+  </a>
+</div>
+
+@switch (source()) {
+  @case ('offline') {
+    <div class="notice notice--error" role="alert">
+      <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+      <div>
+        <strong>The products database is not set up yet.</strong>
+        Run <code>supabase/setup.sql</code> in Supabase (SQL Editor → New query → Run), then reload this page.
+        Until then the website shows its built-in products and changes cannot be saved.
+      </div>
+    </div>
+  }
+  @case ('empty-database') {
+    <div class="notice" role="status">
+      <i class="fa-solid fa-database" aria-hidden="true"></i>
+      <div>
+        <strong>The database is connected but empty.</strong>
+        Import the {{ all().length }} products that are on the website now, then you can edit and delete them here.
+      </div>
+      <button type="button" class="btn-default btn-plain btn-sm" [disabled]="importing()" (click)="importProducts()">
+        {{ importing() ? 'Importing…' : 'Import products' }}
+      </button>
+    </div>
+  }
+}
+
+<ul class="stats">
+  @for (stat of stats(); track stat.label) {
+    <li class="stat">
+      <i class="fa-solid {{ stat.icon }}" aria-hidden="true"></i>
+      <span class="stat__count">{{ stat.count }}</span>
+      <span class="stat__label">{{ stat.label }}</span>
+    </li>
+  }
+</ul>
+
+<section class="panel" aria-label="Product list">
+  <div class="panel__bar">
+    <div class="tabs" role="tablist" aria-label="Filter by category">
+      <button type="button" role="tab" [attr.aria-selected]="tab() === 'all'" (click)="selectTab('all')">
+        All
+      </button>
+      @for (cat of mainCategories; track cat.slug) {
+        <button
+          type="button"
+          role="tab"
+          [attr.aria-selected]="tab() === cat.slug"
+          (click)="selectTab(cat.slug)"
+        >
+          {{ cat.name }}
+        </button>
+      }
+    </div>
+
+    <label class="search">
+      <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+      <span class="visually-hidden">Search products</span>
+      <input
+        type="search"
+        class="form-control"
+        placeholder="Search products…"
+        [value]="search()"
+        (input)="search.set($any($event.target).value)"
+      />
+    </label>
+  </div>
+
+  @if (rows().length) {
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Product</th>
+            <th scope="col">Categories</th>
+            <th scope="col">Photos</th>
+            <th scope="col"><span class="visually-hidden">Actions</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (p of rows(); track p.id) {
+            <tr>
+              <td>
+                <div class="product">
+                  @if (p.images.length) {
+                    <img [src]="thumb(p)" alt="" width="56" height="56" loading="lazy" />
+                  } @else {
+                    <span class="product__noimg"><i class="fa-regular fa-image" aria-hidden="true"></i></span>
+                  }
+                  <div>
+                    <a class="product__name" [routerLink]="['/product', p.slug]" target="_blank" rel="noopener">{{
+                      p.name
+                    }}</a>
+                    <span class="product__slug">/{{ p.slug }}</span>
+                  </div>
+                </div>
+              </td>
+              <td class="muted">{{ categoryNames(p) }}</td>
+              <td class="muted">{{ p.images.length }}</td>
+              <td>
+                <div class="actions">
+                  <a
+                    class="icon-btn"
+                    [routerLink]="['/admin/products', p.id, 'edit']"
+                    [attr.aria-label]="'Edit ' + p.name"
+                    title="Edit"
+                  >
+                    <i class="fa-solid fa-pen" aria-hidden="true"></i>
+                  </a>
+                  <button
+                    type="button"
+                    class="icon-btn icon-btn--danger"
+                    [attr.aria-label]="'Delete ' + p.name"
+                    title="Delete"
+                    (click)="pendingDelete.set(p)"
+                  >
+                    <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  } @else {
+    <p class="empty">No products found.</p>
+  }
+</section>
+
+@if (pendingDelete(); as product) {
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="delete-title">
+    <div class="modal__card">
+      <h2 id="delete-title">Delete product?</h2>
+      <p>“{{ product.name }}” will be removed from the website.</p>
+      <div class="modal__actions">
+        <button type="button" class="btn-outline btn-plain" [disabled]="deleting()" (click)="pendingDelete.set(null)">
+          Cancel
+        </button>
+        <button type="button" class="btn-default btn-plain btn-danger" [disabled]="deleting()" (click)="confirmDelete()">
+          {{ deleting() ? 'Deleting…' : 'Delete' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

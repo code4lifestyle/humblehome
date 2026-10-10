@@ -11,17 +11,14 @@ import {
 import { RouterLink } from '@angular/router';
 import { SITE_CONFIG } from '../../core/data/site.data';
 import { HeaderActionsComponent } from '../header-actions/header-actions.component';
-import { MainNavComponent } from '../main-nav/main-nav.component';
 import { MobileMenuComponent } from '../mobile-menu/mobile-menu.component';
 import { SearchModalComponent } from '../search-modal/search-modal.component';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 
 /**
  * Site header (owner: shell agent).
- *  – white row (phone box · logo · search / wishlist / account) → cream nav bar with the menu
- *    (Shop = full-width mega menu, Collection / Pages = dropdowns);
- *  – ≤ 1024px: hamburger + off-canvas menu (`app-mobile-menu`);
- *  – sticky: once the header has scrolled out of view a compact bar (logo · menu · icons) slides in from the top;
+ *  – white row (phone box · logo · search / wishlist) and a hamburger that opens the off-canvas menu;
+ *  – sticky: once the header has scrolled out of view a compact bar (logo · icons) slides in from the top;
  *  – publishes the compact bar's height as `--header-height` (and `scroll-padding-top`) on <html>, so anchors and
  *    `position: sticky` sidebars never sit under it.
  */
@@ -31,7 +28,6 @@ import { SvgIconComponent } from '../svg-icon/svg-icon.component';
     RouterLink,
     SvgIconComponent,
     HeaderActionsComponent,
-    MainNavComponent,
     MobileMenuComponent,
     SearchModalComponent,
   ],

@@ -9,7 +9,6 @@ interface BestSellerTile {
   title: string;
   /** Short name used for the image alt text and the accessible link label. */
   name: string;
-  price: string;
 }
 
 /**
@@ -28,7 +27,6 @@ export class BestSellerSectionComponent {
     image: 'assets/images/best-seller-img-1.jpg',
     title: 'Upholstered Storage Beds | 1500+ Designs',
     name: 'Upholstered Storage Beds',
-    price: 'AED 8,500',
   };
 
   protected readonly tiles: BestSellerTile[] = [
@@ -36,25 +34,21 @@ export class BestSellerSectionComponent {
       image: 'assets/images/best-seller-img-2.jpg',
       title: 'Cabinets | 800+ Items',
       name: 'Cabinets',
-      price: 'AED 2,500',
     },
     {
       image: 'assets/images/best-seller-img-3.jpg',
       title: 'Dining Sets | 750+ Designs',
       name: 'Dining Sets',
-      price: 'AED 10,000',
     },
     {
       image: 'assets/images/best-seller-img-4.jpg',
       title: 'Sofa Sets | 1200+ Styles',
       name: 'Sofa Sets',
-      price: 'AED 7,500',
     },
     {
       image: 'assets/images/best-seller-img-5.jpg',
       title: 'Coffee Tables | 550+ Items',
       name: 'Coffee Tables',
-      price: 'AED 400',
     },
   ];
 }

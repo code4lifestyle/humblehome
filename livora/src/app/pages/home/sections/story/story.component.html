@@ -1,0 +1,77 @@
+<section class="story">
+  <div class="container">
+    <app-section-title eyebrow="Humble Home" title="Designed With You in Mind">
+      <p>Humble Home was created with a simple idea — beautiful homes should feel personal.</p>
+      <p>
+        We believe that the best interiors are not simply furnished; they are thoughtfully designed
+        around the people who live in them.
+      </p>
+      <p>
+        From bespoke furniture and custom curtains to carefully selected marble and natural stone,
+        we bring together quality materials, practical design, and attention to detail to create
+        pieces made for your space.
+      </p>
+      <p>
+        Whether you are furnishing a single room, refreshing your home, or working on a complete
+        interior project, our team guides you from concept to installation.
+      </p>
+      <p class="story__close">Your space. Your style. Our craftsmanship.</p>
+    </app-section-title>
+  </div>
+</section>
+
+<section class="path" aria-labelledby="path-title">
+  <div class="container">
+    <h2 id="path-title" class="path__title">From Consultation to Installation</h2>
+    <ol class="path__steps">
+      @for (step of path; track step; let last = $last) {
+        <li>
+          <span>{{ step }}</span>
+          @if (!last) {
+            <span class="path__arrow" aria-hidden="true">→</span>
+          }
+        </li>
+      }
+    </ol>
+    <a class="btn-highlighted" routerLink="/contact-us">Book a Free Visit</a>
+  </div>
+</section>
+
+<section class="process">
+  <div class="container">
+    <app-section-title eyebrow="How we work" title="Complete Interior Solutions">
+      <p>From the first conversation to the final installation, we make the process simple.</p>
+    </app-section-title>
+
+    <ol class="process__list">
+      @for (step of steps; track step.number) {
+        <li>
+          <span class="process__number">{{ step.number }}</span>
+          <h3>{{ step.title }}</h3>
+          <p>{{ step.text }}</p>
+        </li>
+      }
+    </ol>
+  </div>
+</section>
+
+<section class="collections">
+  <div class="container">
+    <app-section-title eyebrow="Our work" title="Explore Our Collection" />
+
+    <ul class="collections__grid">
+      @for (card of collections; track card.link) {
+        <li>
+          <a class="collection" [routerLink]="card.link">
+            <img [src]="card.image" [alt]="card.title" width="640" height="480" />
+            <span class="collection__body">
+              <span class="collection__title">{{ card.title }}</span>
+              <span class="collection__text">{{ card.text }}</span>
+              <span class="collection__link">{{ card.label }} →</span>
+            </span>
+          </a>
+        </li>
+      }
+    </ul>
+  </div>
+</section>

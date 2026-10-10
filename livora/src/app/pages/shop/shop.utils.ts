@@ -34,10 +34,7 @@ export const DEFAULT_PER_PAGE = 9;
 export const SORT_OPTIONS: readonly { value: ProductOrderBy; label: string }[] = [
   { value: 'default', label: 'Default sorting' },
   { value: 'popularity', label: 'Sort by popularity' },
-  { value: 'rating', label: 'Sort by average rating' },
   { value: 'latest', label: 'Sort by latest' },
-  { value: 'price-asc', label: 'Sort by price: low to high' },
-  { value: 'price-desc', label: 'Sort by price: high to low' },
   { value: 'title-asc', label: 'Sort by title: a to z' },
   { value: 'title-desc', label: 'Sort by title: z to a' },
 ];

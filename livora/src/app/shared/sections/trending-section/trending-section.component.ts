@@ -22,7 +22,6 @@ interface OfferBanner {
   badge: string;
   title: string;
   text: string;
-  price: string;
   image: string;
   link: LinkTarget;
 }
@@ -69,7 +68,6 @@ export class TrendingSectionComponent {
       badge: 'UP TO 50% OFF',
       title: 'Luxury Sofa',
       text: 'Elegant Modern Comfort',
-      price: 'AED 9,000',
       image: 'assets/images/product-offer-image-1.png',
       link: ['/product-category', 'living-room'],
     },
@@ -78,7 +76,6 @@ export class TrendingSectionComponent {
       badge: 'UP TO 40% OFF',
       title: 'Modern Desk',
       text: 'Smart Workspaces',
-      price: 'AED 1,800',
       image: 'assets/images/product-offer-image-2.png',
       link: ['/product-category', 'office-furniture'],
     },
@@ -87,7 +84,6 @@ export class TrendingSectionComponent {
       badge: 'UP TO 35% OFF',
       title: 'Dining Set',
       text: 'Elegant Dining',
-      price: 'AED 5,500',
       image: 'assets/images/product-offer-image-3.png',
       link: ['/product-category', 'dining-room'],
     },

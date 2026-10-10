@@ -7,7 +7,8 @@ export type ImageSize = '300x300' | '600x600' | '1024x576';
  * Already-sized paths are returned unchanged.
  */
 export function imageVariant(path: string, size: ImageSize): string {
-  if (!path || /-\d+x\d+\.[a-z]+$/i.test(path)) {
+  // uploaded photos (Supabase Storage URLs, data URLs) have no resized variants
+  if (!path || /^(https?:|data:)/i.test(path) || /-\d+x\d+\.[a-z]+$/i.test(path)) {
     return path;
   }
   return path.replace(/(\.[a-z]+)$/i, `-${size}$1`);

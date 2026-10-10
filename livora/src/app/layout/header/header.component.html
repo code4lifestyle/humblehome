@@ -21,11 +21,6 @@
         <app-header-actions class="main-row__actions" />
       </div>
     </div>
-
-    <!-- main menu (desktop) -->
-    <div class="nav-bar">
-      <app-main-nav />
-    </div>
   </div>
 
   <!-- compact bar that slides in after scrolling down -->
@@ -39,7 +34,6 @@
       <a class="logo" routerLink="/" aria-label="Humble Home – home">
         <img [src]="site.logo" alt="Humble Home" width="180" height="80" />
       </a>
-      <app-main-nav [compact]="true" />
       <app-header-actions />
     </div>
   </div>

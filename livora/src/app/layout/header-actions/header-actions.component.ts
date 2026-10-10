@@ -5,8 +5,8 @@ import { LayoutService } from '../layout.service';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 
 /**
- * The icon cluster of the header: search (opens the overlay), wishlist and account with a live wishlist count, plus the
- * hamburger that opens the off-canvas menu on tablet / mobile.
+ * The icon cluster of the header: search (opens the overlay) and wishlist with a live count, plus the
+ * hamburger that opens the off-canvas menu. Sign in stays at /my-account.
  */
 @Component({
   selector: 'app-header-actions',

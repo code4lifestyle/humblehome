@@ -1,0 +1,73 @@
+<div class="admin" [class.is-menu-open]="menuOpen()">
+  <aside class="sidebar" aria-label="Dashboard menu">
+    <a routerLink="/admin" class="sidebar__logo" (click)="menuOpen.set(false)">
+      <img src="assets/images/humble-home-logo-white.svg" alt="Humble Home" width="130" height="48" />
+      <span>Dashboard</span>
+    </a>
+
+    <nav class="sidebar__nav">
+      <a
+        routerLink="/admin"
+        routerLinkActive="is-active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="menuOpen.set(false)"
+      >
+        <i class="fa-solid fa-table-list" aria-hidden="true"></i> All products
+      </a>
+
+      <p class="sidebar__label">Add by category</p>
+      @for (cat of mainCategories; track cat.slug) {
+        <a
+          routerLink="/admin/products/new"
+          [queryParams]="{ category: cat.slug }"
+          routerLinkActive="is-active"
+          (click)="menuOpen.set(false)"
+        >
+          <i class="fa-solid {{ cat.icon }}" aria-hidden="true"></i> New {{ cat.name }}
+        </a>
+      }
+    </nav>
+
+    <div class="sidebar__foot">
+      <a routerLink="/" target="_blank" rel="noopener">
+        <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> View website
+      </a>
+      <button type="button" [disabled]="signingOut()" (click)="signOut()">
+        <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> Logout
+      </button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <button
+        type="button"
+        class="topbar__burger"
+        aria-label="Open dashboard menu"
+        [attr.aria-expanded]="menuOpen()"
+        (click)="menuOpen.set(!menuOpen())"
+      >
+        <i class="fa-solid fa-bars" aria-hidden="true"></i>
+      </button>
+      <span class="topbar__user">
+        <i class="fa-regular fa-circle-user" aria-hidden="true"></i> {{ email() }}
+      </span>
+      <button type="button" class="topbar__logout" [disabled]="signingOut()" (click)="signOut()">
+        <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+        {{ signingOut() ? 'Logging out…' : 'Logout' }}
+      </button>
+    </header>
+
+    <main class="content">
+      <router-outlet />
+    </main>
+  </div>
+
+  <button
+    type="button"
+    class="backdrop"
+    aria-label="Close dashboard menu"
+    tabindex="-1"
+    (click)="menuOpen.set(false)"
+  ></button>
+</div>

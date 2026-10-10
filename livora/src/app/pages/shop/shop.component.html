@@ -2,6 +2,17 @@
   <main class="shop-page">
     <app-page-header [title]="title()" [crumbs]="crumbs()" [image]="headerImage()" />
 
+    @if (categoryIntro(); as intro) {
+      <section class="category-intro">
+        <div class="container">
+          <app-section-title [eyebrow]="intro.eyebrow" [title]="intro.title">
+            <p>{{ intro.text }}</p>
+          </app-section-title>
+          <a class="btn-default btn-plain" routerLink="/contact-us">Book a Free Visit</a>
+        </div>
+      </section>
+    }
+
     <section class="shop">
       <div class="container">
         <div class="layout">

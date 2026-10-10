@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { SITE_CONFIG } from '@core/data/site.data';
 import {
   PageHeaderComponent,
   PageHeaderCrumb,
@@ -11,20 +11,29 @@ import {
  */
 @Component({
   selector: 'app-locations-page',
-  imports: [PageHeaderComponent],
+  imports: [PageHeaderComponent, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './locations.component.html',
   styleUrl: './locations.component.scss',
 })
 export class LocationsComponent {
-  protected readonly contact = SITE_CONFIG.contact;
   protected readonly crumbs: PageHeaderCrumb[] = [
     { label: 'Home', link: '/' },
     { label: 'Our Locations' },
   ];
 
-  /** Fixed embed of the store area. Bypassing the sanitizer is safe because the URL is a literal. */
+  protected readonly shops = [
+    'GD-01',
+    'GD-34',
+    'GD-45',
+    'GC-47',
+  ].map((number) => ({
+    number,
+    address: `${number} Dragon Mart 2, International City, Dubai, United Arab Emirates`,
+  }));
+
+  /** Fixed embed of Dragon Mart 2. Bypassing the sanitizer is safe because the URL is a literal. */
   protected readonly mapUrl: SafeResourceUrl = inject(DomSanitizer).bypassSecurityTrustResourceUrl(
-    'https://maps.google.com/maps?q=United%20Arab%20Emirates&t=m&z=6&output=embed&iwloc=near',
+    'https://maps.google.com/maps?q=Dragon%20Mart%202%20International%20City%20Dubai&t=m&z=16&output=embed&iwloc=near',
   );
 }

@@ -135,7 +135,9 @@ export class PolicyComponent {
     effect(() => {
       const view = this.view();
       if (view) {
-        this.pageTitle.set(view.policy.breadcrumb ?? view.policy.title);
+        this.pageTitle.set(view.policy.breadcrumb ?? view.policy.title, {
+          description: view.policy.intro[0] ?? view.policy.title,
+        });
       } else {
         untracked(() => void this.router.navigateByUrl('/404', { skipLocationChange: true }));
       }

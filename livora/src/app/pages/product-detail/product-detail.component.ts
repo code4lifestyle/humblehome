@@ -101,7 +101,10 @@ export class ProductDetailComponent {
       const slug = this.slug();
       const product = this.product();
       if (product) {
-        this.pageTitle.set(product.name);
+        this.pageTitle.set(product.name, {
+          description: product.excerpt,
+          image: product.images[0],
+        });
       } else if (slug !== undefined) {
         // unknown product: render the 404 page in place (the address bar keeps the requested URL)
         void this.router.navigateByUrl('/404', { skipLocationChange: true });

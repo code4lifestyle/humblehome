@@ -10,6 +10,7 @@ import { provideRouter, TitleStrategy, withComponentInputBinding, withInMemorySc
 
 import { routes } from './app.routes';
 import { LivoraTitleStrategy } from './core/services/page-title.service';
+import { ProductService } from './core/services/product.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -23,6 +24,13 @@ export const appConfig: ApplicationConfig = {
         return [0, (Number.isFinite(bar) ? bar : 76) + 16];
       });
     }),
+    // Products come from Supabase; wait for them (max 6 s, then the bundled catalog) so deep links resolve.
+    provideAppInitializer(() =>
+      Promise.race([
+        inject(ProductService).load(),
+        new Promise<void>((resolve) => setTimeout(resolve, 6000)),
+      ]),
+    ),
     provideRouter(
       routes,
       // route params / query params / route data → component input()s
