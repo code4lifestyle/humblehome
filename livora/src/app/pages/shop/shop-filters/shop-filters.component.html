@@ -33,39 +33,3 @@
     }
   </ul>
 </section>
-
-<!-- Brands -->
-<section class="facet facet-brands" aria-labelledby="facet-brands-title">
-  <h3 class="facet-title" id="facet-brands-title">Brands</h3>
-  <ul class="option-list">
-    @for (brand of brandList; track brand.slug) {
-      <li>
-        @if (lockedBrand(); as locked) {
-          <a
-            class="option"
-            [class.is-checked]="brand.slug === locked"
-            [routerLink]="['/brand', brand.slug]"
-            queryParamsHandling="merge"
-            [queryParams]="{ page: null }"
-            [attr.aria-current]="brand.slug === locked ? 'page' : null"
-          >
-            <span class="box" aria-hidden="true"></span>
-            <span class="name">{{ brand.name }}</span>
-            <span class="count"> ({{ brand.count }})</span>
-          </a>
-        } @else {
-          <label class="option" [class.is-checked]="brands().includes(brand.slug)">
-            <input
-              type="checkbox"
-              [value]="brand.slug"
-              [checked]="brands().includes(brand.slug)"
-              (change)="toggleBrand(brand.slug, $any($event.target).checked)"
-            />
-            <span class="name">{{ brand.name }}</span>
-            <span class="count"> ({{ brand.count }})</span>
-          </label>
-        }
-      </li>
-    }
-  </ul>
-</section>

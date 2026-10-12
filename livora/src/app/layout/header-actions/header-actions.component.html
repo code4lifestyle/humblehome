@@ -9,17 +9,6 @@
     <app-svg-icon name="search" />
   </button>
 
-  <a
-    class="action"
-    routerLink="/wishlist"
-    [attr.aria-label]="'Wishlist, ' + itemsLabel(wishlist.count())"
-  >
-    <app-svg-icon name="heart" />
-    @if (wishlist.count() > 0) {
-      <span class="badge" aria-hidden="true">{{ wishlist.count() }}</span>
-    }
-  </a>
-
   <button
     type="button"
     class="burger"

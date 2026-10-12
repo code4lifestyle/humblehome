@@ -10,7 +10,7 @@ import { adminGuard, adminGuestGuard } from './pages/admin/admin-auth.service';
  *  /product-category/:slug    Shop            data.mode = 'category'  one category
  *  /brand/:slug               Shop            data.mode = 'brand'     one brand
  *  /product/:slug             ProductDetail
- *  /cart  /checkout  /wishlist
+ *  /cart  /checkout
  *  /my-account                Account         data.view = 'auth'            (login + register)
  *  /my-account/lost-password  Account         data.view = 'lost-password'
  *  /blog                      BlogList        data.mode = 'blog'
@@ -118,14 +118,7 @@ export const routes: Routes = [
     data: { robots: 'noindex, nofollow' },
     loadComponent: () => import('./pages/checkout/checkout.component').then((m) => m.CheckoutComponent),
   },
-  {
-    path: 'wishlist',
-    title: 'Wishlist',
-    data: {
-      description: 'Save Humble Home furniture, curtains, and marble pieces you like, then book a free consultation.',
-    },
-    loadComponent: () => import('./pages/wishlist/wishlist.component').then((m) => m.WishlistComponent),
-  },
+  { path: 'wishlist', redirectTo: '', pathMatch: 'full' },
   {
     path: 'my-account',
     title: 'My Account',
@@ -170,7 +163,7 @@ export const routes: Routes = [
     title: 'Our Locations',
     data: {
       description:
-        'Visit Humble Home at Dragon Mart 2, International City, Dubai. Four showrooms: GD-01, GD-34, GD-45, and GC-47.',
+        'Visit Humble Home at Dragon Mart 2, International City, Dubai. Showrooms: GD-01, GD-34, GD-45, GC-47, and Family Friends Furniture.',
     },
     loadComponent: () => import('./pages/locations/locations.component').then((m) => m.LocationsComponent),
   },

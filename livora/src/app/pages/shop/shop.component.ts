@@ -452,10 +452,6 @@ export class ShopComponent {
     this.go({ category: slugs.length > 0 ? slugs.join(',') : null });
   }
 
-  protected onBrands(slugs: string[]): void {
-    this.go({ brand: slugs.length > 0 ? slugs.join(',') : null });
-  }
-
   /** Clears every filter (search, price, rating, categories, brands); sorting and page size stay. */
   protected resetAll(): void {
     this.go({

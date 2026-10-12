@@ -149,9 +149,9 @@ export class ContactComponent {
   }));
 
   // ── store map ────────────────────────────────────────────────────────────────────────────────────────────────────────
-  /** Embed URL of the original page (a fixed literal, so bypassing the sanitizer is safe). */
+  /** Family Friends Furniture at Dragon Mart 2. Safe because the URL is a literal. */
   protected readonly mapUrl: SafeResourceUrl = inject(DomSanitizer).bypassSecurityTrustResourceUrl(
-    'https://maps.google.com/maps?q=United%20Arab%20Emirates&t=m&z=6&output=embed&iwloc=near',
+    'https://maps.google.com/maps?q=Family%20Friends%20Furniture%2C%20Dragon%20Mart%202%2C%20Dubai&ll=25.1737648,55.4218103&t=m&z=17&output=embed&iwloc=near',
   );
 
   constructor() {

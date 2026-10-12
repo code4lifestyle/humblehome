@@ -20,19 +20,26 @@
   </div>
 </section>
 
-<section class="path" aria-labelledby="path-title">
+<section class="path" aria-label="From Consultation to Installation">
   <div class="container">
-    <h2 id="path-title" class="path__title">From Consultation to Installation</h2>
+    <app-section-title eyebrow="The journey" title="From Consultation to Installation">
+      <p>Seven clear steps from the first visit to the day you live with the work.</p>
+    </app-section-title>
+
     <ol class="path__steps">
-      @for (step of path; track step; let last = $last) {
-        <li>
-          <span>{{ step }}</span>
-          @if (!last) {
-            <span class="path__arrow" aria-hidden="true">→</span>
-          }
+      @for (step of path; track step.label; let first = $first; let last = $last) {
+        <li [class.is-first]="first" [class.is-last]="last">
+          <span class="path__index">{{ step.number }}</span>
+          <span class="path__node">
+            <span class="path__icon" aria-hidden="true">
+              <i class="fa-solid {{ step.icon }}"></i>
+            </span>
+          </span>
+          <span class="path__label">{{ step.label }}</span>
         </li>
       }
     </ol>
+
     <a class="btn-highlighted" routerLink="/contact-us">Book a Free Visit</a>
   </div>
 </section>

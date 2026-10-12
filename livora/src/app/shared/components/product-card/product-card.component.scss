@@ -179,10 +179,6 @@
   }
 }
 
-.ic-heart {
-  --ic: url('/assets/icons/icon-wishlist-primary.svg');
-}
-
 // touch screens have no hover: keep the buttons visible along the bottom edge of the image
 @media (hover: none) {
   .overlay {

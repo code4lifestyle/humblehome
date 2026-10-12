@@ -224,7 +224,7 @@
   }
 }
 
-// ---------------------------------------------------------------- consultation · wishlist
+// ---------------------------------------------------------------- consultation
 .actions {
   display: flex;
   flex-wrap: wrap;
@@ -233,41 +233,6 @@
 
   @include mobile {
     gap: 8px 10px;
-  }
-}
-
-.wish {
-  display: grid;
-  place-items: center;
-  width: 66px;
-  height: 50px;
-  padding: 0;
-  border: 1px solid var(--color-divider);
-  border-radius: 50px;
-  background: transparent;
-  font-size: 24px;
-  line-height: 1;
-  color: var(--color-primary);
-  transition: var(--transition-fast);
-
-  &:hover {
-    border-color: var(--color-accent);
-    color: var(--color-accent);
-  }
-  &.is-active {
-    border-color: var(--color-primary);
-    background: var(--color-primary);
-    color: var(--color-white);
-  }
-
-  @include tablet {
-    width: 56px;
-    height: 46px;
-  }
-  @include mobile {
-    width: 42px;
-    height: 42px;
-    font-size: 20px;
   }
 }
 

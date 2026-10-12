@@ -337,7 +337,7 @@ export class ProductService {
     return this.idMap.get(Number(id));
   }
 
-  /** Products for these ids, in the order of `ids`; unknown ids are skipped and duplicates collapsed (wishlist/cart). */
+  /** Products for these ids, in the order of `ids`; unknown ids are skipped and duplicates collapsed (cart). */
   byIds(ids: number[]): Product[] {
     const seen = new Set<number>();
     const result: Product[] = [];

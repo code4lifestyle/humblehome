@@ -11,7 +11,7 @@ function withQuoteMarks(quote: string): string {
 }
 
 /**
- * "Happy Customer / Beautiful Furniture Trusted By Modern Families" – armchair image on the left, heading + auto-playing
+ * "What Our Clients Say" – armchair image on the left, heading + auto-playing
  * testimonial slider on the right. Used on Home and About; the caller supplies the testimonials
  * (`ContentService.testimonials()`).
  *

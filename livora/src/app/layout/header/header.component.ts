@@ -17,7 +17,7 @@ import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 
 /**
  * Site header (owner: shell agent).
- *  – white row (phone box · logo · search / wishlist) and a hamburger that opens the off-canvas menu;
+ *  – white row (phone box · logo · search) and a hamburger that opens the off-canvas menu;
  *  – sticky: once the header has scrolled out of view a compact bar (logo · icons) slides in from the top;
  *  – publishes the compact bar's height as `--header-height` (and `scroll-padding-top`) on <html>, so anchors and
  *    `position: sticky` sidebars never sit under it.

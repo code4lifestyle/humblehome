@@ -14,12 +14,11 @@ import { PriceRange } from '../shop.utils';
 type RatingStep = 1 | 2 | 3 | 4 | 5;
 
 /**
- * The four facets of the shop sidebar: price range, product rating, categories and brands (ShopEngine "product filters").
- * Purely presentational – the page owns the URL: every user action is emitted and the current selection comes back in
- * through the inputs.
+ * Shop sidebar facets. Purely presentational – the page owns the URL: every user action is emitted and the current
+ * selection comes back in through the inputs.
  *
- * On `/product-category/:slug` the category list is locked to that category (`lockedCategory`) and on `/brand/:slug` the
- * brand list is locked (`lockedBrand`): the rows then link to the other category / brand pages instead of being checkboxes.
+ * On `/product-category/:slug` the category list is locked to that category (`lockedCategory`): the rows then link to
+ * the other category pages instead of being checkboxes.
  */
 @Component({
   selector: 'app-shop-filters',
@@ -36,21 +35,17 @@ export class ShopFiltersComponent {
   readonly maxPrice = input<number | null>(null);
   /** Active minimum rating (`null` = any). */
   readonly rating = input<number | null>(null);
-  /** Selected category / brand slugs (checkbox mode). */
+  /** Selected category slugs (checkbox mode). */
   readonly categories = input<readonly string[]>([]);
-  readonly brands = input<readonly string[]>([]);
-  /** Route-locked category / brand slug (the list then navigates instead of filtering). */
+  /** Route-locked category slug (the list then navigates instead of filtering). */
   readonly lockedCategory = input<string | null>(null);
-  readonly lockedBrand = input<string | null>(null);
 
   readonly priceChange = output<PriceRange>();
   readonly ratingChange = output<number | null>();
   readonly categoriesChange = output<string[]>();
-  readonly brandsChange = output<string[]>();
 
   protected readonly bounds = this.catalog.priceBounds();
   protected readonly categoryList = this.catalog.categories();
-  protected readonly brandList = this.catalog.brands();
 
   /** 5 → 1 with "N stars & up" counts (the rating filter is a minimum, so the counts add up). */
   protected readonly ratingRows: readonly { step: RatingStep; count: number; label: string }[] =
@@ -148,14 +143,10 @@ export class ShopFiltersComponent {
     this.ratingChange.emit(this.rating() === step ? null : step);
   }
 
-  // ------------------------------------------------------------------------------------------ categories / brands
+  // -------------------------------------------------------------------------------------------------- categories
 
   protected toggleCategory(slug: string, checked: boolean): void {
     this.categoriesChange.emit(this.toggled(this.categories(), slug, checked));
-  }
-
-  protected toggleBrand(slug: string, checked: boolean): void {
-    this.brandsChange.emit(this.toggled(this.brands(), slug, checked));
   }
 
   private toggled(current: readonly string[], slug: string, checked: boolean): string[] {

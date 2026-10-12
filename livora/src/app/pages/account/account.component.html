@@ -58,12 +58,6 @@
               </a>
             </li>
             <li>
-              <a class="dash-link" routerLink="/wishlist">
-                <i class="ic ic-wishlist" aria-hidden="true"></i>Wishlist
-                <span class="dash-count">{{ wishlist.count() }}</span>
-              </a>
-            </li>
-            <li>
               <a class="dash-link" routerLink="/cart">
                 <i class="ic ic-cart" aria-hidden="true"></i>Cart
                 <span class="dash-count">{{ cart.count() }}</span>
@@ -85,25 +79,13 @@
         <div class="dash-main">
           <h2 class="dash-title" tabindex="-1">Hello {{ user.name }}</h2>
           <p class="dash-intro">
-            From your account dashboard you can view your recent order, manage your wishlist and
+            From your account dashboard you can view your recent order, manage your
             cart, and keep exploring our latest collections. Signed in as
             <strong>{{ user.email }}</strong
             >.
           </p>
 
           <ul class="tiles">
-            <li>
-              <a class="tile" routerLink="/wishlist">
-                <span class="tile-icon"><i class="ic ic-wishlist" aria-hidden="true"></i></span>
-                <span class="tile-text">
-                  <strong class="tile-title">Wishlist</strong>
-                  <span class="tile-meta"
-                    >{{ wishlist.count() }}
-                    {{ wishlist.count() === 1 ? 'product' : 'products' }} saved</span
-                  >
-                </span>
-              </a>
-            </li>
             <li>
               <a class="tile" routerLink="/cart">
                 <span class="tile-icon"><i class="ic ic-cart" aria-hidden="true"></i></span>

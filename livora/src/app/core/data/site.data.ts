@@ -24,8 +24,8 @@ export const SITE_CONFIG: SiteConfig = {
   social: [
     { name: 'pinterest', url: 'https://www.pinterest.com/', icon: 'fa-brands fa-pinterest-p' },
     { name: 'x', url: 'https://x.com/', icon: 'fa-brands fa-x-twitter' },
-    { name: 'facebook', url: 'https://www.facebook.com/', icon: 'fa-brands fa-facebook-f' },
-    { name: 'instagram', url: 'https://www.instagram.com/', icon: 'fa-brands fa-instagram' },
+    { name: 'facebook', url: 'https://www.facebook.com/profile.php?id=61592578437627', icon: 'fa-brands fa-facebook-f' },
+    { name: 'instagram', url: 'https://www.instagram.com/humblehome.furniture/', icon: 'fa-brands fa-instagram' },
   ],
 
   header: {

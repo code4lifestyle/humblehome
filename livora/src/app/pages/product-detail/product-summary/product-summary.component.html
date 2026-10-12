@@ -91,21 +91,6 @@
         >
           Book a free consultation
         </a>
-
-        <button
-          type="button"
-          class="wish"
-          [class.is-active]="wished()"
-          [attr.aria-pressed]="wished()"
-          [attr.aria-label]="wished() ? 'Remove from wishlist' : 'Add to wishlist'"
-          [title]="wished() ? 'Remove from wishlist' : 'Add to wishlist'"
-          (click)="toggleWishlist()"
-        >
-          <i
-            [class]="wished() ? 'fa-solid fa-heart' : 'fa-regular fa-heart'"
-            aria-hidden="true"
-          ></i>
-        </button>
       </div>
     </div>
   </div>

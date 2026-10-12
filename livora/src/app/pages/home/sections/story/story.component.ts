@@ -29,13 +29,13 @@ interface CollectionCard {
 })
 export class HomeStoryComponent {
   protected readonly path = [
-    'Consult',
-    'Measure',
-    'Design',
-    'Approve',
-    'Create',
-    'Install',
-    'Enjoy',
+    { number: '01', label: 'Consult', icon: 'fa-comments' },
+    { number: '02', label: 'Measure', icon: 'fa-ruler' },
+    { number: '03', label: 'Design', icon: 'fa-pencil' },
+    { number: '04', label: 'Approve', icon: 'fa-check' },
+    { number: '05', label: 'Create', icon: 'fa-hammer' },
+    { number: '06', label: 'Install', icon: 'fa-truck' },
+    { number: '07', label: 'Enjoy', icon: 'fa-house' },
   ];
 
   protected readonly steps: Step[] = [

@@ -16,7 +16,6 @@ import { AuthService } from '@core/services/auth.service';
 import { CartService } from '@core/services/cart.service';
 import { OrderService } from '@core/services/order.service';
 import { ToastService } from '@core/services/toast.service';
-import { WishlistService } from '@core/services/wishlist.service';
 import {
   PageHeaderComponent,
   PageHeaderCrumb,
@@ -35,7 +34,7 @@ const textField = () => new FormControl('', { nonNullable: true });
  * `/my-account` (`data.view = 'auth'`) and `/my-account/lost-password` (`data.view = 'lost-password'`).
  *
  *  - signed out → "Login your account" + "Sign up your account" side by side (texts of the original page)
- *  - signed in  → dashboard: greeting, quick links (wishlist, cart, shop), recent order, log out
+ *  - signed in  → dashboard: greeting, quick links (cart, shop), recent order, log out
  *  - lost password → reset form; there is no mail server, so it only shows a confirmation toast (demo)
  *
  * Accounts are a MOCK kept in localStorage – see `AuthService`.
@@ -53,7 +52,6 @@ export class AccountComponent {
 
   protected readonly auth = inject(AuthService);
   protected readonly cart = inject(CartService);
-  protected readonly wishlist = inject(WishlistService);
   private readonly orders = inject(OrderService);
   private readonly toast = inject(ToastService);
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);

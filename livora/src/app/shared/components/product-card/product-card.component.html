@@ -40,7 +40,6 @@
 
     @if (layout() === 'grid') {
       <div class="overlay" role="group" [attr.aria-label]="'Actions for ' + product().name">
-        <ng-container [ngTemplateOutlet]="wishlistButton" />
         <ng-container [ngTemplateOutlet]="viewButton" />
       </div>
     }
@@ -68,34 +67,11 @@
     @if (layout() === 'list') {
       <p class="excerpt">{{ product().excerpt }}</p>
       <div class="row-actions">
-        <ng-container [ngTemplateOutlet]="wishlistButton" />
         <ng-container [ngTemplateOutlet]="viewButton" />
       </div>
     }
   </div>
 </article>
-
-<ng-template #wishlistButton>
-  <button
-    type="button"
-    class="icon-btn"
-    [class.is-active]="wished()"
-    [attr.aria-pressed]="wished()"
-    [title]="wished() ? 'Remove from wishlist' : 'Add to wishlist'"
-    [attr.aria-label]="
-      (wished() ? 'Remove ' : 'Add ') +
-      product().name +
-      (wished() ? ' from wishlist' : ' to wishlist')
-    "
-    (click)="toggleWishlist()"
-  >
-    @if (wished()) {
-      <i class="fa-solid fa-heart" aria-hidden="true"></i>
-    } @else {
-      <i class="ic ic-heart" aria-hidden="true"></i>
-    }
-  </button>
-</ng-template>
 
 <ng-template #viewButton>
   <a

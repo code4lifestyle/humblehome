@@ -12,13 +12,12 @@ import {
 import { RouterLink } from '@angular/router';
 import { Product, ProductAttribute, ProductVariation } from '@core/models';
 import { ProductService } from '@core/services/product.service';
-import { WishlistService } from '@core/services/wishlist.service';
 import { findVariation, isVariable } from '@core/utils/product.utils';
 import { needsDarkCheck } from '../product-detail.utils';
 
 /**
  * The right-hand column of the product page: title, categories, excerpt + highlights, variation picker,
- * "Book a free consultation" + wishlist heart, and meta (SKU / Category / Brand).
+ * "Book a free consultation", and meta (SKU / Category / Brand).
  *
  * The consultation link opens /contact-us with the product slug and any chosen options (for example "Color: Black").
  * Variable products: the colour attribute is shown as round swatches (`attribute.swatches`) or – without swatch colours –
@@ -37,7 +36,6 @@ export class ProductSummaryComponent {
   readonly variationChange = output<ProductVariation | null>();
 
   private readonly catalog = inject(ProductService);
-  private readonly wishlist = inject(WishlistService);
 
   private readonly picker = viewChild<ElementRef<HTMLElement>>('picker');
 
@@ -80,8 +78,6 @@ export class ProductSummaryComponent {
   protected readonly sku = computed(() => this.variation()?.sku ?? this.product().sku ?? 'N/A');
   /** WooCommerce prints "SKU: N/A" for variable products without SKU and no SKU line for simple ones. */
   protected readonly showSku = computed(() => !!this.product().sku || this.variable());
-  protected readonly wished = computed(() => this.wishlist.has(this.product().id));
-
   // ------------------------------------------------------------------- variation picker
 
   protected isChosen(attribute: ProductAttribute, option: string): boolean {
@@ -157,7 +153,4 @@ export class ProductSummaryComponent {
       [target]?.focus();
   }
 
-  protected toggleWishlist(): void {
-    this.wishlist.toggle(this.product());
-  }
 }

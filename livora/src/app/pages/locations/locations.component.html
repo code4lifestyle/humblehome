@@ -6,12 +6,36 @@
       <h2 class="locations__heading">Shops</h2>
 
       <ul class="locations__shops">
-        @for (shop of shops; track shop.number) {
+        @for (shop of shops; track shop.name) {
           <li>
-            <address>
-              <span class="locations__number">{{ shop.number }}</span>
-              <span>Dragon Mart 2, International City, Dubai, United Arab Emirates</span>
-            </address>
+            <article class="locations__shop">
+              @if (shop.image) {
+                <img
+                  class="locations__photo"
+                  [src]="shop.image"
+                  [alt]="shop.name + ' showroom'"
+                  width="640"
+                  height="480"
+                />
+              }
+              <address>
+                <span class="locations__number">{{ shop.name }}</span>
+                <span>{{ shop.address }}</span>
+                @if (shop.phone) {
+                  <a class="locations__meta" [href]="shop.phoneHref">{{ shop.phone }}</a>
+                }
+                @if (shop.mapsUrl) {
+                  <a
+                    class="locations__meta"
+                    [href]="shop.mapsUrl"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Get directions
+                  </a>
+                }
+              </address>
+            </article>
           </li>
         }
       </ul>
@@ -22,7 +46,7 @@
         <iframe
           class="locations__frame"
           [src]="mapUrl"
-          title="Map showing Humble Home shops at Dragon Mart 2, International City, Dubai"
+          title="Map showing Family Friends Furniture at Dragon Mart 2, Dubai"
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
           allowfullscreen
