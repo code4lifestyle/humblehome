@@ -95,17 +95,16 @@
   }
 }
 
-// the circle – ElementsKit "splash": a dark disc grows from the centre (50 % opacity) and the caption fades in
+// square tile – dark overlay grows from the centre (50 % opacity) and the caption fades in
 .tile__image {
   position: relative;
   display: block;
-  // 180px (160px on tablet/phone) like the original, but never wider than its slide: between 1025px and ~1220px, and on very
-  // narrow phones, the original's circles overlap their neighbours
+  // 180px (160px on tablet/phone), but never wider than its slide
   width: min(180px, 100%);
   aspect-ratio: 1;
-  border-radius: 50%;
+  border-radius: var(--radius-sm);
   overflow: hidden;
-  transform: translateZ(0); // clip the scaling overlay to the round mask in every browser
+  transform: translateZ(0);
 
   @include tablet {
     width: min(160px, 100%);
@@ -124,7 +123,7 @@
     position: absolute;
     inset: 0;
     z-index: 1;
-    border-radius: 100%;
+    border-radius: inherit;
     background: var(--color-primary);
     opacity: 0;
     transform: scale(0);

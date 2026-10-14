@@ -113,7 +113,9 @@
             </div>
 
             <div class="contact-form__actions">
-              <button type="submit" class="btn-default btn-plain">Send Message</button>
+              <button type="submit" class="btn-default btn-plain" [disabled]="sending()">
+                {{ sending() ? 'Sending…' : 'Send Message' }}
+              </button>
             </div>
           </form>
         </div>

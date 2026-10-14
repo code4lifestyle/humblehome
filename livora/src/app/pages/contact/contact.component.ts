@@ -7,6 +7,7 @@ import {
   effect,
   inject,
   input,
+  signal,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -60,9 +61,7 @@ function phoneValidator(control: AbstractControl<string>): ValidationErrors | nu
 }
 
 /**
- * /contact-us – banner, "Do You Have Any Questions?" form (Reactive Forms, inline validation, no backend: a toast confirms
- * and the form resets), the "Contact Info" card with address / phone / e-mail / opening hours + social icons and the
- * "Store Location" Google Maps embed.
+ * /contact-us – inquiry form (sent to SITE_CONFIG.contact.email), contact info, social icons, and store map.
  */
 @Component({
   selector: 'app-contact-page',
@@ -75,6 +74,9 @@ export class ContactComponent {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly toast = inject(ToastService);
   private readonly catalog = inject(ProductService);
+
+  protected readonly sending = signal(false);
+  private readonly inbox = SITE_CONFIG.contact.email;
 
   /** Set when the shopper arrives from a product page (`?product=slug&choice=Color: Black&image=…`). */
   readonly product = input<string>();
@@ -137,16 +139,25 @@ export class ContactComponent {
     {
       icon: CONTACT_ICONS.mail,
       title: 'Email:',
-      text: 'info@dominname.com',
-      href: 'mailto:info@dominname.com',
+      text: SITE_CONFIG.contact.email,
+      href: `mailto:${SITE_CONFIG.contact.email}`,
     },
     { icon: CONTACT_ICONS.clock, title: 'Open Store:', text: SITE_CONFIG.contact.hours },
   ];
 
-  protected readonly social = SITE_CONFIG.social.map((link) => ({
-    ...link,
-    label: `Humble Home on ${link.name === 'x' ? 'X' : link.name.charAt(0).toUpperCase() + link.name.slice(1)}`,
-  }));
+  protected readonly social = SITE_CONFIG.social.map((link) => {
+    const names: Record<string, string> = {
+      facebook: 'Facebook',
+      instagram: 'Instagram',
+      tiktok: 'TikTok',
+      whatsapp: 'WhatsApp',
+      x: 'X',
+    };
+    return {
+      ...link,
+      label: `Humble Home on ${names[link.name] ?? link.name}`,
+    };
+  });
 
   // ── store map ────────────────────────────────────────────────────────────────────────────────────────────────────────
   /** Family Friends Furniture at Dragon Mart 2. Safe because the URL is a literal. */
@@ -176,19 +187,60 @@ export class ContactComponent {
     return key ? messages[key] : 'Please check this field.';
   }
 
-  protected submit(): void {
+  protected async submit(): Promise<void> {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
-      // move the focus to the first field with a problem
       this.host.nativeElement.querySelector<HTMLElement>('.form-control.ng-invalid')?.focus();
       return;
     }
+    if (this.sending()) {
+      return;
+    }
+
     const item = this.consultation();
-    this.toast.show(
-      item
-        ? `Thank you! Your consultation request for ${item.name} has been sent, including the product photo.`
-        : 'Thank you! Your message has been sent.',
-    );
-    this.form.reset();
+    const { name, email, phone, inquiry } = this.form.getRawValue();
+    this.sending.set(true);
+
+    try {
+      const response = await fetch(`https://formsubmit.co/ajax/${this.inbox}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          phone: phone.trim(),
+          inquiry: inquiry.trim(),
+          product: item?.name ?? '',
+          choice: item?.choice ?? '',
+          _subject: item
+            ? `Consultation request: ${item.name}`
+            : 'New contact form message – Humble Home',
+          _replyto: email.trim(),
+          _template: 'table',
+          _captcha: 'false',
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`FormSubmit responded with ${response.status}`);
+      }
+
+      this.toast.show(
+        item
+          ? `Thank you! Your consultation request for ${item.name} has been sent.`
+          : 'Thank you! Your message has been sent.',
+      );
+      this.form.reset();
+    } catch {
+      this.toast.show(
+        `Sorry, we could not send your message. Please email ${this.inbox} directly.`,
+        { type: 'error', duration: 8000 },
+      );
+    } finally {
+      this.sending.set(false);
+    }
   }
 }

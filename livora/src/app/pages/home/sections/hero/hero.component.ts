@@ -3,8 +3,7 @@ import { RouterLink } from '@angular/router';
 import { SectionTitleComponent } from '@shared/components/section-title/section-title.component';
 
 /**
- * Home hero – full-bleed photo with a 50 % dark overlay, the "Modern Living Starts Here" pill, the huge white h1 and the
- * "Shop Now" button (original: Elementor container 6348e1f, 800px min-height).
+ * Home hero – left-aligned copy with the living-room photo on the right (stacked on tablet / mobile).
  */
 @Component({
   selector: 'app-home-hero',

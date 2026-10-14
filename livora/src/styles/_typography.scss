@@ -7,13 +7,15 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+.section-title__heading {
   margin: 0;
   font-family: var(--font-heading);
   font-weight: 500;
   font-optical-sizing: auto;
   line-height: 1.2em;
   color: var(--color-primary);
+  text-transform: uppercase;
 }
 
 h1,

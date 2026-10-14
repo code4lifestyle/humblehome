@@ -21,7 +21,16 @@ export interface MegaMenu {
 }
 
 export interface SocialLink {
-  name: 'facebook' | 'instagram' | 'twitter' | 'x' | 'linkedin' | 'youtube' | 'pinterest' | 'whatsapp';
+  name:
+    | 'facebook'
+    | 'instagram'
+    | 'twitter'
+    | 'x'
+    | 'linkedin'
+    | 'youtube'
+    | 'pinterest'
+    | 'whatsapp'
+    | 'tiktok';
   url: string;
   /** Font Awesome class, e.g. 'fa-brands fa-facebook-f' */
   icon: string;

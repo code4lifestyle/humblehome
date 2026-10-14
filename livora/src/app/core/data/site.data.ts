@@ -13,7 +13,7 @@ export const SITE_CONFIG: SiteConfig = {
   contact: {
     phone: '+91 12345 6789',
     phoneHref: 'tel:+911234567890',
-    email: 'support@domain.com',
+    email: 'enquiry@humblehomefurniture.com',
     address: 'United Arab Emirates',
     hours: 'Monday - Friday 10 AM - 8 PM',
   },
@@ -22,10 +22,26 @@ export const SITE_CONFIG: SiteConfig = {
   logoLight: 'assets/images/humble-home-logo-white.svg',
 
   social: [
-    { name: 'pinterest', url: 'https://www.pinterest.com/', icon: 'fa-brands fa-pinterest-p' },
-    { name: 'x', url: 'https://x.com/', icon: 'fa-brands fa-x-twitter' },
-    { name: 'facebook', url: 'https://www.facebook.com/profile.php?id=61592578437627', icon: 'fa-brands fa-facebook-f' },
-    { name: 'instagram', url: 'https://www.instagram.com/humblehome.furniture/', icon: 'fa-brands fa-instagram' },
+    {
+      name: 'facebook',
+      url: 'https://www.facebook.com/profile.php?id=61592578437627',
+      icon: 'fa-brands fa-facebook-f',
+    },
+    {
+      name: 'instagram',
+      url: 'https://www.instagram.com/humblehome.furniture/',
+      icon: 'fa-brands fa-instagram',
+    },
+    {
+      name: 'tiktok',
+      url: 'https://www.tiktok.com/@humblehome.furniture',
+      icon: 'fa-brands fa-tiktok',
+    },
+    {
+      name: 'whatsapp',
+      url: 'https://wa.me/911234567890',
+      icon: 'fa-brands fa-whatsapp',
+    },
   ],
 
   header: {
