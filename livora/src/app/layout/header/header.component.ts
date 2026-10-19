@@ -12,12 +12,11 @@ import { RouterLink } from '@angular/router';
 import { SITE_CONFIG } from '../../core/data/site.data';
 import { HeaderActionsComponent } from '../header-actions/header-actions.component';
 import { MobileMenuComponent } from '../mobile-menu/mobile-menu.component';
-import { SearchModalComponent } from '../search-modal/search-modal.component';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 
 /**
  * Site header (owner: shell agent).
- *  – white row (phone box · logo · search) and a hamburger that opens the off-canvas menu;
+ *  – white row (phone box · logo · menu) and a hamburger that opens the off-canvas menu;
  *  – sticky: once the header has scrolled out of view a compact bar (logo · icons) slides in from the top;
  *  – publishes the compact bar's height as `--header-height` (and `scroll-padding-top`) on <html>, so anchors and
  *    `position: sticky` sidebars never sit under it.
@@ -29,7 +28,6 @@ import { SvgIconComponent } from '../svg-icon/svg-icon.component';
     SvgIconComponent,
     HeaderActionsComponent,
     MobileMenuComponent,
-    SearchModalComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './header.component.html',

@@ -4,6 +4,7 @@ import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
 import { FooterComponent } from './layout/footer/footer.component';
 import { HeaderComponent } from './layout/header/header.component';
+import { SignupPopupComponent } from './layout/signup-popup/signup-popup.component';
 import { ToastContainerComponent } from './layout/toast-container/toast-container.component';
 import { WhatsappButtonComponent } from './layout/whatsapp-button/whatsapp-button.component';
 
@@ -12,7 +13,14 @@ const isAdminPath = (path: string): boolean => path === '/admin' || path.startsW
 /** App shell: skip link + header + routed page + footer + toast notifications. Owned by the shell agent. */
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent, FooterComponent, WhatsappButtonComponent, ToastContainerComponent],
+  imports: [
+    RouterOutlet,
+    HeaderComponent,
+    FooterComponent,
+    WhatsappButtonComponent,
+    ToastContainerComponent,
+    SignupPopupComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './app.html',
   styleUrl: './app.scss',

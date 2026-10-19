@@ -3,7 +3,7 @@ import { LayoutService } from '../layout.service';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 
 /**
- * The icon cluster of the header: search (opens the overlay) and the hamburger that opens the off-canvas menu.
+ * The icon cluster of the header: hamburger that opens the off-canvas menu.
  */
 @Component({
   selector: 'app-header-actions',

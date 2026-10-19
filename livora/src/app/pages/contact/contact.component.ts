@@ -133,8 +133,8 @@ export class ContactComponent {
     {
       icon: CONTACT_ICONS.phone,
       title: 'Contact No.:',
-      text: '+91 123 456 789',
-      href: 'tel:+91123456789',
+      text: SITE_CONFIG.contact.phone,
+      href: SITE_CONFIG.contact.phoneHref,
     },
     {
       icon: CONTACT_ICONS.mail,
@@ -187,7 +187,7 @@ export class ContactComponent {
     return key ? messages[key] : 'Please check this field.';
   }
 
-  protected async submit(): Promise<void> {
+  protected submit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       this.host.nativeElement.querySelector<HTMLElement>('.form-control.ng-invalid')?.focus();
@@ -201,46 +201,64 @@ export class ContactComponent {
     const { name, email, phone, inquiry } = this.form.getRawValue();
     this.sending.set(true);
 
-    try {
-      const response = await fetch(`https://formsubmit.co/ajax/${this.inbox}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({
-          name: name.trim(),
-          email: email.trim(),
-          phone: phone.trim(),
-          inquiry: inquiry.trim(),
-          product: item?.name ?? '',
-          choice: item?.choice ?? '',
-          _subject: item
-            ? `Consultation request: ${item.name}`
-            : 'New contact form message – Humble Home',
-          _replyto: email.trim(),
-          _template: 'table',
-          _captcha: 'false',
-        }),
+    const body = JSON.stringify({
+      name: name.trim(),
+      email: email.trim(),
+      phone: phone.trim(),
+      inquiry: inquiry.trim(),
+      product: item?.name ?? '',
+      choice: item?.choice ?? '',
+      _subject: item
+        ? `Consultation request: ${item.name}`
+        : 'New contact form message – Humble Home',
+      _replyto: email.trim(),
+      _template: 'table',
+      _captcha: 'false',
+    });
+
+    // FormSubmit can take 45–75s before responding (SMTP happens before the HTTP reply).
+    // Confirm the UI immediately and deliver email in the background with keepalive.
+    void fetch(`https://formsubmit.co/ajax/${this.inbox}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body,
+      keepalive: true,
+    })
+      .then(async (response) => {
+        const payload = (await response.json().catch(() => null)) as {
+          success?: string | boolean;
+          message?: string;
+        } | null;
+        const accepted =
+          response.ok &&
+          (payload == null ||
+            payload.success === true ||
+            payload.success === 'true' ||
+            payload.success === undefined);
+        if (!accepted) {
+          this.toast.show(
+            `Sorry, we could not send your message. Please email ${this.inbox} directly.`,
+            { type: 'error', duration: 8000 },
+          );
+        }
+      })
+      .catch(() => {
+        this.toast.show(
+          `Sorry, we could not send your message. Please email ${this.inbox} directly.`,
+          { type: 'error', duration: 8000 },
+        );
       });
 
-      if (!response.ok) {
-        throw new Error(`FormSubmit responded with ${response.status}`);
-      }
-
-      this.toast.show(
-        item
-          ? `Thank you! Your consultation request for ${item.name} has been sent.`
-          : 'Thank you! Your message has been sent.',
-      );
-      this.form.reset();
-    } catch {
-      this.toast.show(
-        `Sorry, we could not send your message. Please email ${this.inbox} directly.`,
-        { type: 'error', duration: 8000 },
-      );
-    } finally {
-      this.sending.set(false);
-    }
+    this.toast.show(
+      item
+        ? `Thank you! Your consultation request for ${item.name} has been sent.`
+        : 'Thank you! Your message has been sent successfully.',
+      { type: 'success', duration: 5000 },
+    );
+    this.form.reset();
+    this.sending.set(false);
   }
 }

@@ -13,7 +13,9 @@ interface CollectionCard {
   text: string;
   link: string;
   label: string;
+  /** Base path without size suffix, e.g. assets/images/collection-furniture.jpg */
   image: string;
+  srcset: string;
 }
 
 /**
@@ -82,21 +84,27 @@ export class HomeStoryComponent {
       text: 'Bespoke pieces designed specifically for your home.',
       link: '/furniture',
       label: 'Explore Furniture',
-      image: 'assets/images/category-item-image-1.jpg',
+      image: 'assets/images/collection-furniture.jpg',
+      srcset:
+        'assets/images/collection-furniture-600x400.jpg 600w, assets/images/collection-furniture-1200x800.jpg 1200w',
     },
     {
       title: 'Curtains',
       text: 'Made-to-measure curtains that bring softness, privacy, and character to your interiors.',
       link: '/curtains',
       label: 'Explore Curtains',
-      image: 'assets/images/product-image-23.jpg',
+      image: 'assets/images/collection-curtains.jpg',
+      srcset:
+        'assets/images/collection-curtains-600x400.jpg 600w, assets/images/collection-curtains-1200x800.jpg 1200w',
     },
     {
       title: 'Marble',
       text: 'Natural stone and marble pieces that add timeless elegance to your space.',
       link: '/marble',
       label: 'Explore Marble',
-      image: 'assets/images/product-image-26.jpg',
+      image: 'assets/images/collection-marble.jpg',
+      srcset:
+        'assets/images/collection-marble-600x400.jpg 600w, assets/images/collection-marble-1200x800.jpg 1200w',
     },
   ];
 }

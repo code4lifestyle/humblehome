@@ -68,15 +68,26 @@
 
     <ul class="collections__grid">
       @for (card of collections; track card.link) {
-        <li>
-          <a class="collection" [routerLink]="card.link">
-            <img [src]="card.image" [alt]="card.title" width="640" height="480" />
-            <span class="collection__body">
-              <span class="collection__title">{{ card.title }}</span>
-              <span class="collection__text">{{ card.text }}</span>
-              <span class="collection__link">{{ card.label }} →</span>
-            </span>
-          </a>
+        <li class="collections__item">
+          <article class="collection">
+            <a class="collection__media" [routerLink]="card.link" [attr.aria-label]="card.label">
+              <img
+                [src]="card.image"
+                [srcset]="card.srcset"
+                sizes="(max-width: 1024px) 100vw, 33vw"
+                [alt]="card.title"
+                width="1200"
+                height="800"
+                loading="lazy"
+                decoding="async"
+              />
+              <span class="collection__on-image">{{ card.title }}</span>
+            </a>
+            <div class="collection__body">
+              <p class="collection__text">{{ card.text }}</p>
+              <a class="collection__link" [routerLink]="card.link">{{ card.label }} →</a>
+            </div>
+          </article>
         </li>
       }
     </ul>

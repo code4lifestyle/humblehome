@@ -1,0 +1,76 @@
+<div
+  class="signup-popup"
+  [class.is-open]="open()"
+  role="presentation"
+  [attr.aria-hidden]="open() ? null : 'true'"
+  [attr.inert]="open() ? null : ''"
+  (click)="onBackdropClick($event)"
+>
+  <div
+    #dialog
+    class="signup-popup__dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="signup-popup-title"
+    (click)="$event.stopPropagation()"
+  >
+    <div class="signup-popup__media" aria-hidden="true">
+      <img
+        class="signup-popup__photo"
+        [src]="featureImage()"
+        alt=""
+        width="720"
+        height="900"
+        loading="lazy"
+      />
+      <img class="signup-popup__brand" [src]="site.logo" [alt]="site.name" width="140" height="48" />
+    </div>
+
+    <div class="signup-popup__copy">
+      <button type="button" class="signup-popup__close" aria-label="Close offer" (click)="close()">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+
+      <p class="signup-popup__index">({{ featureIndex() }})</p>
+      <h2 class="signup-popup__title" id="signup-popup-title">New Collection</h2>
+      <p class="signup-popup__offer">10% off your first signup</p>
+      <p class="signup-popup__text">
+        Sign up for our newsletter to be the first to explore new furniture, curtains, and marble
+        pieces — and enjoy exclusive savings on your first order.
+      </p>
+      @if (featureName()) {
+        <p class="signup-popup__product">Featuring {{ featureName() }}</p>
+      }
+
+      <form class="signup-popup__form" novalidate (submit)="submit($event, email.value)">
+        <!-- Hidden marker so enquiry@ inbox can identify 10% signup leads -->
+        <input type="hidden" name="10%" value="Yes – first signup offer" />
+        <label class="sr-only" for="signup-popup-email">Email address</label>
+        <input
+          #email
+          id="signup-popup-email"
+          class="signup-popup__field"
+          type="email"
+          name="email"
+          autocomplete="email"
+          placeholder="Email address"
+          [attr.aria-invalid]="error() ? 'true' : null"
+          [attr.aria-describedby]="error() ? 'signup-popup-error' : null"
+          (input)="error.set(null)"
+        />
+        <div id="signup-popup-error" class="signup-popup__error" role="alert">
+          @if (error(); as message) {
+            <p>{{ message }}</p>
+          }
+        </div>
+        <button type="submit" class="signup-popup__submit" [disabled]="submitting()">
+          {{ submitting() ? 'Signing up…' : 'Sign Up' }}
+        </button>
+      </form>
+
+      <a class="signup-popup__more" routerLink="/furniture" (click)="close()">See more</a>
+    </div>
+  </div>
+</div>

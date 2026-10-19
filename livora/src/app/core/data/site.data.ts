@@ -11,8 +11,8 @@ export const SITE_CONFIG: SiteConfig = {
     'Crafted with passion deliver elegant furniture experiences for modern homes and lifestyles.',
   // Footer / "Contact Information" values. The header's "Need Help ?" box has its own number (see `header` below).
   contact: {
-    phone: '+91 12345 6789',
-    phoneHref: 'tel:+911234567890',
+    phone: '+971 52 230 7573',
+    phoneHref: 'tel:+971522307573',
     email: 'enquiry@humblehomefurniture.com',
     address: 'United Arab Emirates',
     hours: 'Monday - Friday 10 AM - 8 PM',
@@ -39,15 +39,15 @@ export const SITE_CONFIG: SiteConfig = {
     },
     {
       name: 'whatsapp',
-      url: 'https://wa.me/911234567890',
+      url: 'https://wa.me/971522307573',
       icon: 'fa-brands fa-whatsapp',
     },
   ],
 
   header: {
     helpLabel: 'Need Help ?',
-    helpPhone: '+123 456 789',
-    helpPhoneHref: 'tel:123456789',
+    helpPhone: '+971 52 230 7573',
+    helpPhoneHref: 'https://wa.me/971522307573',
     searchPlaceholder: 'Search Your Product',
   },
 

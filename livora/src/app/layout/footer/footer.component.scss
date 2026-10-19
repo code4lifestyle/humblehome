@@ -158,14 +158,13 @@
   }
 }
 
-// ---- main row: 34 / 20 / 25 / 21 % ----------------------------------------------------------------------------------
+// ---- main row: quick links · customer services · contact ------------------------------------------------------------
 .footer-main {
   display: grid;
-  grid-template-columns: 34fr 20fr 25fr 21fr;
+  grid-template-columns: 1fr 1fr 1fr;
   margin: 0 -10px 50px; // the columns keep their 10px padding, the outer edges line up with the container
 
   @include tablet {
-    grid-template-columns: 30fr 40fr 30fr;
     margin-bottom: 20px;
   }
   @include mobile {
@@ -198,19 +197,6 @@
   }
 }
 
-.footer-about {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  padding-right: 125px;
-
-  @include tablet {
-    grid-column: 1 / -1;
-    gap: 20px;
-    padding-right: 10px;
-  }
-}
-
 .footer-links li a {
   display: block;
   width: fit-content;
@@ -240,73 +226,6 @@
   @include mobile {
     grid-column: 1 / -1;
   }
-}
-
-// ---- newsletter -------------------------------------------------------------------------------------------------------
-.newsletter__box {
-  display: flex;
-  align-items: center;
-  padding: 4px;
-  border: 1px solid var(--color-dark-divider);
-  border-radius: 25px;
-  transition: border-color 0.3s ease-in-out;
-
-  &:focus-within {
-    border-color: var(--color-accent);
-  }
-  &.is-invalid {
-    border-color: var(--footer-error);
-  }
-}
-.newsletter__field {
-  flex: 1 1 auto;
-  min-width: 0;
-  height: 40px;
-  padding: 6px 15px;
-  border: 0;
-  border-radius: var(--radius-pill);
-  background: transparent;
-  font-family: inherit;
-  font-size: 16px;
-  line-height: 24px;
-  color: var(--color-white);
-
-  &::placeholder {
-    color: var(--color-white);
-    opacity: 1;
-  }
-  &:focus {
-    outline: none;
-  }
-}
-.newsletter__submit {
-  flex: none;
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: var(--color-white) url('/assets/icons/arrow-white.svg') center / 20px no-repeat;
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
-
-  &:hover,
-  &:focus-visible {
-    background-color: var(--color-secondary);
-  }
-}
-.newsletter {
-  --footer-error: color-mix(
-    in srgb,
-    var(--color-danger) 70%,
-    white
-  ); // lighter red for the dark background
-}
-.newsletter__error p {
-  margin: 10px 5px 0;
-  font-size: 14px;
-  line-height: 1.1;
-  color: var(--footer-error);
 }
 
 // ---- bottom row: copyright ------------------------------------------------------------------------------------------

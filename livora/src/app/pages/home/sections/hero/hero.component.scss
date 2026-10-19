@@ -27,13 +27,20 @@
 .hero__copy {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   gap: 28px;
   max-width: 640px;
-  margin-inline: auto 0;
+  margin-inline: auto;
   padding: 96px clamp(24px, 5vw, 72px) 96px clamp(24px, 6vw, 80px);
+  text-align: center;
   animation: hero-copy-in 0.9s ease both;
+
+  @include desktop {
+    align-items: flex-start;
+    margin-inline: auto 0;
+    text-align: left;
+  }
 
   @include tablet {
     max-width: none;
@@ -53,6 +60,7 @@
 
   ::ng-deep .section-title__text {
     max-width: 34em;
+    margin-inline: auto;
     font-size: 16px;
     line-height: 1.7;
     color: var(--color-text);
@@ -87,6 +95,18 @@
 
     @include mobile {
       font-size: 36px;
+    }
+  }
+
+  // Desktop split layout: keep copy left-aligned beside the image.
+  @include desktop {
+    ::ng-deep .section-title {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    ::ng-deep .section-title__text {
+      margin-inline: 0;
     }
   }
 }

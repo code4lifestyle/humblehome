@@ -13,5 +13,7 @@ import { SvgIconComponent } from '../svg-icon/svg-icon.component';
   styleUrl: './whatsapp-button.component.scss',
 })
 export class WhatsappButtonComponent {
-  protected readonly href = `https://wa.me/${SITE_CONFIG.contact.phoneHref.replace(/\D/g, '')}`;
+  protected readonly href =
+    SITE_CONFIG.social.find((link) => link.name === 'whatsapp')?.url ??
+    `https://wa.me/${SITE_CONFIG.contact.phoneHref.replace(/\D/g, '').replace(/^00/, '')}`;
 }

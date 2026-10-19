@@ -30,39 +30,8 @@
       </a>
     </div>
 
-    <!-- about + newsletter · links · contact -->
+    <!-- links · contact -->
     <div class="footer-main">
-      <div class="footer-col footer-about">
-        <p>{{ footer.about }}</p>
-
-        <form class="newsletter" novalidate (submit)="subscribe($event, email)">
-          <div class="newsletter__box" [class.is-invalid]="newsletterError()">
-            <input
-              #email
-              class="newsletter__field"
-              type="email"
-              name="email"
-              autocomplete="email"
-              [placeholder]="footer.newsletterPlaceholder ?? 'Enter Email Address*'"
-              aria-label="Email address"
-              [attr.aria-invalid]="newsletterError() ? 'true' : null"
-              aria-describedby="newsletter-error"
-              (input)="newsletterError.set(null)"
-            />
-            <button
-              type="submit"
-              class="newsletter__submit"
-              [attr.aria-label]="footer.newsletterButtonLabel ?? 'Subscribe'"
-            ></button>
-          </div>
-          <div id="newsletter-error" class="newsletter__error" role="alert">
-            @if (newsletterError(); as message) {
-              <p>{{ message }}</p>
-            }
-          </div>
-        </form>
-      </div>
-
       <nav class="footer-col footer-links" aria-labelledby="footer-quick-links">
         <h3 id="footer-quick-links">{{ footer.quickLinksTitle }}</h3>
         <ul>
