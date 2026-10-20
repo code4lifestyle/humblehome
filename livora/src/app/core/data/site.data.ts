@@ -34,7 +34,7 @@ export const SITE_CONFIG: SiteConfig = {
     },
     {
       name: 'tiktok',
-      url: 'https://www.tiktok.com/@humblehome.furniture',
+      url: 'https://www.tiktok.com/@humble.home8',
       icon: 'fa-brands fa-tiktok',
     },
     {

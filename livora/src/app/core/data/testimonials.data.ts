@@ -6,30 +6,46 @@ const QUOTE =
 
 export const TESTIMONIALS: Testimonial[] = [
   {
+    name: 'Mehwish',
+    role: 'Google Review',
+    avatar: 'assets/images/author-2.jpg',
+    quote:
+      '“I had a great experience in shopping here all items i found are fabulous with wonderful atmosphere there in dragon mart i never found anywhere Thanks alot for making this shopping easy for me with too much cooperation.”',
+    rating: 5,
+  },
+  {
+    name: 'Maximilian Strempel',
+    role: 'Google Review · Local Guide',
+    avatar: 'assets/images/author-1.jpg',
+    quote:
+      '“Our coffee table arrived today – and we’re absolutely thrilled. The craftsmanship is truly high-quality and beautifully finished. Every detail feels precise and thoughtfully designed. What stands out most is the natural stone look: elegant, modern, and timeless at the same time. The table feels solid and premium without being bulky or heavy. It fits perfectly into the space and creates exactly the statement we were looking for. Super beautiful – we’re very happy with it. Thank you!”',
+    rating: 5,
+  },
+  {
     name: 'Olivia Bennett',
     role: 'Homeowner',
-    avatar: 'assets/images/author-1.jpg',
+    avatar: 'assets/images/author-3.jpg',
     quote: QUOTE,
     rating: 5,
   },
   {
     name: 'Emma Wilson',
     role: 'Store Manager',
-    avatar: 'assets/images/author-2.jpg',
+    avatar: 'assets/images/author-4.jpg',
     quote: QUOTE,
     rating: 5,
   },
   {
     name: 'Charlotte Taylor',
     role: 'Sales Executive',
-    avatar: 'assets/images/author-3.jpg',
+    avatar: 'assets/images/author-5.jpg',
     quote: QUOTE,
     rating: 5,
   },
   {
     name: 'Amelia Johnson',
     role: 'Showroom Coordinator',
-    avatar: 'assets/images/author-4.jpg',
+    avatar: 'assets/images/author-6.jpg',
     quote: QUOTE,
     rating: 5,
   },

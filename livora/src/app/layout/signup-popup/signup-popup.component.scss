@@ -24,6 +24,13 @@
     visibility: visible;
     transition-delay: 0s;
   }
+
+  @include mobile {
+    align-items: center;
+    padding: 16px;
+    padding-bottom: max(16px, env(safe-area-inset-bottom, 0px));
+    background: rgb(22 22 22 / 52%);
+  }
 }
 
 .signup-popup__dialog {
@@ -47,6 +54,15 @@
     max-height: min(92vh, 760px);
     overflow: auto;
   }
+
+  @include mobile {
+    width: 100%;
+    max-height: min(86vh, 640px);
+    border-radius: 16px;
+    box-shadow: 0 18px 48px rgb(0 0 0 / 28%);
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
 }
 
 .signup-popup__media {
@@ -60,7 +76,9 @@
   }
 
   @include mobile {
-    min-height: 210px;
+    min-height: 0;
+    aspect-ratio: 16 / 10;
+    max-height: 34vh;
   }
 }
 
@@ -79,6 +97,12 @@
   width: min(132px, 42%);
   height: auto;
   filter: drop-shadow(0 1px 6px rgb(255 255 255 / 55%));
+
+  @include mobile {
+    top: 14px;
+    left: 14px;
+    width: min(96px, 34%);
+  }
 }
 
 .signup-popup__copy {
@@ -91,35 +115,73 @@
   padding: clamp(40px, 6vw, 56px) clamp(24px, 4vw, 48px);
   background: #f3efe8;
   text-align: center;
+
+  @include mobile {
+    gap: 6px;
+    padding: 18px 18px 22px;
+    padding-bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  }
 }
 
 .signup-popup__close {
   position: absolute;
-  top: 18px;
-  right: 18px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 5px;
-  width: 28px;
-  height: 28px;
+  top: 16px;
+  right: 16px;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
   margin: 0;
-  padding: 4px 2px;
+  padding: 0;
   border: 0;
-  background: transparent;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 90%);
+  box-shadow: 0 2px 10px rgb(0 0 0 / 12%);
   cursor: pointer;
+  transition: background 0.2s ease;
 
   span {
+    position: absolute;
     display: block;
-    width: 100%;
+    width: 14px;
     height: 1.5px;
     background: var(--color-primary);
     transition: background 0.2s ease;
+
+    &:first-child {
+      transform: rotate(45deg);
+    }
+
+    &:last-child {
+      transform: rotate(-45deg);
+    }
   }
 
-  &:hover span,
-  &:focus-visible span {
-    background: var(--color-accent);
+  &:hover,
+  &:focus-visible {
+    background: #fff;
+
+    span {
+      background: var(--color-accent);
+    }
+  }
+
+  @include desktop {
+    /* top-right of the copy column in the two-column layout */
+    top: 20px;
+    right: 20px;
+    background: transparent;
+    box-shadow: none;
+
+    span {
+      width: 15px;
+    }
+  }
+
+  @include mobile {
+    top: 10px;
+    right: 10px;
   }
 }
 
@@ -130,6 +192,10 @@
   font-weight: 400;
   letter-spacing: 0.04em;
   color: rgb(22 22 22 / 55%);
+
+  @include mobile {
+    display: none;
+  }
 }
 
 .signup-popup__title {
@@ -141,6 +207,10 @@
   letter-spacing: 0.01em;
   color: var(--color-primary);
   text-transform: none;
+
+  @include mobile {
+    font-size: 28px;
+  }
 }
 
 .signup-popup__offer {
@@ -150,6 +220,11 @@
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-accent);
+
+  @include mobile {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+  }
 }
 
 .signup-popup__text {
@@ -158,6 +233,14 @@
   font-size: 13px;
   line-height: 1.7;
   color: rgb(22 22 22 / 72%);
+
+  @include mobile {
+    max-width: none;
+    margin-top: 2px;
+    font-size: 12px;
+    line-height: 1.45;
+    @include line-clamp(3);
+  }
 }
 
 .signup-popup__product {
@@ -166,6 +249,12 @@
   font-size: 15px;
   font-style: italic;
   color: var(--color-primary);
+
+  @include mobile {
+    font-size: 13px;
+    @include line-clamp(1);
+    max-width: 100%;
+  }
 }
 
 .signup-popup__form {
@@ -175,6 +264,12 @@
   width: 100%;
   max-width: 280px;
   margin-top: 10px;
+
+  @include mobile {
+    max-width: none;
+    gap: 8px;
+    margin-top: 8px;
+  }
 }
 
 .signup-popup__field {
@@ -199,6 +294,12 @@
 
   &[aria-invalid='true'] {
     border-color: var(--color-danger);
+  }
+
+  @include mobile {
+    height: 46px;
+    border-radius: 8px;
+    font-size: 16px; // avoids iOS zoom on focus
   }
 }
 
@@ -235,6 +336,11 @@
     opacity: 0.7;
     cursor: wait;
   }
+
+  @include mobile {
+    height: 46px;
+    border-radius: 8px;
+  }
 }
 
 .signup-popup__more {
@@ -250,5 +356,10 @@
   &:hover,
   &:focus-visible {
     color: var(--color-primary);
+  }
+
+  @include mobile {
+    margin-top: 4px;
+    padding-bottom: 2px;
   }
 }

@@ -14,6 +14,11 @@
     aria-labelledby="signup-popup-title"
     (click)="$event.stopPropagation()"
   >
+    <button type="button" class="signup-popup__close" aria-label="Close offer" (click)="close()">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+
     <div class="signup-popup__media" aria-hidden="true">
       <img
         class="signup-popup__photo"
@@ -27,12 +32,6 @@
     </div>
 
     <div class="signup-popup__copy">
-      <button type="button" class="signup-popup__close" aria-label="Close offer" (click)="close()">
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-      </button>
-
       <p class="signup-popup__index">({{ featureIndex() }})</p>
       <h2 class="signup-popup__title" id="signup-popup-title">New Collection</h2>
       <p class="signup-popup__offer">10% off your first signup</p>

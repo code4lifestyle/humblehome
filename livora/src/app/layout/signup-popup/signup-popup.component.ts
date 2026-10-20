@@ -48,7 +48,7 @@ export class SignupPopupComponent {
   protected readonly featureIndex = signal('01');
   protected readonly featureName = signal('');
 
-  private readonly field = viewChild<ElementRef<HTMLInputElement>>('field');
+  private readonly emailField = viewChild<ElementRef<HTMLInputElement>>('email');
   private readonly dialog = viewChild<ElementRef<HTMLElement>>('dialog');
 
   constructor() {
@@ -60,7 +60,7 @@ export class SignupPopupComponent {
       const timer = window.setTimeout(() => {
         this.open.set(true);
         this.doc.documentElement.style.overflow = 'hidden';
-        requestAnimationFrame(() => this.field()?.nativeElement.focus({ preventScroll: true }));
+        requestAnimationFrame(() => this.emailField()?.nativeElement.focus({ preventScroll: true }));
       }, 900);
       this.destroyRef.onDestroy(() => {
         window.clearTimeout(timer);
@@ -83,12 +83,12 @@ export class SignupPopupComponent {
     const email = value.trim();
     if (!email) {
       this.error.set('Enter email address');
-      this.field()?.nativeElement.focus();
+      this.emailField()?.nativeElement.focus();
       return;
     }
     if (!EMAIL_PATTERN.test(email)) {
       this.error.set('Please enter a valid email address.');
-      this.field()?.nativeElement.focus();
+      this.emailField()?.nativeElement.focus();
       return;
     }
 
