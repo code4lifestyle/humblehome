@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "JetBrains Mono", ui-monospace, monospace;
+  --font-body: "JetBrains Mono", ui-monospace, monospace;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --color-ink: #0b0b0c;
+  --color-ink-soft: #111113;
+  --color-panel: #161618;
+  --color-mist: #7a7772;
+  --color-fog: #b8b4ae;
+  --color-snow: #edeae4;
+  --color-signal: #c2b5a2;
+  --color-signal-dim: #8f8578;
+  --color-ember: #a8927a;
+  --color-glass: rgba(255, 255, 255, 0.03);
+  --color-glass-strong: rgba(255, 255, 255, 0.06);
+  --color-stroke: rgba(255, 255, 255, 0.08);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: var(--font-body);
+    font-weight: 300;
+    letter-spacing: 0.01em;
+    background: var(--color-ink);
+    color: var(--color-snow);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 200;
+    letter-spacing: -0.02em;
+  }
+
+  :where(h1, h2, h3, h4, h5, h6, p, a, button, span, li, label, strong, em, small, blockquote, figcaption, legend, dt, dd, summary, th, td) {
+    transition: color 220ms ease, text-shadow 220ms ease;
+  }
+
+  :where(h1, h2, h3, h4, h5, h6, p, a, button, span, li, label, strong, em, small, blockquote, figcaption, legend, dt, dd, summary, th, td):hover {
+    text-shadow: 0 0 14px rgba(194, 181, 162, 0.3);
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--color-signal) 28%, transparent);
+    color: var(--color-snow);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :where(h1, h2, h3, h4, h5, h6, p, a, button, span, li, label, strong, em, small, blockquote, figcaption, legend, dt, dd, summary, th, td) {
+    transition: none;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+  }
+
+  .font-body {
+    font-family: var(--font-body);
+  }
+
+  .font-mono {
+    font-family: var(--font-mono);
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+  }
+
+  .glass {
+    background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.055) 0%,
+      rgba(255, 255, 255, 0.015) 100%
+    );
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(22px) saturate(120%);
+    -webkit-backdrop-filter: blur(22px) saturate(120%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      0 18px 50px rgba(0, 0, 0, 0.28);
+  }
+
+  .glass-soft {
+    background: rgba(17, 17, 19, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(16px) saturate(120%);
+    -webkit-backdrop-filter: blur(16px) saturate(120%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  .glass-nav {
+    background: rgba(11, 11, 12, 0.65);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px) saturate(120%);
+    -webkit-backdrop-filter: blur(20px) saturate(120%);
+  }
+
+  .glass-input {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .glass-input:focus {
+    border-color: rgba(194, 181, 162, 0.5);
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 0 3px rgba(194, 181, 162, 0.1);
+  }
+}

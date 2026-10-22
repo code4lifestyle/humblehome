@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none" role="img" aria-label="Aerosiq">
+  <circle cx="20" cy="20" r="18" stroke="#C2B5A2" stroke-width="1.4" opacity="0.5"/>
+  <circle cx="20" cy="20" r="13" stroke="#4AEEFF" stroke-width="1.1" opacity="0.4" stroke-dasharray="3 3.5"/>
+  <path d="M9 30.5 L20 7 L31 30.5 H25.2 L20 17.5 L14.8 30.5 Z" fill="#EDEAE4"/>
+  <circle cx="20" cy="27.5" r="2.6" fill="#C2B5A2"/>
+</svg>
