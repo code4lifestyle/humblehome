@@ -12,4 +12,7 @@ import { SectionTitleComponent } from '@shared/components/section-title/section-
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.scss',
 })
-export class HomeHeroComponent {}
+export class HomeHeroComponent {
+  /** Two-line headline: "Crafted" / "for Your Home" (nbsp keeps line 2 together). */
+  protected readonly title = 'Crafted\nfor\u00A0Your\u00A0Home';
+}

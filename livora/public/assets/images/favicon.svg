@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Humble Home">
+  <rect width="512" height="512" rx="96" fill="#161616"/>
+  <g fill="#f3efe8" transform="translate(98 148) scale(1.65)">
+    <!-- H -->
+    <rect x="0" y="0" width="14" height="78"/>
+    <rect x="65.4" y="0" width="14" height="78"/>
+    <rect x="0" y="32" width="79.4" height="14"/>
+    <!-- H -->
+    <rect x="102" y="0" width="14" height="78"/>
+    <rect x="167.4" y="0" width="14" height="78"/>
+    <rect x="102" y="32" width="79.4" height="14"/>
+  </g>
+</svg>
