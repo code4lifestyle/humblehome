@@ -1,19 +1,30 @@
 # Drivebase customer records
 
-A React/Vite prototype for an automotive customer-record landing page and an admin workspace. The landing page includes a CSS/SVG car motion illustration; the admin workspace supports searching, filtering, adding, editing, and deleting customer records.
+A React/Vite app for automotive customer records. The admin workspace uses Firebase Authentication for sign-in and Cloud Firestore for live viewing, adding, editing, and deleting records.
 
 ## Run locally
 
 ```sh
 npm install
+```
+
+Create a local `.env` from `.env.example` if one does not already exist, and fill in the Firebase web app values. Then run:
+
+```sh
 npm run dev
 ```
 
-Open the local URL printed by Vite. Choose **Admin login** to enter the demo workspace.
+Open the local URL printed by Vite and choose **Admin login**.
 
-## Demo access
+## Firebase setup
 
-- Email: `admin@drivebase.com`
-- Password: `Drivebase2026`
+1. Enable the Email/Password provider in Firebase Authentication and create the sign-in accounts you need.
+2. Create a Cloud Firestore database.
+3. Configure the Firestore rules from `firestore.rules` in the Firebase console or deploy them with the Firebase CLI.
+4. Add the Firebase web app configuration to `.env` using the variable names in `.env.example`.
 
-This is a front-end demo, not production authentication. The demo credentials are included in the client bundle, the login state is held in memory, and customer records are stored in the current browser's `localStorage`. Do not use it for real customer data. A production deployment should connect the UI to a server-side authentication provider and a protected database/API.
+This project uses Firebase project `drivebase-customer-records` and Firestore location `us-central1`. The web app configuration is in the ignored local `.env` file.
+
+The app reads the `customers` collection in real time. Firestore rules only permit the customer fields in the form (`certificateNumber`, `date`, `makeBodyType`, `importerName`, `declarationNumber`, `model`, `country`, `chassisNo`, `engineNo`, `color`, `remarks`, `userId`, and `status`), along with `createdAt` and `updatedAt` timestamps. Saving a new record creates a document with timestamps; editing updates that document, and deleting removes it. The record action popover can copy a direct `/record/<document-id>` URL; the destination requires Firebase sign-in. No sample records are inserted automatically, so deleting the final record leaves the collection empty.
+
+Firestore access requires an authenticated Firebase user. Create only the admin sign-in accounts that should access these records.
