@@ -1,15 +1,14 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SITE_CONFIG } from '../../core/data/site.data';
-import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 
 /**
- * Dark site footer (owner: shell agent): social · logo · "Call 24/7", Quick Links,
- * Customer Services, contact information, and copyright.
+ * Dark site footer: social links, logo, Quick Links, Customer Services, contact information,
+ * and copyright.
  */
 @Component({
   selector: 'app-footer',
-  imports: [RouterLink, SvgIconComponent],
+  imports: [RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.scss',
@@ -17,4 +16,12 @@ import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 export class FooterComponent {
   protected readonly site = SITE_CONFIG;
   protected readonly footer = SITE_CONFIG.footer;
+  protected readonly social = [
+    ...SITE_CONFIG.social.filter((link) => link.name !== 'whatsapp'),
+    {
+      name: 'snapchat',
+      url: 'https://www.snapchat.com/',
+      icon: 'fa-brands fa-snapchat',
+    },
+  ];
 }

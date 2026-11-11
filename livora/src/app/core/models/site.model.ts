@@ -58,6 +58,7 @@ export interface SiteConfig {
     quickLinksTitle?: string;
     customerServicesTitle?: string;
     contactTitle?: string;
+    contactEmail?: string;
     callLabel?: string; // "Call 24/7"
     newsletterPlaceholder?: string;
     newsletterButtonLabel?: string; // accessible label of the round submit button

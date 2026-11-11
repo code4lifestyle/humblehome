@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
+import { PixelTrackingService } from './core/services/pixel-tracking.service';
 import { FooterComponent } from './layout/footer/footer.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { SignupPopupComponent } from './layout/signup-popup/signup-popup.component';
@@ -27,6 +28,7 @@ const isAdminPath = (path: string): boolean => path === '/admin' || path.startsW
 })
 export class App {
   private readonly router = inject(Router);
+  private readonly pixelTracking = inject(PixelTrackingService);
 
   /** Dashboard pages render without the shop header, footer and WhatsApp button. */
   protected readonly isAdmin = signal(isAdminPath(location.pathname));
@@ -43,6 +45,9 @@ export class App {
       .subscribe((e) => {
         const path = e.urlAfterRedirects.split(/[?#]/)[0];
         this.isAdmin.set(isAdminPath(path));
+        if (!isAdminPath(path)) {
+          this.pixelTracking.trackPageView();
+        }
         if (previousPath !== null && path !== previousPath) {
           document.getElementById('content')?.focus({ preventScroll: true });
         }

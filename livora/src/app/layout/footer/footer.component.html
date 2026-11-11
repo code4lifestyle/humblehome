@@ -1,9 +1,9 @@
 <footer class="site-footer">
   <div class="container">
-    <!-- social · logo · call -->
+    <!-- social · logo -->
     <div class="footer-top">
       <ul class="footer-social" aria-label="Social media">
-        @for (link of site.social; track link.name) {
+        @for (link of social; track link.name) {
           <li>
             <a
               [href]="link.url"
@@ -19,14 +19,6 @@
 
       <a class="footer-logo" routerLink="/" aria-label="Humble Home – home">
         <img [src]="site.logoLight" alt="Humble Home" width="180" height="80" />
-      </a>
-
-      <a class="footer-call" [href]="site.contact.phoneHref">
-        <span class="footer-call__icon"><app-svg-icon name="whatsapp" /></span>
-        <span class="footer-call__text">
-          <span class="footer-call__label">{{ footer.callLabel }}</span>
-          <span class="footer-call__phone">{{ site.contact.phone }}</span>
-        </span>
       </a>
     </div>
 
@@ -62,7 +54,7 @@
             <a [href]="site.contact.phoneHref">{{ site.contact.phone }}</a>
           </p>
           <p>
-            <a [href]="'mailto:' + site.contact.email">{{ site.contact.email }}</a>
+            <a [href]="'mailto:' + footer.contactEmail">{{ footer.contactEmail }}</a>
           </p>
         </address>
       </div>

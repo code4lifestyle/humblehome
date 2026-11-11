@@ -13,6 +13,5 @@ import { SectionTitleComponent } from '@shared/components/section-title/section-
   styleUrl: './hero.component.scss',
 })
 export class HomeHeroComponent {
-  /** Two-line headline: "Crafted" / "for Your Home" (nbsp keeps line 2 together). */
-  protected readonly title = 'Crafted\nfor\u00A0Your\u00A0Home';
+  protected readonly title = 'Custom Furniture, Curtains & Home Furnishings in Dubai';
 }
