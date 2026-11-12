@@ -97,9 +97,15 @@ export class BlogListComponent {
     effect(() => {
       const view = this.view();
       if (view) {
-        this.pageTitle.set(view.pageTitle, {
-          description: `Humble Home journal: ${view.title}. Design stories and home inspiration from Dubai.`,
-        });
+        const isBlogHome = view.pageTitle === 'Blog';
+        this.pageTitle.set(
+          isBlogHome ? 'Design Stories & Home Inspiration' : `${view.pageTitle} Stories`,
+          {
+            description: isBlogHome
+              ? 'Design stories and home inspiration from Humble Home in Dubai — furniture, curtains, and marble ideas.'
+              : `${view.pageTitle} design stories from Humble Home in Dubai — furniture, curtains, and marble.`,
+          },
+        );
       } else {
         untracked(() => void this.router.navigateByUrl('/404', { skipLocationChange: true }));
       }

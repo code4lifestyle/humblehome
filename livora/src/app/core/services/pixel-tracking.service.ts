@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { TRACKING_PIXEL_IDS } from '../data/tracking.data';
 
 interface MetaPixel {
@@ -36,11 +37,17 @@ declare global {
 
 @Injectable({ providedIn: 'root' })
 export class PixelTrackingService {
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private initializedMetaId = '';
   private initializedTikTokId = '';
   private initializedSnapchatId = '';
 
   trackPageView(): void {
+    // Browser only: this service touches `window` and injects <script> tags, neither of which exists
+    // during prerendering.
+    if (!this.isBrowser) {
+      return;
+    }
     const { meta, tiktok, snapchat } = TRACKING_PIXEL_IDS;
 
     if (meta) {

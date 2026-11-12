@@ -263,6 +263,90 @@ export class ShopComponent {
     }
   });
 
+  /**
+   * SEO title / description / OG image for this listing. The three collection
+   * pages get their own 1200x800 OG photo; other categories use the site default
+   * OG image (their tile pictures are only 180x180). No visible text changes.
+   */
+  private seoTags(): Parameters<PageTitleService['set']> {
+    const search = this.params().search;
+    const category = this.category();
+    const brand = this.brand();
+    const phone = 'Call +971 55 485 0711.';
+    if (search) {
+      return [
+        `Search results for “${search}”`,
+        {
+          description:
+            'Browse Humble Home furniture, curtains, and marble in Dubai. Every piece can be made to your size, fabric, and finish.',
+        },
+      ];
+    }
+    if (category) {
+      switch (category.slug) {
+        case 'furniture':
+          return [
+            'Bespoke Furniture in Dubai',
+            {
+              description:
+                'Bespoke furniture in Dubai from Humble Home — sofas, beds, dining sets, storage and full room designs. Free consultation, call +971 55 485 0711.',
+              image: 'assets/images/collection-furniture-1200x800.jpg',
+              imageWidth: 1200,
+              imageHeight: 800,
+              imageAlt: 'Bespoke furniture in Dubai by Humble Home',
+            },
+          ];
+        case 'curtains':
+          return [
+            'Made-to-Measure Curtains in Dubai',
+            {
+              description:
+                'Made-to-measure curtains in Dubai — sheer, blackout, wave, roller and pleated. Humble Home measures, sews and installs. Call +971 55 485 0711.',
+              image: 'assets/images/collection-curtains-1200x800.jpg',
+              imageWidth: 1200,
+              imageHeight: 800,
+              imageAlt: 'Made-to-measure curtains in Dubai by Humble Home',
+            },
+          ];
+        case 'marble':
+          return [
+            'Marble Furniture & Stone in Dubai',
+            {
+              description:
+                'Marble tables, kitchen islands, consoles and natural stone in Dubai from Humble Home. Each slab is unique. Call +971 55 485 0711.',
+              image: 'assets/images/collection-marble-1200x800.jpg',
+              imageWidth: 1200,
+              imageHeight: 800,
+              imageAlt: 'Marble furniture and natural stone in Dubai by Humble Home',
+            },
+          ];
+        default:
+          return [
+            `${category.name} in Dubai`,
+            {
+              description: `Browse ${category.name} at Humble Home in Dubai — furniture made to your size, fabric, and finish. ${phone}`,
+            },
+          ];
+      }
+    }
+    if (brand) {
+      return [
+        'Humble Home Furniture in Dubai',
+        {
+          description:
+            'Shop Humble Home furniture, curtains, and marble in Dubai. Made to your size, fabric, and finish. Call +971 55 485 0711.',
+        },
+      ];
+    }
+    return [
+      'Shop Furniture, Curtains & Marble',
+      {
+        description:
+          'Browse Humble Home furniture, curtains, and marble in Dubai. Every piece can be made to your size, fabric, and finish. Call +971 55 485 0711.',
+      },
+    ];
+  }
+
   protected readonly crumbs = computed<PageHeaderCrumb[]>(() => {
     const trail: PageHeaderCrumb[] = [{ label: 'Home', link: '/' }];
     const category = this.category();
@@ -323,16 +407,13 @@ export class ShopComponent {
   private readonly grid = viewChild<ElementRef<HTMLElement>>('grid');
 
   constructor() {
-    // the router's title strategy resets the static "Shop" title on every navigation, so re-apply ours after each one
+    // the router's title strategy resets the static "Shop" title on every navigation, so re-apply ours after each one.
+    // SEO only: the visible page heading is untouched — this sets the document title / meta tags.
+    // The long category intro text is NOT used as a meta description (it would be cut off mid-sentence).
     effect(() => {
       this.listingKey();
       if (!this.notFound()) {
-        this.pageTitle.set(this.heading() ?? 'Shop', {
-          description:
-            this.categoryIntro()?.text ??
-            'Browse Humble Home furniture, curtains, and marble. Every piece can be made to your size, fabric, and finish.',
-          image: this.category()?.image,
-        });
+        this.pageTitle.set(...this.seoTags());
       }
     });
 
