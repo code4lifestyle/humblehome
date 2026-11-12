@@ -1,13 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://humble-home-phi.vercel.app/</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/about-us</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/shop</loc></url>
   <url><loc>https://humble-home-phi.vercel.app/furniture</loc></url>
   <url><loc>https://humble-home-phi.vercel.app/curtains</loc></url>
   <url><loc>https://humble-home-phi.vercel.app/marble</loc></url>
   <url><loc>https://humble-home-phi.vercel.app/our-locations</loc></url>
   <url><loc>https://humble-home-phi.vercel.app/contact-us</loc></url>
-  <url><loc>https://humble-home-phi.vercel.app/about-us</loc></url>
   <url><loc>https://humble-home-phi.vercel.app/faqs</loc></url>
   <url><loc>https://humble-home-phi.vercel.app/testimonials</loc></url>
-  <url><loc>https://humble-home-phi.vercel.app/shop</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/blog</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/product-category/curtains</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/product-category/furniture</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/product-category/marble</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/product-category/bedroom</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/product-category/dining-room</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/product-category/living-room</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/product-category/luxury-collection</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/product-category/office-furniture</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/brand/humble-home</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/product/modern-wooden-table</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/product/scandinavian-wooden-table</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/product/luxury-tufted-velvet-sofa</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/product/wooden-dining-chair</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/product/premium-relax-accent-chair</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/product/contemporary-leather-sofa</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/product/leather-recliner</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/product/wooden-cupboard</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/product/wooden-cabinet</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/product/lounge-chair</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/product/storage-cabinet</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/product/wooden-coffee-table</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/product/sheer-ivory-linen-curtains</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/product/charcoal-blackout-curtains</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/product/beige-pleated-drapes</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/product/sage-tailored-curtains</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/product/marble-side-table</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/product/marble-coffee-table</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/product/marble-dining-table</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/product/marble-console-table</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/blog/modern-interior-trends</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/blog/home-styling-tips</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/blog/furniture-care-guides</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/blog/space-saving-ideas</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/category/uncategorized</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/tag/luxury</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/tag/performance</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/tag/quality</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/policy/delivery-policy</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/policy/refunds-returns-policy</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/policy/cancellation-policy</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/policy/privacy-policy</loc></url>
+  <url><loc>https://humble-home-phi.vercel.app/policy/terms-conditions</loc></url>
 </urlset>

@@ -5,14 +5,18 @@ import { Meta, Title } from '@angular/platform-browser';
 export const SITE_NAME = 'Humble Home';
 export const DEFAULT_TITLE = `${SITE_NAME} – Furniture, Curtains & Marble in Dubai`;
 export const DEFAULT_DESCRIPTION =
-  'Humble Home designs and makes custom furniture, curtains, and marble for homes in Dubai. Visit us at Dragon Mart 2 or book a free consultation.';
-export const DEFAULT_IMAGE = 'assets/images/category-item-image-1.jpg';
+  'Humble Home designs and makes custom furniture, curtains, and marble for homes in Dubai. Visit us at Dragon Mart 2 or call +971 55 485 0711.';
+export const DEFAULT_IMAGE = 'assets/images/collection-furniture-1200x800.jpg';
 export const SITE_ORIGIN = 'https://humble-home-phi.vercel.app';
 
 export interface SeoTags {
   title?: string | null;
   description?: string;
   image?: string;
+  /** OG/Twitter image size in px; only set when the image's real size is known. */
+  imageWidth?: number;
+  imageHeight?: number;
+  imageAlt?: string;
   robots?: string;
 }
 
@@ -25,6 +29,9 @@ const META = {
   ogDescription: 'og:description',
   ogUrl: 'og:url',
   ogImage: 'og:image',
+  ogImageWidth: 'og:image:width',
+  ogImageHeight: 'og:image:height',
+  ogImageAlt: 'og:image:alt',
   ogType: 'og:type',
   ogSite: 'og:site_name',
   ogLocale: 'og:locale',
@@ -32,6 +39,7 @@ const META = {
   twTitle: 'twitter:title',
   twDescription: 'twitter:description',
   twImage: 'twitter:image',
+  twImageAlt: 'twitter:image:alt',
 } as const;
 
 /** Sets document title, description, robots, Open Graph, Twitter, and canonical for the current page. */
@@ -42,13 +50,21 @@ export class SeoService {
   private readonly document = inject(DOCUMENT);
 
   apply(tags: SeoTags = {}): void {
-    const title = tags.title?.trim()
-      ? tags.title === SITE_NAME
+    const rawTitle = tags.title?.trim();
+    // A title that already names the business is used as-is (no doubled brand);
+    // anything else gets " – Humble Home" appended.
+    const title = !rawTitle
+      ? DEFAULT_TITLE
+      : rawTitle === SITE_NAME
         ? DEFAULT_TITLE
-        : `${tags.title} – ${SITE_NAME}`
-      : DEFAULT_TITLE;
+        : rawTitle.includes(SITE_NAME)
+          ? rawTitle
+          : `${rawTitle} – ${SITE_NAME}`;
     const description = (tags.description ?? DEFAULT_DESCRIPTION).trim().slice(0, 220);
-    const robots = tags.robots ?? 'index, follow';
+    // Keep a route-level robots value (e.g. noindex on cart/checkout/account)
+    // when a component re-applies tags without one.
+    const robots =
+      tags.robots ?? this.meta.getTag('name="robots"')?.content ?? 'index, follow';
     const url = this.pageUrl();
     const image = this.absolute(tags.image || DEFAULT_IMAGE);
 
@@ -59,6 +75,16 @@ export class SeoService {
     this.meta.updateTag({ property: META.ogDescription, content: description });
     this.meta.updateTag({ property: META.ogUrl, content: url });
     this.meta.updateTag({ property: META.ogImage, content: image });
+    if (tags.imageWidth) {
+      this.meta.updateTag({ property: META.ogImageWidth, content: String(tags.imageWidth) });
+    }
+    if (tags.imageHeight) {
+      this.meta.updateTag({ property: META.ogImageHeight, content: String(tags.imageHeight) });
+    }
+    if (tags.imageAlt) {
+      this.meta.updateTag({ property: META.ogImageAlt, content: tags.imageAlt });
+      this.meta.updateTag({ name: META.twImageAlt, content: tags.imageAlt });
+    }
     this.meta.updateTag({ property: META.ogType, content: 'website' });
     this.meta.updateTag({ property: META.ogSite, content: SITE_NAME });
     this.meta.updateTag({ property: META.ogLocale, content: 'en_AE' });

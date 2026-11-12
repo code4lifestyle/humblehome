@@ -104,6 +104,9 @@ export class ProductDetailComponent {
         this.pageTitle.set(product.name, {
           description: product.excerpt,
           image: product.images[0],
+          imageWidth: 1200,
+          imageHeight: 1200,
+          imageAlt: `${product.name} by Humble Home in Dubai`,
         });
       } else if (slug !== undefined) {
         // unknown product: render the 404 page in place (the address bar keeps the requested URL)

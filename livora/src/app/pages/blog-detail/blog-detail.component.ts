@@ -100,6 +100,9 @@ export class BlogDetailComponent {
         this.pageTitle.set(post.title, {
           description: firstParagraph(post).slice(0, 220),
           image: post.image,
+          imageWidth: 1024,
+          imageHeight: 576,
+          imageAlt: `${post.title} — Humble Home in Dubai`,
         });
       } else {
         untracked(() => void this.router.navigateByUrl('/404', { skipLocationChange: true }));

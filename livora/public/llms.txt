@@ -1,0 +1,28 @@
+# Humble Home
+
+> Humble Home designs and makes custom furniture, curtains, and marble for homes in Dubai, UAE. Visit us at Dragon Mart 2, International City, Dubai, or book a free consultation. Call +971 55 485 0711 or email enquiry@humblehomefurniture.com. Open Monday to Friday, 10 AM to 8 PM.
+
+## Pages
+
+- [Home](https://humble-home-phi.vercel.app/)
+- [Bespoke Furniture in Dubai](https://humble-home-phi.vercel.app/furniture)
+- [Made-to-Measure Curtains in Dubai](https://humble-home-phi.vercel.app/curtains)
+- [Marble Furniture & Stone in Dubai](https://humble-home-phi.vercel.app/marble)
+- [Shop](https://humble-home-phi.vercel.app/shop)
+- [About Us](https://humble-home-phi.vercel.app/about-us)
+- [Our Locations](https://humble-home-phi.vercel.app/our-locations)
+- [Contact Us](https://humble-home-phi.vercel.app/contact-us)
+- [FAQs](https://humble-home-phi.vercel.app/faqs)
+- [Testimonials](https://humble-home-phi.vercel.app/testimonials)
+- [Blog](https://humble-home-phi.vercel.app/blog)
+
+## Business
+
+- Name: Humble Home
+- Type: Home goods store — bespoke furniture, made-to-measure curtains, marble and natural stone
+- Address: Dragon Mart 2, International City, Dubai, United Arab Emirates
+- Showrooms: GD-01, GD-34, GD-45, GC-47, Dragon Mart 2
+- Phone: +971 55 485 0711
+- Email: enquiry@humblehomefurniture.com
+- Hours: Monday to Friday, 10:00 to 20:00
+- Social: https://www.facebook.com/profile.php?id=61592578437627, https://www.instagram.com/humblehome.furniture/, https://www.tiktok.com/@humble.home8
