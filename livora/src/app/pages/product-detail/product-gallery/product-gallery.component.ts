@@ -1,10 +1,13 @@
+import { isPlatformBrowser } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   computed,
   effect,
+  inject,
   input,
+  PLATFORM_ID,
   signal,
   untracked,
   viewChild,
@@ -98,7 +101,13 @@ export class ProductGalleryComponent {
     });
 
     // keep the active thumbnail inside the (horizontally scrollable) strip
+    // Browser only: scrolling is meaningless in prerendered HTML, and the server DOM (Domino)
+    // has no Element.scrollTo — without this guard every product page with a gallery logs an error.
+    const isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
     effect(() => {
+      if (!isBrowser) {
+        return;
+      }
       const at = this.index();
       const strip = this.strip()?.nativeElement;
       const item = strip?.children[at] as HTMLElement | undefined;

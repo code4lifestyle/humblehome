@@ -51,6 +51,9 @@
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "outputMode": "static",
+            "server": "src/main.server.ts",
+            "prerender": true,
             "assets": [
               {
                 "glob": "**/*",

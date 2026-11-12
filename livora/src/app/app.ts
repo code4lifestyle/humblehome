@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject, PLATFORM_ID, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
@@ -29,13 +30,17 @@ const isAdminPath = (path: string): boolean => path === '/admin' || path.startsW
 export class App {
   private readonly router = inject(Router);
   private readonly pixelTracking = inject(PixelTrackingService);
+  private readonly document = inject(DOCUMENT);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   /** Dashboard pages render without the shop header, footer and WhatsApp button. */
-  protected readonly isAdmin = signal(isAdminPath(location.pathname));
+  // DOCUMENT, not the bare `location` global: `location` does not exist during prerendering (Node).
+  protected readonly isAdmin = signal(isAdminPath(this.document.location.pathname));
 
   constructor() {
     // After every navigation to another page (not the first load, not just a query-param change) move the keyboard focus
     // to the page content, so it never gets lost in a menu that just closed and screen readers start at the new page.
+    // Pixel tracking and focus moves are browser-only: during prerendering there is no window and no focus.
     let previousPath: string | null = null;
     this.router.events
       .pipe(
@@ -45,11 +50,13 @@ export class App {
       .subscribe((e) => {
         const path = e.urlAfterRedirects.split(/[?#]/)[0];
         this.isAdmin.set(isAdminPath(path));
-        if (!isAdminPath(path)) {
-          this.pixelTracking.trackPageView();
-        }
-        if (previousPath !== null && path !== previousPath) {
-          document.getElementById('content')?.focus({ preventScroll: true });
+        if (this.isBrowser) {
+          if (!isAdminPath(path)) {
+            this.pixelTracking.trackPageView();
+          }
+          if (previousPath !== null && path !== previousPath) {
+            document.getElementById('content')?.focus({ preventScroll: true });
+          }
         }
         previousPath = path;
       });

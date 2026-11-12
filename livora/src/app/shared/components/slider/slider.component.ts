@@ -123,7 +123,12 @@ export class SliderComponent {
 
     inject(DestroyRef).onDestroy(() => {
       this.destroyed = true;
-      cancelAnimationFrame(this.frame);
+      // The frame is only ever scheduled in the browser (init runs via afterNextRender), but this
+      // destroy hook also runs when a prerendered app instance is torn down on the server, where
+      // cancelAnimationFrame does not exist.
+      if (typeof cancelAnimationFrame === 'function') {
+        cancelAnimationFrame(this.frame);
+      }
       this.observer?.disconnect();
       this.destroySwiper(true);
     });
