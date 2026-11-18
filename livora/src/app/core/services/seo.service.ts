@@ -7,7 +7,7 @@ export const DEFAULT_TITLE = `${SITE_NAME} – Furniture, Curtains & Marble in D
 export const DEFAULT_DESCRIPTION =
   'Humble Home designs and makes custom furniture, curtains, and marble for homes in Dubai. Visit us at Dragon Mart 2 or call +971 55 485 0711.';
 export const DEFAULT_IMAGE = 'assets/images/collection-furniture-1200x800.jpg';
-export const SITE_ORIGIN = 'https://humble-home-phi.vercel.app';
+export const SITE_ORIGIN = 'https://humblehomefurniture.com';
 
 export interface SeoTags {
   title?: string | null;
@@ -18,6 +18,7 @@ export interface SeoTags {
   imageHeight?: number;
   imageAlt?: string;
   robots?: string;
+  jsonLd?: Record<string, unknown>;
 }
 
 const META = {
@@ -63,8 +64,7 @@ export class SeoService {
     const description = (tags.description ?? DEFAULT_DESCRIPTION).trim().slice(0, 220);
     // Keep a route-level robots value (e.g. noindex on cart/checkout/account)
     // when a component re-applies tags without one.
-    const robots =
-      tags.robots ?? this.meta.getTag('name="robots"')?.content ?? 'index, follow';
+    const robots = tags.robots ?? this.meta.getTag('name="robots"')?.content ?? 'index, follow';
     const url = this.pageUrl();
     const image = this.absolute(tags.image || DEFAULT_IMAGE);
 
@@ -92,6 +92,9 @@ export class SeoService {
     this.meta.updateTag({ name: META.twTitle, content: title });
     this.meta.updateTag({ name: META.twDescription, content: description });
     this.meta.updateTag({ name: META.twImage, content: image });
+    if (tags.jsonLd) {
+      this.setJsonLd(tags.jsonLd);
+    }
     this.setCanonical(url);
   }
 
@@ -100,9 +103,9 @@ export class SeoService {
     return `${this.origin()}${path === '/' ? '/' : path}`;
   }
 
+  // The canonical domain is always humblehomefurniture.com, whatever host serves the app.
   private origin(): string {
-    const host = this.document.location?.origin;
-    return host && !host.includes('localhost') ? host : SITE_ORIGIN;
+    return SITE_ORIGIN;
   }
 
   private absolute(path: string): string {
@@ -121,5 +124,34 @@ export class SeoService {
       head.appendChild(link);
     }
     link.setAttribute('href', url);
+  }
+
+  /** Insert (or replace) the page JSON-LD script. Removed again by clearJsonLd(). */
+  setJsonLd(data: Record<string, unknown>): void {
+    this.clearJsonLd();
+    const script = this.document.createElement('script');
+    script.type = 'application/ld+json';
+    script.setAttribute('data-json-ld', '');
+    script.textContent = JSON.stringify(data);
+    this.document.head.appendChild(script);
+  }
+
+  clearJsonLd(): void {
+    this.document.head
+      .querySelectorAll('script[type="application/ld+json"][data-json-ld]')
+      .forEach((script) => script.remove());
+  }
+
+  /** FAQPage JSON-LD from the FAQ data - questions and answers verbatim, nothing invented. */
+  setFaqJsonLd(questions: readonly { question: string; answer: string }[]): void {
+    this.setJsonLd({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: questions.map((item) => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: { '@type': 'Answer', text: item.answer },
+      })),
+    });
   }
 }

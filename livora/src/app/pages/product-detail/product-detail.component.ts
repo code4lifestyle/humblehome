@@ -6,10 +6,12 @@ import {
   inject,
   input,
   linkedSignal,
+  OnDestroy,
 } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { Product, ProductVariation } from '@core/models';
 import { PageTitleService } from '@core/services/page-title.service';
+import { SeoService, SITE_ORIGIN } from '@core/services/seo.service';
 import { ProductService } from '@core/services/product.service';
 import { discountPercent, isVariable } from '@core/utils/product.utils';
 import { ProductCardComponent } from '@shared/components/product-card/product-card.component';
@@ -42,13 +44,14 @@ import { ProductTabsComponent } from './product-tabs/product-tabs.component';
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.scss',
 })
-export class ProductDetailComponent {
+export class ProductDetailComponent implements OnDestroy {
   /** Route param `:slug` (bound by `withComponentInputBinding`). */
   readonly slug = input<string>();
 
   private readonly catalog = inject(ProductService);
   private readonly router = inject(Router);
   private readonly pageTitle = inject(PageTitleService);
+  private readonly seo = inject(SeoService);
 
   private readonly product = computed<Product | undefined>(() => {
     const slug = this.slug();
@@ -96,6 +99,10 @@ export class ProductDetailComponent {
     return percent > 0 ? `${percent}% OFF` : null;
   });
 
+  ngOnDestroy(): void {
+    this.seo.clearJsonLd();
+  }
+
   constructor() {
     effect(() => {
       const slug = this.slug();
@@ -107,6 +114,15 @@ export class ProductDetailComponent {
           imageWidth: 1200,
           imageHeight: 1200,
           imageAlt: `${product.name} by Humble Home in Dubai`,
+          jsonLd: {
+            '@context': 'https://schema.org',
+            '@type': 'Product',
+            name: product.name,
+            description: product.excerpt,
+            image: SITE_ORIGIN + '/' + product.images[0].replace(/^[/]/, ''),
+            url: SITE_ORIGIN + '/product/' + product.slug,
+            category: this.views()[0]?.category?.name ?? product.categories[0],
+          },
         });
       } else if (slug !== undefined) {
         // unknown product: render the 404 page in place (the address bar keeps the requested URL)
