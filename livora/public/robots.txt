@@ -8,4 +8,4 @@ Disallow: /my-account
 Disallow: /wishlist
 Disallow: /404
 
-Sitemap: https://humble-home-phi.vercel.app/sitemap.xml
+Sitemap: https://humblehomefurniture.com/sitemap.xml

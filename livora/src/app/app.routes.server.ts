@@ -25,7 +25,7 @@ import { PRODUCTS } from './core/data/products.data';
  *    route, so a bad URL never gets a prerendered page.
  *
  * No design change: this file only decides *where* each route renders.
- * Canonical stays https://humble-home-phi.vercel.app (see seo.service.ts).
+ * Canonical stays https://humblehomefurniture.com (see seo.service.ts).
  */
 const STATIC_ROUTES: string[] = [
   '',

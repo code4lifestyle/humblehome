@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnDestroy } from '@angular/core';
 import { ContentService } from '@core/services/content.service';
+import { SeoService } from '@core/services/seo.service';
 import { AccordionComponent } from '@shared/components/accordion/accordion.component';
 import { HelpCardComponent } from '@shared/components/help-card/help-card.component';
 import {
@@ -20,8 +21,19 @@ import { TocCardComponent, TocItem } from '@shared/components/toc-card/toc-card.
   templateUrl: './faqs.component.html',
   styleUrl: './faqs.component.scss',
 })
-export class FaqsComponent {
+export class FaqsComponent implements OnDestroy {
   private readonly content = inject(ContentService);
+
+  private readonly seo = inject(SeoService);
+
+  constructor() {
+    // FAQPage JSON-LD from the FAQ data, questions and answers verbatim (25 questions).
+    this.seo.setFaqJsonLd(this.content.faqGroups().flatMap((group) => group.items));
+  }
+
+  ngOnDestroy(): void {
+    this.seo.clearJsonLd();
+  }
 
   protected readonly crumbs: PageHeaderCrumb[] = [{ label: 'Home', link: '/' }, { label: 'FAQs' }];
 

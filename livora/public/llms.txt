@@ -4,17 +4,17 @@
 
 ## Pages
 
-- [Home](https://humble-home-phi.vercel.app/)
-- [Bespoke Furniture in Dubai](https://humble-home-phi.vercel.app/furniture)
-- [Made-to-Measure Curtains in Dubai](https://humble-home-phi.vercel.app/curtains)
-- [Marble Furniture & Stone in Dubai](https://humble-home-phi.vercel.app/marble)
-- [Shop](https://humble-home-phi.vercel.app/shop)
-- [About Us](https://humble-home-phi.vercel.app/about-us)
-- [Our Locations](https://humble-home-phi.vercel.app/our-locations)
-- [Contact Us](https://humble-home-phi.vercel.app/contact-us)
-- [FAQs](https://humble-home-phi.vercel.app/faqs)
-- [Testimonials](https://humble-home-phi.vercel.app/testimonials)
-- [Blog](https://humble-home-phi.vercel.app/blog)
+- [Home](https://humblehomefurniture.com/)
+- [Bespoke Furniture in Dubai](https://humblehomefurniture.com/furniture)
+- [Made-to-Measure Curtains in Dubai](https://humblehomefurniture.com/curtains)
+- [Marble Furniture & Stone in Dubai](https://humblehomefurniture.com/marble)
+- [Shop](https://humblehomefurniture.com/shop)
+- [About Us](https://humblehomefurniture.com/about-us)
+- [Our Locations](https://humblehomefurniture.com/our-locations)
+- [Contact Us](https://humblehomefurniture.com/contact-us)
+- [FAQs](https://humblehomefurniture.com/faqs)
+- [Testimonials](https://humblehomefurniture.com/testimonials)
+- [Blog](https://humblehomefurniture.com/blog)
 
 ## Business
 
