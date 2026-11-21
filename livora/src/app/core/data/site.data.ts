@@ -15,7 +15,7 @@ export const SITE_CONFIG: SiteConfig = {
     phoneHref: 'tel:+971554850711',
     email: 'enquiry@humblehomefurniture.com',
     address: 'United Arab Emirates',
-    hours: 'Monday - Friday 10 AM - 8 PM',
+    hours: 'Open 7 days: Sun-Thu 10 AM-10 PM; Fri-Sat 10 AM-11 PM',
   },
 
   logo: 'assets/images/humble-home-logo.svg',
