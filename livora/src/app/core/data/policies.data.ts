@@ -149,7 +149,7 @@ export const POLICIES: PolicyPage[] = [
           lines('For shipping queries, contact us:', [
             hl('E-mail:'),
             ' ',
-            link('info@example.com', 'mailto:info@example.com'),
+            link('enquiry@humblehomefurniture.com', 'mailto:enquiry@humblehomefurniture.com'),
           ]),
         ],
         '8. Damaged Delivery',
@@ -207,7 +207,7 @@ export const POLICIES: PolicyPage[] = [
       ),
       section('4. Return Process', [
         lines(
-          '1. Email us at info@example.com with order details',
+          '1. Email us at enquiry@humblehomefurniture.com with order details',
           '2. Our team will approve and provide return instructions',
           '3. Our team will approve and provide return instructions',
         ),
@@ -230,7 +230,7 @@ export const POLICIES: PolicyPage[] = [
           'Only for unused items within return window',
         ),
         p('For any queries, contact us at:'),
-        lines([hl('E-mail:'), ' ', link('info@example.com', 'mailto:info@example.com')]),
+        lines([hl('E-mail:'), ' ', link('enquiry@humblehomefurniture.com', 'mailto:enquiry@humblehomefurniture.com')]),
       ]),
     ],
   },
@@ -256,7 +256,7 @@ export const POLICIES: PolicyPage[] = [
         [
           lines('To cancel your order:', [
             'Contact us at ',
-            hlLink('info@example.com', 'mailto:info@example.com'),
+            hlLink('enquiry@humblehomefurniture.com', 'mailto:enquiry@humblehomefurniture.com'),
           ]),
           bullets('Provide your Order ID and details'),
         ],
@@ -291,7 +291,7 @@ export const POLICIES: PolicyPage[] = [
         lines('For assistance, contact us at:', [
           hl('E-mail:'),
           ' ',
-          link('info@example.com', 'mailto:info@example.com'),
+          link('enquiry@humblehomefurniture.com', 'mailto:enquiry@humblehomefurniture.com'),
         ]),
       ]),
     ],
@@ -406,8 +406,8 @@ export const POLICIES: PolicyPage[] = [
         [
           p('If you have any questions about this Privacy Policy, please contact us:'),
           lines(
-            [hl('Phone:'), ' ', link('(+123) 456 789', 'tel:+123456789')],
-            [hl('E-mail:'), ' ', link('info@example.com', 'mailto:info@example.com')],
+            [hl('Phone:'), ' ', link('+971 55 485 0711', 'tel:+971554850711')],
+            [hl('E-mail:'), ' ', link('enquiry@humblehomefurniture.com', 'mailto:enquiry@humblehomefurniture.com')],
             [hl('Address:'), ' 123 Lorem Street, Ipsum Nagar, Dolor City, 360001'],
           ),
         ],
@@ -561,8 +561,8 @@ export const POLICIES: PolicyPage[] = [
         [
           p('If you have any questions regarding these Terms & Conditions, please contact us:'),
           lines(
-            [hl('Phone:'), ' ', link('(+123) 456 789', 'tel:+123456789')],
-            [hl('E-mail:'), ' ', link('info@example.com', 'mailto:info@example.com')],
+            [hl('Phone:'), ' ', link('+971 55 485 0711', 'tel:+971554850711')],
+            [hl('E-mail:'), ' ', link('enquiry@humblehomefurniture.com', 'mailto:enquiry@humblehomefurniture.com')],
             [hl('Address:'), ' 123 Lorem Street, Ipsum Nagar, Dolor City, 360001'],
           ),
           p('By using our website, you agree to these Terms & Conditions.'),
