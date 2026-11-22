@@ -22,7 +22,7 @@ export class LocationsComponent {
     { label: 'Our Locations' },
   ];
 
-  protected readonly shops = [
+  protected readonly shops: { name: string; address: string; image?: string; phone?: string; phoneHref?: string; mapsUrl?: string; }[] = [
     {
       name: 'GD-01',
       address: 'Dragon Mart 2, International City, Dubai, United Arab Emirates',
@@ -43,17 +43,10 @@ export class LocationsComponent {
       address: 'Dragon Mart 2, International City, Dubai, United Arab Emirates',
       image: 'assets/images/shop-gc-47.jpg',
     },
-    {
-      name: 'Family Friends Furniture',
-      address: 'Dragon Mart 2, Warsan First, Dubai International City, Dubai, United Arab Emirates',
-      phone: '+971 52 604 7610',
-      phoneHref: 'tel:+971526047610',
-      mapsUrl: 'https://maps.app.goo.gl/ScVjkqFeNGk3HTng8',
-    },
   ];
 
-  /** Pin for Family Friends Furniture at Dragon Mart 2. Safe because the URL is a literal. */
+  /** Pin for Humble Home at Dragon Mart 2. Safe because the URL is a literal. */
   protected readonly mapUrl: SafeResourceUrl = inject(DomSanitizer).bypassSecurityTrustResourceUrl(
-    'https://maps.google.com/maps?q=Family%20Friends%20Furniture%2C%20Dragon%20Mart%202%2C%20Dubai&ll=25.1737648,55.4218103&t=m&z=17&output=embed&iwloc=near',
+    'https://maps.google.com/maps?q=Dragon%20Mart%202%2C%20Dubai&ll=25.1737648,55.4218103&t=m&z=17&output=embed&iwloc=near',
   );
 }
