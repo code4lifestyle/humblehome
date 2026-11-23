@@ -10,7 +10,7 @@ import {
 import { TocCardComponent, TocItem } from '@shared/components/toc-card/toc-card.component';
 
 /**
- * /faqs – banner, then two columns like the original: a sticky sidebar (table of contents with the five group titles +
+ * /faqs – banner, then two columns like the original: a sticky sidebar (table of contents with the four group titles +
  * "Need some help or want to chat" card) and the main column with one `<h2 id=…>` + accordion per FAQ group. The
  * original opens the 3rd question of every group (`[openIndex]="2"`).
  */
@@ -27,7 +27,7 @@ export class FaqsComponent implements OnDestroy {
   private readonly seo = inject(SeoService);
 
   constructor() {
-    // FAQPage JSON-LD from the FAQ data, questions and answers verbatim (25 questions).
+    // FAQPage JSON-LD from the FAQ data, questions and answers verbatim (8 questions).
     this.seo.setFaqJsonLd(this.content.faqGroups().flatMap((group) => group.items));
   }
 
