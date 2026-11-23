@@ -78,6 +78,7 @@ export const SITE_CONFIG: SiteConfig = {
     ],
     customerServicesTitle: 'Customer Services',
     customerServices: [
+      { label: 'FAQs', link: '/faqs' },
       { label: 'Shipping Information', link: ['/policy', 'delivery-policy'] },
       { label: 'Return Policy', link: ['/policy', 'refunds-returns-policy'] },
       { label: 'Cancellation Policy', link: ['/policy', 'cancellation-policy'] },
