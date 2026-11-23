@@ -25,7 +25,7 @@ import { ProductTabsComponent } from './product-tabs/product-tabs.component';
  * /product/:slug – the single product page (original: `product/<slug>/index.html`, Elementor template 3126).
  *
  *   breadcrumb (Home › category › product) · gallery | summary · tabs (Description / Additional information / Reviews)
- *   · "Featured products – Explore Our Signature Jewellery Pieces" heading + the related products.
+ *   · "Featured products - Related products" heading + the related products.
  *
  * The page resolves the product and owns the one piece of state the two columns share: the chosen variation (its image
  * goes to the gallery, its discount to the badge). An unknown slug shows the 404 page without changing the URL.
