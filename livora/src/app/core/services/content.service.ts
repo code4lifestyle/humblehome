@@ -12,7 +12,7 @@ import { FaqGroup, FaqItem, PolicyPage, TeamMember, Testimonial } from '../model
  */
 @Injectable({ providedIn: 'root' })
 export class ContentService {
-  /** The 5 FAQ groups (ids: general, orders-payments, shipping-delivery, returns-warranty, product-care). */
+  /** The 4 FAQ groups (ids: how-ordering-works, custom-furniture-sofas, marble, delivery-payment-aftercare). */
   faqGroups(): FaqGroup[] {
     return FAQ_GROUPS;
   }
