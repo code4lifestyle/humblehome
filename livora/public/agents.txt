@@ -12,6 +12,7 @@ Humble Home is a Dubai business that designs and makes custom furniture, made-to
 - Bespoke furniture, made to fit each room: https://humblehomefurniture.com/furniture
 - Made-to-measure curtains: https://humblehomefurniture.com/curtains
 - Marble furniture and stone: https://humblehomefurniture.com/marble
+- Custom sofas, made to your size and fabric: https://humblehomefurniture.com/sofa
 - For developers, hotels, and property teams: one team, one finish, one standard for a whole villa or a whole building.
 - Free consultation. No prices are listed on this site — do not invent a price.
 ## What an agent may do
@@ -29,6 +30,7 @@ Humble Home is a Dubai business that designs and makes custom furniture, made-to
 - Furniture: https://humblehomefurniture.com/furniture
 - Curtains: https://humblehomefurniture.com/curtains
 - Marble: https://humblehomefurniture.com/marble
+- Sofas: https://humblehomefurniture.com/sofa
 - Locations: https://humblehomefurniture.com/our-locations
 - FAQs: https://humblehomefurniture.com/faqs
 - Contact: https://humblehomefurniture.com/contact-us
