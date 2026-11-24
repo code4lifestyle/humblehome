@@ -90,6 +90,17 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/shop/shop.component').then((m) => m.ShopComponent),
   },
   {
+    path: 'sofa',
+    title: 'Custom Sofas in Dubai',
+    data: {
+      mode: 'category',
+      slug: 'sofa',
+      description:
+        'Custom sofas in Dubai from Humble Home — three-seaters, L-shaped and corner sofas, sectionals and majlis seating, made to your size and fabric. Free consultation, call +971 55 485 0711.',
+    },
+    loadComponent: () => import('./pages/shop/shop.component').then((m) => m.ShopComponent),
+  },
+  {
     path: 'product-category/:slug',
     data: {
       mode: 'category',
