@@ -9,7 +9,6 @@ import { HeaderComponent } from './layout/header/header.component';
 import { ChatbotWidgetComponent } from './layout/chatbot-widget/chatbot-widget.component';
 import { SignupPopupComponent } from './layout/signup-popup/signup-popup.component';
 import { ToastContainerComponent } from './layout/toast-container/toast-container.component';
-import { WhatsappButtonComponent } from './layout/whatsapp-button/whatsapp-button.component';
 
 const isAdminPath = (path: string): boolean => path === '/admin' || path.startsWith('/admin/');
 
@@ -20,7 +19,6 @@ const isAdminPath = (path: string): boolean => path === '/admin' || path.startsW
     RouterOutlet,
     HeaderComponent,
     FooterComponent,
-    WhatsappButtonComponent,
     ChatbotWidgetComponent,
     ToastContainerComponent,
     SignupPopupComponent,
@@ -35,7 +33,7 @@ export class App {
   private readonly document = inject(DOCUMENT);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
-  /** Dashboard pages render without the shop header, footer and WhatsApp button. */
+  /** Dashboard pages render without the shop header and footer. */
   // DOCUMENT, not the bare `location` global: `location` does not exist during prerendering (Node).
   protected readonly isAdmin = signal(isAdminPath(this.document.location.pathname));
 
