@@ -1,7 +1,7 @@
 // Automatic chatbot widget. Uses only the site's own design tokens
 // (near-black #0b0b0a, cream #f8f5ef, dark gold #a27b35, Montserrat / Bodoni Moda).
-// The bubble sits at the bottom-right corner (bottom 18px); the floating
-// WhatsApp button was removed, so the chatbot is now the only contact button.
+// The bubble sits above the existing WhatsApp button (bottom 18px + 52px tall
+// + 16px gap = 86px); the WhatsApp button itself is not moved.
 .chatbot-widget {
   font-family: var(--font-family);
 }
@@ -9,7 +9,7 @@
 .chatbot-bubble {
   position: fixed;
   right: 18px;
-  bottom: 18px;
+  bottom: 86px;
   z-index: 960;
   display: inline-flex;
   align-items: center;
@@ -43,12 +43,12 @@
 .chatbot-panel {
   position: fixed;
   right: 18px;
-  bottom: 84px;
+  bottom: 152px;
   z-index: 960;
   display: flex;
   flex-direction: column;
   width: min(360px, calc(100vw - 36px));
-  max-height: min(520px, calc(100dvh - 112px));
+  max-height: min(520px, calc(100dvh - 180px));
   overflow: hidden;
   border: 1px solid var(--color-divider);
   border-radius: var(--radius-md);
