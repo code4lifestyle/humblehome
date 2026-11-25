@@ -31,7 +31,7 @@ export const WHATSAPP_URL = 'https://wa.me/971522307573';
 export const WHATSAPP_ACTION: ChatAction = { label: 'Chat on WhatsApp', href: WHATSAPP_URL };
 
 export const GREETING =
-  'Hello, and welcome to Humble Home. I can help with our custom furniture, curtains and marble, our showrooms and opening hours, or booking a free consultation. What would you like to know?';
+  'Welcome to Humble Home. We make custom furniture, curtains and marble in Dubai. Visit our showrooms at Dragon Mart 2, or book a free consultation. How may I help you?';
 
 /** Find one of the 8 live FAQ answers by the start of its question. */
 function faqAnswer(questionStartsWith: string): string {
