@@ -2,6 +2,9 @@
 // (near-black #0b0b0a, cream #f8f5ef, dark gold #a27b35, Montserrat / Bodoni Moda).
 // The bubble sits above the existing WhatsApp button (bottom 18px + 52px tall
 // + 16px gap = 86px); the WhatsApp button itself is not moved.
+// z-index 12000 is deliberate: it must stay above the signup popup overlay
+// (z-index 11050), otherwise the popup swallows every click on the bubble,
+// the Send button and the quick-reply chips and the chat looks broken.
 .chatbot-widget {
   font-family: var(--font-family);
 }
@@ -10,7 +13,7 @@
   position: fixed;
   right: 18px;
   bottom: 86px;
-  z-index: 960;
+  z-index: 12000;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -44,7 +47,7 @@
   position: fixed;
   right: 18px;
   bottom: 152px;
-  z-index: 960;
+  z-index: 12000;
   display: flex;
   flex-direction: column;
   width: min(360px, calc(100vw - 36px));
