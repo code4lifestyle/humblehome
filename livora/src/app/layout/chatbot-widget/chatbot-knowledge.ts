@@ -4,8 +4,9 @@ import { FAQ_GROUPS } from '@core/data/faq.data';
  * Knowledge for the Humble Home website chatbot.
  *
  * RULES (do not break these when editing answers):
- * - Only verified facts: custom furniture, curtains and marble ONLY. Wardrobes
- *   are NOT offered as a service, so the bot never offers them.
+ * - Only verified facts: custom furniture, curtains, marble and wardrobes.
+ *   Wardrobes ARE offered as a service (built-in wardrobes and cupboards,
+ *   made to your size and finish) — see /wardrobe.
  * - No invented prices, delivery times, discounts or services. Prices are by
  *   quotation after a free consultation; anything unpublished is handed over
  *   to WhatsApp instead of guessed.
@@ -31,7 +32,7 @@ export const WHATSAPP_URL = 'https://wa.me/971522307573';
 export const WHATSAPP_ACTION: ChatAction = { label: 'Chat on WhatsApp', href: WHATSAPP_URL };
 
 export const GREETING =
-  'Welcome to Humble Home. We make custom furniture, curtains and marble in Dubai. Visit our showrooms at Dragon Mart 2, or book a free consultation. How may I help you?';
+  'Welcome to Humble Home. We make custom furniture, curtains, marble and wardrobes in Dubai. Visit our showrooms at Dragon Mart 2, or book a free consultation. How may I help you?';
 
 /** Find one of the 8 live FAQ answers by the start of its question. */
 function faqAnswer(questionStartsWith: string): string {
@@ -54,7 +55,7 @@ const CURTAINS_ANSWER =
   'We make made-to-measure curtains in Dubai, tailored to your windows and your choice of fabric and finish. The consultation and home visit are free, and prices are by quotation after the consultation. Would you like to book a free visit, or talk to the team on WhatsApp?';
 
 const SERVICES_ANSWER =
-  'Humble Home makes custom furniture, made-to-measure curtains, and marble pieces in Dubai - all made to your measurements and your choice of materials, fabrics and finishes. Prices are by quotation after a free consultation. What would you like to know more about - furniture, curtains or marble?';
+  'Humble Home makes custom furniture, made-to-measure curtains, marble pieces and custom wardrobes in Dubai - all made to your measurements and your choice of materials, fabrics and finishes. Prices are by quotation after a free consultation. What would you like to know more about - furniture, curtains, marble or wardrobes?';
 
 const PRICES_ANSWER =
   'Prices are by quotation. Book a free consultation and home visit, and the team will measure your space and give you a clear quotation for your approval. There is no charge for the consultation or the measurement visit.';
@@ -62,14 +63,16 @@ const PRICES_ANSWER =
 const DELIVERY_ANSWER =
   'Delivery and installation are part of the process. Once you approve your quotation, your piece is made to your specifications, then delivered and installed by the team.';
 
+const WARDROBE_ACTION: ChatAction = { label: 'See custom wardrobes', href: '/wardrobe' };
+
 const WARDROBE_ANSWER =
-  'Humble Home offers custom furniture, curtains and marble. Wardrobes are not listed as one of our services. For anything else, please message the team on WhatsApp and they will help.';
+  'Yes - Humble Home makes custom wardrobes in Dubai: built-in wardrobes and cupboards, made to your size and finish. Prices are by quotation after a free consultation. You can see them on our wardrobes page, or message the team on WhatsApp +971 52 230 7573 and they will help.';
 
 const CONTACT_ANSWER =
   'You can reach the team on WhatsApp +971 52 230 7573, by phone on +971 55 485 0711, or by email at enquiry@humblehomefurniture.com.';
 
 const FALLBACK_ANSWER =
-  'I can help with custom furniture, curtains and marble, showrooms and opening hours, the free consultation, payment and returns. For anything else, the team will be happy to help you on WhatsApp.';
+  'I can help with custom furniture, curtains, marble and wardrobes, showrooms and opening hours, the free consultation, payment and returns. For anything else, the team will be happy to help you on WhatsApp.';
 
 interface Rule {
   patterns: RegExp[];
@@ -82,9 +85,9 @@ interface Rule {
 // answer, not the ordering-process answer.
 const RULES: Rule[] = [
   {
-    // Wardrobes are not a service: never offer them, hand over instead.
+    // Wardrobes are a service: offer them and link to /wardrobe.
     patterns: [/\bwardrobe/],
-    reply: () => ({ text: WARDROBE_ANSWER, action: WHATSAPP_ACTION }),
+    reply: () => ({ text: WARDROBE_ANSWER, action: WARDROBE_ACTION }),
   },
   {
     patterns: [/\bprice/, /\bcost\b/, /\bhow much\b/, /\bquot/],
@@ -165,6 +168,7 @@ export const QUICK_REPLIES: { label: string; value: string }[] = [
   { label: 'How does ordering work?', value: 'How does ordering work?' },
   { label: 'Is the consultation free?', value: 'Is the consultation free?' },
   { label: 'Furniture for my exact space', value: 'Can you make furniture to fit my exact space?' },
+  { label: 'Custom wardrobes', value: 'Tell me about wardrobes' },
   { label: 'Custom sofas', value: 'Can I order a custom sofa?' },
   { label: 'Marble', value: 'Tell me about marble' },
   { label: 'Curtains', value: 'Tell me about curtains' },
