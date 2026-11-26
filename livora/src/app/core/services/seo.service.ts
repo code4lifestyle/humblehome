@@ -5,7 +5,7 @@ import { Meta, Title } from '@angular/platform-browser';
 export const SITE_NAME = 'Humble Home';
 export const DEFAULT_TITLE = `${SITE_NAME} – Furniture, Curtains & Marble in Dubai`;
 export const DEFAULT_DESCRIPTION =
-  'Humble Home designs and makes custom furniture, curtains, and marble for homes in Dubai. Visit us at Dragon Mart 2 or call +971 55 485 0711.';
+  'Humble Home designs and makes custom furniture, curtains, marble and wardrobes for homes in Dubai. Visit us at Dragon Mart 2 or call +971 55 485 0711.';
 export const DEFAULT_IMAGE = 'assets/images/collection-furniture-1200x800.jpg';
 export const SITE_ORIGIN = 'https://humblehomefurniture.com';
 
