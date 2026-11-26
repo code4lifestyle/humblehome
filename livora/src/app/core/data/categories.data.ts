@@ -1,7 +1,7 @@
 import { ProductCategory } from '../models';
 
 /**
- * The 5 product categories of the reduced catalog, in the original's (alphabetical) order – the order of the shop
+ * The 9 product categories of the reduced catalog, in the original's (alphabetical) order – the order of the shop
  * sidebar "Categories" filter. The original taxonomy pages carry no description text, so none is invented here.
  *
  * `image` = category tile picture:
@@ -14,6 +14,7 @@ export const PRODUCT_CATEGORIES: ProductCategory[] = [
   { slug: 'curtains', name: 'Curtains', image: 'assets/images/product-image-23.jpg' },
   { slug: 'furniture', name: 'Furniture', image: 'assets/images/category-item-image-1.jpg' },
   { slug: 'marble', name: 'Marble', image: 'assets/images/product-image-26.jpg' },
+  { slug: 'wardrobe', name: 'Wardrobes', image: 'assets/images/product-image-12.jpg' },
   { slug: 'bedroom', name: 'Bedroom', image: 'assets/images/category-item-image-2.jpg' },
   { slug: 'dining-room', name: 'Dining Room', image: 'assets/images/category-item-image-3.jpg' },
   { slug: 'living-room', name: 'Living Room', image: 'assets/images/category-item-image-1.jpg' },

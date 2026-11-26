@@ -34,6 +34,7 @@ const STATIC_ROUTES: string[] = [
   'furniture',
   'curtains',
   'marble',
+  'wardrobe',
   'blog',
   'our-locations',
   'contact-us',
