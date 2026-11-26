@@ -184,7 +184,7 @@ export const PRODUCTS: Product[] = [
       'assets/images/product-image-10.jpg',
       'assets/images/product-image-13.jpg',
     ],
-    categories: ['furniture', 'dining-room', 'living-room', 'office-furniture', 'sofa'],
+    categories: ['furniture', 'dining-room', 'living-room', 'office-furniture'],
     brand: 'humble-home',
     brands: ['humble-home'],
     attributes: [
@@ -409,7 +409,7 @@ export const PRODUCTS: Product[] = [
       'assets/images/product-image-3.jpg',
       'assets/images/product-image-2.jpg',
     ],
-    categories: ['furniture', 'luxury-collection', 'office-furniture', 'sofa'],
+    categories: ['furniture', 'luxury-collection', 'office-furniture'],
     brand: 'humble-home',
     brands: ['humble-home'],
     price: 10000,
@@ -450,7 +450,7 @@ export const PRODUCTS: Product[] = [
       'assets/images/product-image-5.jpg',
       'assets/images/product-image-6.jpg',
     ],
-    categories: ['furniture', 'luxury-collection', 'sofa'],
+    categories: ['furniture', 'luxury-collection'],
     brand: 'humble-home',
     brands: ['humble-home'],
     attributes: [
