@@ -57,24 +57,11 @@ export class SignupPopupComponent {
       if (this.alreadySeen()) {
         return;
       }
-      // Wait 20s before offering the signup: the old 900ms delay fired while
-      // visitors were still opening the chatbot, and the popup overlay
-      // (z-index 11050) then covered the chat bubble, Send button and
-      // quick-reply chips, so messages looked like they never sent.
-      // If the chat panel is already open when the timer fires, skip the
-      // popup for this visit instead of interrupting the conversation.
       const timer = window.setTimeout(() => {
-        if (this.doc.querySelector('.chatbot-panel')) {
-          return;
-        }
         this.open.set(true);
         this.doc.documentElement.style.overflow = 'hidden';
-        // Only take focus if the visitor is not already typing somewhere
-        // (e.g. in the chatbot input) — never steal focus mid-chat.
-        if (!this.doc.activeElement || this.doc.activeElement === this.doc.body) {
-          requestAnimationFrame(() => this.emailField()?.nativeElement.focus({ preventScroll: true }));
-        }
-      }, 20000);
+        requestAnimationFrame(() => this.emailField()?.nativeElement.focus({ preventScroll: true }));
+      }, 900);
       this.destroyRef.onDestroy(() => {
         window.clearTimeout(timer);
         this.doc.documentElement.style.overflow = '';
