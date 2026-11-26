@@ -546,7 +546,7 @@ export const PRODUCTS: Product[] = [
       'assets/images/product-image-7.jpg',
       'assets/images/product-image-8.jpg',
     ],
-    categories: ['furniture', 'bedroom', 'wardrobe'],
+    categories: ['furniture', 'bedroom'],
     brand: 'humble-home',
     brands: ['humble-home'],
     attributes: [

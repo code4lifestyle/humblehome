@@ -90,17 +90,6 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/shop/shop.component').then((m) => m.ShopComponent),
   },
   {
-    path: 'wardrobe',
-    title: 'Custom Wardrobes in Dubai',
-    data: {
-      mode: 'category',
-      slug: 'wardrobe',
-      description:
-        'Custom wardrobes in Dubai from Humble Home — built-in wardrobes and cupboards, made to your size and finish. Free consultation, call +971 55 485 0711.',
-    },
-    loadComponent: () => import('./pages/shop/shop.component').then((m) => m.ShopComponent),
-  },
-  {
     path: 'product-category/:slug',
     data: {
       mode: 'category',
