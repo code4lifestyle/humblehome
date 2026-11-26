@@ -1,0 +1,220 @@
+// Automatic chatbot widget. Uses only the site's own design tokens
+// (near-black #0b0b0a, cream #f8f5ef, dark gold #a27b35, Montserrat / Bodoni Moda).
+// The bubble sits above the existing WhatsApp button (bottom 18px + 52px tall
+// + 16px gap = 86px); the WhatsApp button itself is not moved.
+.chatbot-widget {
+  font-family: var(--font-family);
+}
+
+.chatbot-bubble {
+  position: fixed;
+  right: 18px;
+  bottom: 86px;
+  z-index: 960;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: var(--color-secondary);
+  box-shadow: 0 6px 18px rgb(22 22 22 / 25%);
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--color-accent);
+    transform: translateY(-2px);
+  }
+}
+
+.chatbot-bubble-icon {
+  width: 26px;
+  height: 26px;
+  font-size: 30px;
+  line-height: 1;
+}
+
+.chatbot-panel {
+  position: fixed;
+  right: 18px;
+  bottom: 152px;
+  z-index: 960;
+  display: flex;
+  flex-direction: column;
+  width: min(360px, calc(100vw - 36px));
+  max-height: min(520px, calc(100dvh - 180px));
+  overflow: hidden;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-md);
+  background: var(--color-secondary);
+  box-shadow: 0 12px 40px rgb(22 22 22 / 25%);
+}
+
+.chatbot-panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--color-primary);
+  color: var(--color-secondary);
+}
+
+.chatbot-panel-title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 19px;
+  letter-spacing: 0.04em;
+}
+
+.chatbot-panel-subtitle {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: #d8c9a8;
+}
+
+.chatbot-panel-close {
+  padding: 0 4px;
+  border: 0;
+  background: transparent;
+  color: var(--color-secondary);
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.chatbot-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 14px 6px;
+  overflow-y: auto;
+}
+
+.chatbot-message {
+  max-width: 88%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.55;
+
+  p {
+    margin: 0;
+  }
+}
+
+.chatbot-message--bot {
+  align-self: flex-start;
+  background: var(--color-white);
+  border: 1px solid var(--color-divider);
+  border-bottom-left-radius: 4px;
+  color: var(--color-text);
+}
+
+.chatbot-message--user {
+  align-self: flex-end;
+  background: var(--color-primary);
+  border-bottom-right-radius: 4px;
+  color: var(--color-white);
+}
+
+.chatbot-message-action {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 7px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.chatbot-quick-replies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 14px;
+}
+
+.chatbot-chip {
+  padding: 6px 11px;
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-accent);
+  font-family: var(--font-family);
+  font-size: 12.5px;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--color-accent);
+    color: var(--color-white);
+  }
+}
+
+.chatbot-input-row {
+  display: flex;
+  gap: 8px;
+  padding: 10px 14px 0;
+}
+
+.chatbot-input-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.chatbot-input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  font-family: var(--font-family);
+  font-size: 14px;
+  color: var(--color-text);
+}
+
+.chatbot-send {
+  padding: 0 16px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-family: var(--font-family);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--color-accent);
+  }
+}
+
+.chatbot-whatsapp {
+  display: block;
+  padding: 10px 14px 12px;
+  color: var(--color-accent);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+
+  &:hover,
+  &:focus-visible {
+    text-decoration: underline;
+  }
+}

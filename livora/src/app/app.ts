@@ -6,6 +6,7 @@ import { filter } from 'rxjs';
 import { PixelTrackingService } from './core/services/pixel-tracking.service';
 import { FooterComponent } from './layout/footer/footer.component';
 import { HeaderComponent } from './layout/header/header.component';
+import { ChatbotWidgetComponent } from './layout/chatbot-widget/chatbot-widget.component';
 import { SignupPopupComponent } from './layout/signup-popup/signup-popup.component';
 import { ToastContainerComponent } from './layout/toast-container/toast-container.component';
 import { WhatsappButtonComponent } from './layout/whatsapp-button/whatsapp-button.component';
@@ -20,6 +21,7 @@ const isAdminPath = (path: string): boolean => path === '/admin' || path.startsW
     HeaderComponent,
     FooterComponent,
     WhatsappButtonComponent,
+    ChatbotWidgetComponent,
     ToastContainerComponent,
     SignupPopupComponent,
   ],
