@@ -224,20 +224,21 @@ export class ShopComponent {
 
   protected readonly title = computed(() => this.heading() ?? 'Premium Furniture');
 
-  /** Furniture, Curtains, and Marble use their own photo behind the title. */
+  /** Furniture, Curtains, Marble and Wardrobes use their own photo behind the title. */
   protected readonly headerImage = computed(() => {
     const category = this.category();
     if (
       category?.slug === 'furniture' ||
       category?.slug === 'curtains' ||
-      category?.slug === 'marble'
+      category?.slug === 'marble' ||
+      category?.slug === 'wardrobe'
     ) {
       return category.image;
     }
     return undefined;
   });
 
-  /** Intro copy for the three collection pages. Product photos stay in the grid below. */
+  /** Intro copy for the four collection pages. Product photos stay in the grid below. */
   protected readonly categoryIntro = computed(() => {
     switch (this.category()?.slug) {
       case 'furniture':
@@ -258,14 +259,20 @@ export class ShopComponent {
           title: 'Naturally Unique',
           text: 'No two pieces of natural stone are exactly alike. We offer carefully selected marble and natural stone for furniture, surfaces, and statement pieces — bringing natural character and timeless elegance into your home.',
         };
+      case 'wardrobe':
+        return {
+          eyebrow: 'Custom Wardrobes',
+          title: 'Storage, Made to Fit',
+          text: 'A wardrobe should fit your room and your clothes, so we make it around you — built-in wardrobes and cupboards in the size, wood and finish you choose. Every wardrobe is made to order in our Dubai workshop.',
+        };
       default:
         return null;
     }
   });
 
   /**
-   * SEO title / description / OG image for this listing. The three collection
-   * pages get their own 1200x800 OG photo; other categories use the site default
+   * SEO title / description / OG image for this listing. The four collection
+   * pages get their own OG photo (wardrobes use the 1200x1200 cupboard photo; the other three use 1200x800); other categories use the site default
    * OG image (their tile pictures are only 180x180). No visible text changes.
    */
   private seoTags(): Parameters<PageTitleService['set']> {
@@ -318,6 +325,18 @@ export class ShopComponent {
               imageWidth: 1200,
               imageHeight: 800,
               imageAlt: 'Marble furniture and natural stone in Dubai by Humble Home',
+            },
+          ];
+        case 'wardrobe':
+          return [
+            'Custom Wardrobes in Dubai',
+            {
+              description:
+                'Custom wardrobes in Dubai from Humble Home — built-in wardrobes and cupboards, made to your size and finish. Free consultation, call +971 55 485 0711.',
+              image: 'assets/images/product-image-12.jpg',
+              imageWidth: 1200,
+              imageHeight: 1200,
+              imageAlt: 'Custom wardrobes in Dubai by Humble Home',
             },
           ];
         default:

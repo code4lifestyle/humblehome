@@ -1,7 +1,7 @@
 # Humble Home — Instructions for AI Agents
 # https://humblehomefurniture.com/agents.txt
 ## Who we are
-Humble Home is a Dubai business that designs and makes custom furniture, made-to-measure curtains, and marble for homes, villas, hotels, and whole buildings.
+Humble Home is a Dubai business that designs and makes custom furniture, made-to-measure curtains, marble, and custom wardrobes for homes, villas, hotels, and whole buildings.
 - Website: https://humblehomefurniture.com/
 - Phone: +971 55 485 0711
 - WhatsApp: https://wa.me/971554850711
@@ -12,6 +12,7 @@ Humble Home is a Dubai business that designs and makes custom furniture, made-to
 - Bespoke furniture, made to fit each room: https://humblehomefurniture.com/furniture
 - Made-to-measure curtains: https://humblehomefurniture.com/curtains
 - Marble furniture and stone: https://humblehomefurniture.com/marble
+- Custom wardrobes, made to your size and finish: https://humblehomefurniture.com/wardrobe
 - For developers, hotels, and property teams: one team, one finish, one standard for a whole villa or a whole building.
 - Free consultation. No prices are listed on this site — do not invent a price.
 ## What an agent may do
@@ -29,6 +30,7 @@ Humble Home is a Dubai business that designs and makes custom furniture, made-to
 - Furniture: https://humblehomefurniture.com/furniture
 - Curtains: https://humblehomefurniture.com/curtains
 - Marble: https://humblehomefurniture.com/marble
+- Wardrobes: https://humblehomefurniture.com/wardrobe
 - Locations: https://humblehomefurniture.com/our-locations
 - FAQs: https://humblehomefurniture.com/faqs
 - Contact: https://humblehomefurniture.com/contact-us

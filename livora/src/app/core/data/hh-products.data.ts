@@ -551,7 +551,7 @@ const ITEMS: HhItem[] = [
   {
     slug: 'built-in-oak-wardrobe',
     name: 'Built-In Oak Wardrobe',
-    categories: ['furniture', 'bedroom'],
+    categories: ['furniture', 'bedroom', 'wardrobe'],
     photos: ['4-08'],
     price: 7600,
     excerpt: 'A floor-to-ceiling oak wardrobe with open shelving and LED lighting.',
