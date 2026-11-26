@@ -245,7 +245,7 @@ const ITEMS: HhItem[] = [
   {
     slug: 'curved-cloud-sofa',
     name: 'Curved Cloud Sofa',
-    categories: ['furniture', 'living-room', 'sofa'],
+    categories: ['furniture', 'living-room'],
     photos: ['1-04'],
     price: 5400,
     excerpt: 'A soft curved cream sofa with a matching low oval coffee table.',
@@ -290,7 +290,7 @@ const ITEMS: HhItem[] = [
   {
     slug: 'white-majlis-sectional',
     name: 'White Majlis Sectional',
-    categories: ['furniture', 'living-room', 'luxury-collection', 'sofa'],
+    categories: ['furniture', 'living-room', 'luxury-collection'],
     photos: ['2-12', '2-06', '1-09'],
     price: 9800,
     excerpt: 'A large white U-shaped majlis sofa with ottomans and a central coffee table.',
@@ -299,7 +299,7 @@ const ITEMS: HhItem[] = [
   {
     slug: 'beige-arch-majlis-sofa',
     name: 'Beige Arch Majlis Sofa',
-    categories: ['furniture', 'living-room', 'sofa'],
+    categories: ['furniture', 'living-room'],
     photos: ['1-10'],
     price: 8400,
     excerpt: 'A long beige majlis sofa that wraps the room under a timber arch.',
@@ -308,7 +308,7 @@ const ITEMS: HhItem[] = [
   {
     slug: 'modular-ivory-corner-sofa',
     name: 'Modular Ivory Corner Sofa',
-    categories: ['furniture', 'living-room', 'sofa'],
+    categories: ['furniture', 'living-room'],
     photos: ['1-14'],
     price: 6800,
     excerpt: 'A modular ivory corner sofa with clean square arms and loose cushions.',
@@ -317,7 +317,7 @@ const ITEMS: HhItem[] = [
   {
     slug: 'deep-seat-cream-sectional',
     name: 'Deep-Seat Cream Sectional',
-    categories: ['furniture', 'living-room', 'sofa'],
+    categories: ['furniture', 'living-room'],
     photos: ['1-15'],
     price: 7400,
     excerpt: 'A deep cream sectional with soft seats and wide arms.',
@@ -326,7 +326,7 @@ const ITEMS: HhItem[] = [
   {
     slug: 'channel-tufted-white-sofa',
     name: 'Channel-Tufted White Sofa',
-    categories: ['furniture', 'living-room', 'sofa'],
+    categories: ['furniture', 'living-room'],
     photos: ['1-16'],
     price: 4600,
     excerpt: 'A three-seater white sofa with rounded channel-tufted arms.',
@@ -335,7 +335,7 @@ const ITEMS: HhItem[] = [
   {
     slug: 'grey-channel-sectional',
     name: 'Grey Channel Sectional',
-    categories: ['furniture', 'living-room', 'sofa'],
+    categories: ['furniture', 'living-room'],
     photos: ['1-17'],
     price: 7600,
     excerpt: 'A light grey L-shaped sectional with channel-tufted backs.',
@@ -344,7 +344,7 @@ const ITEMS: HhItem[] = [
   {
     slug: 'grey-l-shaped-sofa',
     name: 'Grey L-Shaped Sofa',
-    categories: ['furniture', 'living-room', 'sofa'],
+    categories: ['furniture', 'living-room'],
     photos: ['1-18'],
     price: 5800,
     excerpt: 'A grey L-shaped sofa with soft back cushions for everyday family living.',
@@ -353,7 +353,7 @@ const ITEMS: HhItem[] = [
   {
     slug: 'beige-channel-corner-sofa',
     name: 'Beige Channel Corner Sofa',
-    categories: ['furniture', 'living-room', 'sofa'],
+    categories: ['furniture', 'living-room'],
     photos: ['1-20'],
     price: 7000,
     excerpt: 'A beige channel-tufted corner sofa, styled with teal accent cushions.',
@@ -371,7 +371,7 @@ const ITEMS: HhItem[] = [
   {
     slug: 'cloud-linen-sectional',
     name: 'Cloud Linen Sectional',
-    categories: ['furniture', 'living-room', 'sofa'],
+    categories: ['furniture', 'living-room'],
     photos: ['2-03'],
     price: 6600,
     excerpt: 'A plush white linen sectional piled with soft cushions.',
@@ -389,7 +389,7 @@ const ITEMS: HhItem[] = [
   {
     slug: 'soft-grey-lounge-sofa',
     name: 'Soft Grey Lounge Sofa',
-    categories: ['furniture', 'living-room', 'sofa'],
+    categories: ['furniture', 'living-room'],
     photos: ['2-07'],
     price: 4800,
     excerpt: 'A soft grey sofa with deep seats and plump scatter cushions.',
@@ -398,7 +398,7 @@ const ITEMS: HhItem[] = [
   {
     slug: 'white-l-sofa-with-timber-base',
     name: 'White L-Sofa with Timber Base',
-    categories: ['furniture', 'living-room', 'sofa'],
+    categories: ['furniture', 'living-room'],
     photos: ['2-09'],
     price: 7200,
     excerpt: 'A white L-shaped sofa on a timber plinth with built-in side tables.',
@@ -416,7 +416,7 @@ const ITEMS: HhItem[] = [
   {
     slug: 'cloud-modular-sofa',
     name: 'Cloud Modular Sofa',
-    categories: ['furniture', 'living-room', 'sofa'],
+    categories: ['furniture', 'living-room'],
     photos: ['2-18', '4-02'],
     price: 8200,
     excerpt: 'A tufted modular cloud sofa, shown in white and in caramel.',
@@ -425,7 +425,7 @@ const ITEMS: HhItem[] = [
   {
     slug: 'grey-sectional-with-marble-table',
     name: 'Grey Sectional with Marble Table',
-    categories: ['furniture', 'marble', 'living-room', 'sofa'],
+    categories: ['furniture', 'marble', 'living-room'],
     photos: ['2-19'],
     price: 8800,
     excerpt: 'A grey sectional sofa set around a solid white marble block table.',
@@ -434,7 +434,7 @@ const ITEMS: HhItem[] = [
   {
     slug: 'ivory-sectional-with-travertine-table',
     name: 'Ivory Sectional with Travertine Table',
-    categories: ['furniture', 'marble', 'living-room', 'sofa'],
+    categories: ['furniture', 'marble', 'living-room'],
     photos: ['2-20'],
     price: 8600,
     excerpt: 'An ivory corner sectional paired with a travertine coffee table.',
@@ -443,7 +443,7 @@ const ITEMS: HhItem[] = [
   {
     slug: 'linen-sofa-with-knit-throws',
     name: 'Linen Sofa with Knit Throws',
-    categories: ['furniture', 'living-room', 'sofa'],
+    categories: ['furniture', 'living-room'],
     photos: ['3-06'],
     price: 4200,
     excerpt: 'A cream linen sofa layered with knit throws and textured cushions.',
@@ -452,7 +452,7 @@ const ITEMS: HhItem[] = [
   {
     slug: 'curved-chaise-sofa',
     name: 'Curved Chaise Sofa',
-    categories: ['furniture', 'living-room', 'sofa'],
+    categories: ['furniture', 'living-room'],
     photos: ['3-08'],
     price: 5800,
     excerpt: 'A long curved sofa with a rounded chaise end in soft beige.',
@@ -470,7 +470,7 @@ const ITEMS: HhItem[] = [
   {
     slug: 'tufted-modular-living-suite',
     name: 'Tufted Modular Living Suite',
-    categories: ['furniture', 'living-room', 'luxury-collection', 'sofa'],
+    categories: ['furniture', 'living-room', 'luxury-collection'],
     photos: ['3-11'],
     price: 9900,
     excerpt: 'A tufted modular sofa suite with a backlit TV wall and round ottoman.',
@@ -479,7 +479,7 @@ const ITEMS: HhItem[] = [
   {
     slug: 'taupe-sofa-and-oak-table',
     name: 'Taupe Sofa & Oak Table',
-    categories: ['furniture', 'living-room', 'dining-room', 'sofa'],
+    categories: ['furniture', 'living-room', 'dining-room'],
     photos: ['3-12'],
     price: 5600,
     excerpt: 'A taupe sofa next to a solid oak table and wishbone-style chair.',
@@ -497,7 +497,7 @@ const ITEMS: HhItem[] = [
   {
     slug: 'low-profile-grey-sofa',
     name: 'Low-Profile Grey Sofa',
-    categories: ['furniture', 'living-room', 'sofa'],
+    categories: ['furniture', 'living-room'],
     photos: ['3-15'],
     price: 4400,
     excerpt: 'A low, wide grey sofa with a dark round coffee table.',
@@ -542,7 +542,7 @@ const ITEMS: HhItem[] = [
   {
     slug: 'two-tone-grey-channel-sofa',
     name: 'Two-Tone Grey Channel Sofa',
-    categories: ['furniture', 'living-room', 'sofa'],
+    categories: ['furniture', 'living-room'],
     photos: ['4-06'],
     price: 6200,
     excerpt: 'A curved channel sofa in alternating light and charcoal grey panels.',
@@ -560,7 +560,7 @@ const ITEMS: HhItem[] = [
   {
     slug: 'taupe-curved-sofa',
     name: 'Taupe Curved Sofa',
-    categories: ['furniture', 'living-room', 'sofa'],
+    categories: ['furniture', 'living-room'],
     photos: ['4-12'],
     price: 5200,
     excerpt: 'A curved taupe sofa with a rounded arm and soft scatter cushions.',
@@ -569,7 +569,7 @@ const ITEMS: HhItem[] = [
   {
     slug: 'textured-grey-corner-sofa-with-marble-table',
     name: 'Textured Grey Corner Sofa with Marble Table',
-    categories: ['furniture', 'marble', 'living-room', 'sofa'],
+    categories: ['furniture', 'marble', 'living-room'],
     photos: ['4-14'],
     price: 8400,
     excerpt: 'A textured grey U-shaped corner sofa with a grey-veined marble block table.',

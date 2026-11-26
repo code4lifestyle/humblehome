@@ -224,21 +224,20 @@ export class ShopComponent {
 
   protected readonly title = computed(() => this.heading() ?? 'Premium Furniture');
 
-  /** Furniture, Curtains, Marble and Sofas use their own photo behind the title. */
+  /** Furniture, Curtains, and Marble use their own photo behind the title. */
   protected readonly headerImage = computed(() => {
     const category = this.category();
     if (
       category?.slug === 'furniture' ||
       category?.slug === 'curtains' ||
-      category?.slug === 'marble' ||
-      category?.slug === 'sofa'
+      category?.slug === 'marble'
     ) {
       return category.image;
     }
     return undefined;
   });
 
-  /** Intro copy for the four collection pages. Product photos stay in the grid below. */
+  /** Intro copy for the three collection pages. Product photos stay in the grid below. */
   protected readonly categoryIntro = computed(() => {
     switch (this.category()?.slug) {
       case 'furniture':
@@ -259,20 +258,14 @@ export class ShopComponent {
           title: 'Naturally Unique',
           text: 'No two pieces of natural stone are exactly alike. We offer carefully selected marble and natural stone for furniture, surfaces, and statement pieces — bringing natural character and timeless elegance into your home.',
         };
-      case 'sofa':
-        return {
-          eyebrow: 'Custom Sofas',
-          title: 'Comfort, Made to Measure',
-          text: 'A sofa is where your home gathers, so we make it around you — three-seaters, L-shaped and corner sofas, sectionals and majlis seating, in the size, fabric and finish you choose. Every sofa is made to order in our Dubai workshop.',
-        };
       default:
         return null;
     }
   });
 
   /**
-   * SEO title / description / OG image for this listing. The four collection
-   * pages get their own OG photo (sofas use the 620x588 Chesterfield photo; the other three use 1200x800); other categories use the site default
+   * SEO title / description / OG image for this listing. The three collection
+   * pages get their own 1200x800 OG photo; other categories use the site default
    * OG image (their tile pictures are only 180x180). No visible text changes.
    */
   private seoTags(): Parameters<PageTitleService['set']> {
@@ -327,18 +320,6 @@ export class ShopComponent {
               imageAlt: 'Marble furniture and natural stone in Dubai by Humble Home',
             },
           ];
-        case 'sofa':
-          return [
-            'Custom Sofas in Dubai',
-            {
-              description:
-                'Custom sofas in Dubai from Humble Home — three-seaters, L-shaped and corner sofas, sectionals and majlis seating. Free consultation, call +971 55 485 0711.',
-              image: 'assets/images/best-seller-img-4.jpg',
-              imageWidth: 620,
-              imageHeight: 588,
-              imageAlt: 'Custom sofas in Dubai by Humble Home',
-            },
-            ];
         default:
           return [
             `${category.name} in Dubai`,
