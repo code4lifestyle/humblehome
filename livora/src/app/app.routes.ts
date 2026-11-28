@@ -177,7 +177,7 @@ export const routes: Routes = [
     title: 'Visit Our Showrooms in Dubai',
     data: {
       description:
-        'Visit Humble Home at Dragon Mart 2, International City, Dubai — GD-01, GD-34, GD-45, GC-47. Call +971 55 485 0711.',
+        'Visit Humble Home at Dragon Mart 2, International City, Dubai — GD-01, GD-45, GC-47. Call +971 55 485 0711.',
     },
     loadComponent: () => import('./pages/locations/locations.component').then((m) => m.LocationsComponent),
   },
