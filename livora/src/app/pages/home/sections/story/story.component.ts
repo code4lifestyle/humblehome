@@ -19,7 +19,7 @@ interface CollectionCard {
 }
 
 /**
- * Home story from the Humble Home content: the brand idea, the consultation path,
+ * Home story from the Humble Home content: the brand idea,
  * the seven-step process, and the three collection cards.
  */
 @Component({
@@ -30,16 +30,6 @@ interface CollectionCard {
   styleUrl: './story.component.scss',
 })
 export class HomeStoryComponent {
-  protected readonly path = [
-    { number: '01', label: 'Consult', icon: 'fa-comments' },
-    { number: '02', label: 'Measure', icon: 'fa-ruler' },
-    { number: '03', label: 'Design', icon: 'fa-pencil' },
-    { number: '04', label: 'Approve', icon: 'fa-check' },
-    { number: '05', label: 'Create', icon: 'fa-hammer' },
-    { number: '06', label: 'Install', icon: 'fa-truck' },
-    { number: '07', label: 'Enjoy', icon: 'fa-house' },
-  ];
-
   protected readonly steps: Step[] = [
     {
       number: '01',

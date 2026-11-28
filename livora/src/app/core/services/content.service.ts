@@ -22,7 +22,7 @@ export class ContentService {
     return FAQ_PREVIEW;
   }
 
-  /** The 6 customer testimonials. */
+  /** The 2 real Google reviews. */
   testimonials(): Testimonial[] {
     return TESTIMONIALS;
   }
