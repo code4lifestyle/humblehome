@@ -29,11 +29,6 @@ export class LocationsComponent {
       image: 'assets/images/shop-gd-01.jpg',
     },
     {
-      name: 'GD-34',
-      address: 'Dragon Mart 2, International City, Dubai, United Arab Emirates',
-      image: 'assets/images/shop-gd-34.jpg',
-    },
-    {
       name: 'GD-45',
       address: 'Dragon Mart 2, International City, Dubai, United Arab Emirates',
       image: 'assets/images/shop-gd-45.jpg',
